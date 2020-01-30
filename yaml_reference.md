@@ -63,6 +63,8 @@ objects.
 
 ```python
 # example
+# also please don't structure your code like this
+# this is a BAD example
 class Tower:
     def __init__ (self, config):
         self.speed = config['speed']
