@@ -18,7 +18,6 @@ class Tower():
                 return Projectile()
 
 
-
 class Enemy:
     def __init__(self, _health, _speed, _xpos, _ypos):
         self.health = _health
