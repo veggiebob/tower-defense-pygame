@@ -18,3 +18,13 @@ class Tower():
                 return Projectile()
 
 
+
+class Enemy:
+    def __init__(self, _health, _speed, _xpos, _ypos):
+        self.health = _health
+        self.speed = _speed
+        self.xpos = _xpos
+        self.ypos = _ypos
+        self.isFrozen = False
+    def takeDamage(self, damage):
+        self.health -= damage
