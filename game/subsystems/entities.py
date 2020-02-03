@@ -7,14 +7,15 @@ class Tower():
         self.yPos = towerPos[1]
         self.imageFilename = ""
         self.image = pygame.image.load(self.imageFilename)
-        self.rect = self.image.get_rect()
 
         self.range = 0
-        self.speed = 0
+        self.projSpeed = 0
 
-    def fire(self, enemiesList, timeInterval):
-        for target in enemiesList:
-            if target.futurePosition(timeInterval) <= self.range:
+    def fire(self, enemiesList, enemiesFuturePositions, timeInterval):
+        for enemyNum in range(len(enemiesList)):
+            if enemiesFuturePositions <= self.range:
                 return Projectile()
+
+
 
 
