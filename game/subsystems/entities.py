@@ -19,3 +19,19 @@ class Tower():
 
 
 
+class Projectile():
+
+    def __init__(self, initialPos, targetEnemy, projSpeed, projDamageAmt):
+        self.xPos = initialPos[0]
+        self.yPos = initialPos[1]
+
+        self.speed = projSpeed
+        self.damageAmt = projDamageAmt
+
+        self.target = targetEnemy
+
+        self.imageFilename = ""
+        self.image = pygame.image.load(self.imageFilename)
+
+    def impact(self):
+        self.target.takeDamage(self.damageAmt)
