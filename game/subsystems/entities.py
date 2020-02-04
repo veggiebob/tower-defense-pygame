@@ -5,6 +5,7 @@ class Tower():
     def __init__(self, towerPos):
         self.xPos = towerPos[0]
         self.yPos = towerPos[1]
+
         self.imageFilename = ""
         self.image = pygame.image.load(self.imageFilename)
 
@@ -16,7 +17,12 @@ class Tower():
             if enemiesFuturePositions <= self.range:
                 return Projectile()
 
+    def upgrade(self, towerType):
+        if towerType = "":
+            return
 
+
+class
 
 
 class Projectile():
