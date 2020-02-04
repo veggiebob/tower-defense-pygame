@@ -19,11 +19,15 @@ class Tower():
 
 
 class Enemy:
-    def __init__(self, _health, _speed, _xpos, _ypos):
+    # position is a tuple in the format (x,y)
+    def __init__(self, _health, _speed, position):
         self.health = _health
         self.speed = _speed
-        self.xpos = _xpos
-        self.ypos = _ypos
+        self.xpos = position[0]
+        self.ypos = position[1]
         self.isFrozen = False
+        self.imageFilename = ''
+        self.image = pygame.image.load(self.imageFilename)
+        self.rect = self.image.get_rect()
     def takeDamage(self, damage):
         self.health -= damage
