@@ -1,41 +1,70 @@
-import pygame, random, sys, time
-from pygame.locals import *
-
 # _boardX --> The x dimensions of the grid
 # _boardY --> The y dimensions of the grid
 class Environment():
-    global board, level
-    def __init__(self, _boardX, _boardY):
+    import pygame, random, sys, time
+
+    global board
+    def __init__(self):
         board = []
 
-        for i in range(0, _boardX, 1):
-            board.append([])
-            for j in range(0, _boardY, 1):
-                board[i].append(SingleGrid())
+        self.readFile(0)
 
+    #Opens the map and puts it as the board
     def readFile(self, whatLevel):
-        global board
+        level = []
         if whatLevel == 0:
-            levelOne = open('testMap.txt')
+            levelOne = open('config/maps/testMap.txt')
 
             for line in levelOne:
-                board.append(line.rstrip().split(' '))
+                level.append(line.rstrip().split(' '))
 
-    def getPath(self):
+        for i in range(0, len(level), 1):
+            print(level[i])
 
-        randInt = 2
+        for i in range(0, len(level[0]), 1):
+            board.append([])
+            for j in range(0, len(level), 1):
+                board[i].append(SingleGrid())
+
+        self.createBoard(level)
+
+    #Puts the map into the board array
+    def createBoard(self, array):
+        global board
+        for i in range(0, len(array), 1):
+            for j in range(0, len(array[i]), 1):
+                #P = Path
+                if array[i][j] == "P":
+                    board[j][i].changePath(True)
+                #E = End
+                if array[i][j] == "E":
+                    board[j][i].changeEnd(True)
 
     #Determines if a tower can be placed in the specified position
     def towerPlacement(self, posX, posY):
         randInt = 2
 
-    #Determines the enemy's next step
+    #Determines the enemy's next step, and takes in the enemy's current x and y
     def futurePath(self, posX, posY):
-        randInt = 2
+        tempX, tempY = posX, posY
 
+        #if board[posX][posY - 1].getPath
 
 # What is contained in a single grid point
 class SingleGrid():
-    global hasTower, hasEnemy, hasPath
+    global hasTower, hasEnemy, hasPath, hasEnd
+    REQ_ATTRS = ["hasTower", "hasEnemy", "hasPath", "hasEnd"]
+
     def __init__(self):
-        self.hasTower, self.hasEnemy, self.hasPath = False, False, False
+        self.hasTower, self.hasEnemy, self.hasPath, self.hasEnd = False, False, False, False
+
+    def getPath(self):
+        return self.hasPath
+
+    def changePath(self, newPath):
+        self.hasPath = newPath
+
+    def changeEnd(self, newEnd):
+        self.hasEnd = newEnd
+
+tester = Environment()
