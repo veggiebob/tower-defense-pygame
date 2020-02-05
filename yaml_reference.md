@@ -71,11 +71,12 @@ class Tower:
         self.reload_rate = config['reload_rate']
         self.bullet_type = config['bullet_type']
 ```
+Yaml encoding:
 ```yaml
-    basic_tower:
-      speed: 20
-      reload_rate: 100
-      bullet_type: "basic_bullet"
+basic_tower:
+  speed: 20
+  reload_rate: 100
+  bullet_type: "basic_bullet"
 ```
 Using a combination of these structures allows us to easily create instances of game objects without doing them in code, so we can avoid
 ```python
