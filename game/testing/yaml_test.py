@@ -1,10 +1,11 @@
-import yaml
-
 from game.common.yaml_parsing import YAMLInstancer
 
 
 class testClass:
     REQ_ATTRS = ['health'] # notice, __init__ is defaulted to empty
+    DEFAULT_ATTRS = {
+        'health': 10,
+    }
     def __str__ (self):
         # prints all the properties of a an instance of this class
         return 'instance of testClass: {\n%s\n}'%('\n'.join(["%s: %s"%(k,v) for k,v in vars(self).items()]))
