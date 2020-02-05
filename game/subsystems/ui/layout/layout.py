@@ -1,6 +1,5 @@
 from game.subsystems.ui.layout.panel import Panel
 
-
 class Layout:
     def __init__ (self, name="main_panel", intended_window=(0, 0, 1, 1)):
         self.name = name
