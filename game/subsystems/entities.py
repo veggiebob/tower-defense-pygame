@@ -1,4 +1,4 @@
-import pygame
+import pygame, yaml
 
 class Tower():
     #__init__ takes position as towerPos, a tuple in the format (x, y)
@@ -17,4 +17,20 @@ class Tower():
             if target.futurePosition(timeInterval) <= self.range:
                 return Projectile()
 
+
+class Enemy:
+    # position is a tuple in the format (x,y)
+    REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'isFrozen', 'image', 'rect']
+    #Not sure what to call the next line
+    ATTRS_TYPE = {
+        "health" : int,
+        'speed': int,
+        'xpos' : int,
+        'ypos': int,
+        'isFrozen' : bool,
+        'image': pygame.image,
+        'rect' : pygame.rect
+    }
+    def takeDamage(self, damage):
+        self.health -= damage
 
