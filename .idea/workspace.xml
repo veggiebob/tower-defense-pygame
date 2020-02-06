@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c284eb49-7740-4235-a275-bfe8894c9d56" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game/subsystems/entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/subsystems/entities.py" afterDir="false" />
     </list>
@@ -68,7 +69,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580845540428</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="enemy now in Yaml">
+      <created>1581017643909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1581017643909</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -88,6 +96,7 @@
     <MESSAGE value="basic enemies" />
     <MESSAGE value="added Enemies" />
     <MESSAGE value="Additional Enemy variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="Additional Enemy variables" />
+    <MESSAGE value="enemy now in Yaml" />
+    <option name="LAST_COMMIT_MESSAGE" value="enemy now in Yaml" />
   </component>
 </project>

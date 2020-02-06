@@ -22,15 +22,20 @@ class Enemy:
     # position is a tuple in the format (x,y)
     REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'isFrozen', 'image', 'rect']
     #Not sure what to call the next line
-    ATTRS_TYPE = {
+    TYPE_ATTRS = {
         "health" : int,
         'speed': int,
         'xpos' : int,
         'ypos': int,
         'isFrozen' : bool,
-        'image': pygame.image,
+        'image': pygame.surface,
         'rect' : pygame.rect
     }
+    DEFAULT_ATTRS = {
+        'isFrozen' : False
+    }
+
+
     def takeDamage(self, damage):
         self.health -= damage
 
