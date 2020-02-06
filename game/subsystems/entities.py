@@ -1,4 +1,4 @@
-import pygame
+import pygame, yaml
 
 class Tower():
     #__init__ takes position as towerPos, a tuple in the format (x, y)
@@ -20,14 +20,17 @@ class Tower():
 
 class Enemy:
     # position is a tuple in the format (x,y)
-    def __init__(self, _health, _speed, position):
-        self.health = _health
-        self.speed = _speed
-        self.xpos = position[0]
-        self.ypos = position[1]
-        self.isFrozen = False
-        self.imageFilename = ''
-        self.image = pygame.image.load(self.imageFilename)
-        self.rect = self.image.get_rect()
+    REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'isFrozen', 'image', 'rect']
+    #Not sure what to call the next line
+    ATTRS_TYPE = {
+        "health" : int,
+        'speed': int,
+        'xpos' : int,
+        'ypos': int,
+        'isFrozen' : bool,
+        'image': pygame.image,
+        'rect' : pygame.rect
+    }
     def takeDamage(self, damage):
         self.health -= damage
+
