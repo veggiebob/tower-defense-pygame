@@ -48,15 +48,27 @@ class Environment():
     def futurePath(self, posX, posY):
         tempX, tempY = posX, posY
 
-        #if board[posX][posY - 1].getPath
+        endFound = False
+        while not endFound:
+            if board[tempX][tempY - 1].getPath():
+                tempY = tempY - 1
+            elif board[tempX][tempY + 1].getPath():
+                tempY = tempY + 1
+            elif board[tempX - 1][tempY].getPath():
+                tempX = tempX - 1
+            elif board[tempX + 1][tempY].getPath():
+                tempX = tempX + 1
+
 
 # What is contained in a single grid point
 class SingleGrid():
-    global hasTower, hasEnemy, hasPath, hasEnd
     REQ_ATTRS = ["hasTower", "hasEnemy", "hasPath", "hasEnd"]
-
-    def __init__(self):
-        self.hasTower, self.hasEnemy, self.hasPath, self.hasEnd = False, False, False, False
+    TYPE_ATTRIBUTES = {
+        "hasTower" : False,
+        "hasEnemy" : False,
+        "hasPath" : False,
+        "hasEnd" : False
+    }
 
     def getPath(self):
         return self.hasPath

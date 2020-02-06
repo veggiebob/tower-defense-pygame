@@ -1,6 +1,5 @@
 #Returns a point
 class Point():
-    global posX, posY
     def __init__(self, _posX, _posY):
         self.posX, self.posY = _posX, _posY
 
