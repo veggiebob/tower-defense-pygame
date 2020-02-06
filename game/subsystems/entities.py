@@ -1,43 +1,39 @@
-import pygame
+import pygame, yaml
+
 
 class Tower():
-    #__init__ takes position as towerPos, a tuple in the format (x, y)
-    def __init__(self, towerPos):
-        self.xPos = towerPos[0]
-        self.yPos = towerPos[1]
+    # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-        self.imageFilename = ""
-        self.image = pygame.image.load(self.imageFilename)
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'image', 'rect']
 
-        self.range = 0
-        self.projSpeed = 0
+    ATTRS_TYPE = {
+        'range': int,
+        'fireSpeed': int,
+        'xpos': int,
+        'ypos': int,
+        'reloadSpeed': int,
+        'image': pygame.Surface,
+        'rect': pygame.Rect
+    }
 
-    def fire(self, enemiesList, enemiesFuturePositions, timeInterval):
-        for enemyNum in range(len(enemiesList)):
-            if enemiesFuturePositions <= self.range:
-                return Projectile()
+    def fire(self, targetEnemies):
+        #need to do some aiming stuff here, for now just fires at first enemy in the list
+        return Projectile(self.xpos, self.ypos, targetEnemies[0])
 
-    def upgrade(self, towerType):
-        if towerType = "":
-            return
+class Enemy:
+    # position is a tuple in the format (x,y)
+    REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'isFrozen', 'image', 'rect']
+    # Not sure what to call the next line
+    ATTRS_TYPE = {
+        "health": int,
+        'speed': int,
+        'xpos': int,
+        'ypos': int,
+        'isFrozen': bool,
+        'image': pygame.image,
+        'rect': pygame.rect
+    }
 
+    def takeDamage(self, damage):
+        self.health -= damage
 
-class
-
-
-class Projectile():
-
-    def __init__(self, initialPos, targetEnemy, projSpeed, projDamageAmt):
-        self.xPos = initialPos[0]
-        self.yPos = initialPos[1]
-
-        self.speed = projSpeed
-        self.damageAmt = projDamageAmt
-
-        self.target = targetEnemy
-
-        self.imageFilename = ""
-        self.image = pygame.image.load(self.imageFilename)
-
-    def impact(self):
-        self.target.takeDamage(self.damageAmt)
