@@ -1,4 +1,5 @@
 instance1:
+  health: 'wee'
   property1: 1
   property2: &hello_world hello world!
   list1:
@@ -13,3 +14,7 @@ instance2:
   property3: yeet
   property4:
     hi: *hello_world
+
+scary_guy:
+  health: 0
+  how_much_scary: 298375923750
