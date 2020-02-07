@@ -1,0 +1,20 @@
+instance1:
+  health: 'wee'
+  property1: 1
+  property2: &hello_world hello world!
+  list1:
+    - list item 1
+    - list item 2
+    - list item 3
+    - object_in_list:
+        in_list_property1: 100%
+
+instance2:
+  health: 2
+  property3: yeet
+  property4:
+    hi: *hello_world
+
+scary_guy:
+  health: 0
+  how_much_scary: 298375923750

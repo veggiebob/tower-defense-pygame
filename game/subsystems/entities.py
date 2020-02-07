@@ -1,22 +1,40 @@
 import pygame, yaml
 
+
 class Tower():
-    #__init__ takes position as towerPos, a tuple in the format (x, y)
-    def __init__(self, towerPos):
-        self.xPos = towerPos[0]
-        self.yPos = towerPos[1]
-        self.imageFilename = ""
-        self.image = pygame.image.load(self.imageFilename)
-        self.rect = self.image.get_rect()
+    # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-        self.range = 0
-        self.speed = 0
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'image', 'rect']
 
-    def fire(self, enemiesList, timeInterval):
-        for target in enemiesList:
-            if target.futurePosition(timeInterval) <= self.range:
-                return Projectile()
+    ATTRS_TYPE = {
+        'range': int,
+        'fireSpeed': int,
+        'xpos': int,
+        'ypos': int,
+        'reloadSpeed': int,
+        'projDamage': int,
+        #'image': pygame.Surface,
+        #'rect': pygame.Rect
+    }
 
+    def fire(self, targetEnemies):
+        #need to do some aiming stuff here, for now just fires at first enemy in the list
+        return Projectile(self.xpos, self.ypos, targetEnemies[0], self.projDamage)
+
+
+class Projectile():
+
+    REQ_ATTRS = ['xpos', 'ypos', 'enemy' 'damage']
+
+    ATTRS_TYPE = {
+        'xpos': int,
+        'ypos': int,
+        #'enemy': Enemy
+        'damage': int
+    }
+
+    def impact(self):
+        self.enemy.takeDamage(self.damage)
 
 class Enemy:
     # position is a tuple in the format (x,y)
@@ -25,7 +43,7 @@ class Enemy:
     TYPE_ATTRS = {
         "health" : int,
         'speed': int,
-        'xpos' : int,
+        'xpos': int,
         'ypos': int,
         'isFrozen' : bool,
         'image': pygame.surface,
@@ -37,6 +55,8 @@ class Enemy:
 
 
     
+
     def takeDamage(self, damage):
         self.health -= damage
+
 

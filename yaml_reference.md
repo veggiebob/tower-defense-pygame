@@ -66,16 +66,24 @@ objects.
 # also please don't structure your code like this
 # this is a BAD example
 class Tower:
-    def __init__ (self, config):
-        self.speed = config['speed']
-        self.reload_rate = config['reload_rate']
-        self.bullet_type = config['bullet_type']
+    REQ_ATTRS = ['health', 'reload_rate', 'projectile_type']
+    DEFAULT_ATTRS = {
+        'health': 50,
+        'reload_rate': 20
+        'projectile_type': Projectile
+    }
+    TYPE_REQ = {
+        'health': int
+    }
+    def get_hit (self):
+        self.health -= 50 # self.health is a guaranteed property
 ```
+Yaml encoding:
 ```yaml
-    basic_tower:
-      speed: 20
-      reload_rate: 100
-      bullet_type: "basic_bullet"
+basic_tower:
+  speed: 20
+  reload_rate: 100
+  bullet_type: "basic_bullet"
 ```
 Using a combination of these structures allows us to easily create instances of game objects without doing them in code, so we can avoid
 ```python
