@@ -34,7 +34,7 @@ class Projectile():
     }
 
     def impact(self):
-        self.enemy.takeDamage()
+        self.enemy.takeDamage(self.damage)
 
 class Enemy:
     # position is a tuple in the format (x,y)
