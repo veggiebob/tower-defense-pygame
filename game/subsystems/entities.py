@@ -36,6 +36,7 @@ class Enemy:
     }
 
 
+    
     def takeDamage(self, damage):
         self.health -= damage
 
