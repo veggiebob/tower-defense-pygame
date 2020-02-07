@@ -1,4 +1,4 @@
-import pygame, yaml
+import pygame
 
 
 class Tower():
@@ -52,8 +52,6 @@ class Enemy:
     DEFAULT_ATTRS = {
         'isFrozen' : False
     }
-
-
     
 
     def takeDamage(self, damage):
