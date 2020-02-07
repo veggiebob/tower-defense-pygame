@@ -4,7 +4,7 @@ import pygame, yaml
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'image', 'rect']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'image', 'rect']
 
     ATTRS_TYPE = {
         'range': int,
@@ -12,13 +12,29 @@ class Tower():
         'xpos': int,
         'ypos': int,
         'reloadSpeed': int,
-        'image': pygame.Surface,
-        'rect': pygame.Rect
+        'projDamage': int,
+        #'image': pygame.Surface,
+        #'rect': pygame.Rect
     }
 
     def fire(self, targetEnemies):
         #need to do some aiming stuff here, for now just fires at first enemy in the list
-        return Projectile(self.xpos, self.ypos, targetEnemies[0])
+        return Projectile(self.xpos, self.ypos, targetEnemies[0], self.projDamage)
+
+
+class Projectile():
+
+    REQ_ATTRS = ['xpos', 'ypos', 'enemy' 'damage']
+
+    ATTRS_TYPE = {
+        'xpos': int,
+        'ypos': int,
+        #'enemy': Enemy
+        'damage': int
+    }
+
+    def impact(self):
+        self.enemy.takeDamage()
 
 class Enemy:
     # position is a tuple in the format (x,y)
