@@ -6,7 +6,7 @@ class Tower():
 
     REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'image', 'rect']
 
-    ATTRS_TYPE = {
+    TYPE_ATTRS = {
         'range': int,
         'fireSpeed': int,
         'xpos': int,
@@ -26,7 +26,7 @@ class Projectile():
 
     REQ_ATTRS = ['xpos', 'ypos', 'enemy' 'damage']
 
-    ATTRS_TYPE = {
+    TYPE_ATTRS = {
         'xpos': int,
         'ypos': int,
         #'enemy': Enemy
