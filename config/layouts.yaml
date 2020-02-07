@@ -20,7 +20,6 @@ start_screen: #this is a comment
     - right_padding:
         weight: *padding_amount
 
-#wip
 game_screen:
   orientation: vertical
   panels:
