@@ -26,3 +26,8 @@ class Layout:
         self.panels.remove(self.getPanel(panel_name))
         for p in new_panels:
             self.panels.append(p)
+
+    @staticmethod
+    def fromYAMLDict (yaml_dict):
+        return
+
