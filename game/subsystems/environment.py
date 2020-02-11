@@ -11,12 +11,12 @@ class Environment():
     def readFile(self, whatLevel):
         level = []
         if whatLevel == 0:
-            levelOne = open('../../config/maps/testMap.txt').read()
+            levelOne = open('../../config/maps/testMap.txt')
 
             for line in levelOne:
                 level.append(line.rstrip().split(' '))
 
-        for i in range(0, len(level[0]), 1):
+        for i in range(0, len(level), 1):
             self.board.append([])
             for j in range(0, len(level), 1):
                 self.board[i].append(SingleGrid())
