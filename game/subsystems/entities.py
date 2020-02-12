@@ -17,9 +17,10 @@ class Tower():
         #'rect': pygame.Rect
     }
 
-    def fire(self, targetEnemies):
-        #need to do some aiming stuff here, for now just fires at first enemy in the list
-        return Projectile(self.xpos, self.ypos, targetEnemies[0], self.projDamage)
+    def fire(self, enemiesList, timeInterval):
+        for target in enemiesList:
+            if target.futurePosition(timeInterval) <= self.range:
+                return Projectile()
 
 
 class Projectile():
@@ -54,7 +55,7 @@ class Enemy:
     }
 
 
-    
+
 
     def takeDamage(self, damage):
         self.health -= damage
