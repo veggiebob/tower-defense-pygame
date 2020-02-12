@@ -16,7 +16,7 @@ class Environment():
             for line in levelOne:
                 level.append(line.rstrip().split(' '))
 
-        for i in range(0, len(level), 1):
+        for i in range(0, len(level[0]), 1):
             self.board.append([])
             for j in range(0, len(level), 1):
                 self.board[i].append(SingleGrid())
@@ -76,6 +76,11 @@ class SingleGrid():
         "hasPath" : False,
         "hasEnd" : False
     }
+    def __init__(self):
+        self.hasTower = False
+        self.hasEnemy = False
+        self.hasPath = False
+        self.hasEnd = False
 
     def getPath(self):
         return self.hasPath
