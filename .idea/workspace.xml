@@ -26,7 +26,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="enemies" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,7 +34,7 @@
   <component name="ProjectId" id="1X5GNsODIdD9FUipU7gS5cUOlZQ" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/tower-defense-pygame" />
+    <property name="last_opened_file_path" value="$USER_HOME$/basic.py" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -87,6 +87,35 @@
       <option name="presentableId" value="Default" />
       <updated>1580412585660</updated>
     </task>
+    <task id="LOCAL-00001" summary="basic enemies">
+      <created>1580759798263</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1580759798263</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added Enemies">
+      <created>1580760104018</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1580760104018</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Additional Enemy variables">
+      <created>1580845540428</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1580845540428</updated>
+    </task>
+    <task id="LOCAL-00004" summary="enemy now in Yaml">
+      <created>1581017643909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1581017643909</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,5 +130,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="basic enemies" />
+    <MESSAGE value="added Enemies" />
+    <MESSAGE value="Additional Enemy variables" />
+    <MESSAGE value="fixed issue with duplicate class" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed issue with duplicate class" />
   </component>
 </project>
