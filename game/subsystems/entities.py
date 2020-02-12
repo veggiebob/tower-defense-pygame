@@ -1,4 +1,4 @@
-import pygame, yaml
+import pygame
 
 
 class Tower():
