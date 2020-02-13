@@ -1,7 +1,5 @@
-# _boardX --> The x dimensions of the grid
-# _boardY --> The y dimensions of the grid
 class Environment():
-    import pygame, sys
+    import pygame, sys, random
     from game.common.math import Point
 
     def __init__(self):
@@ -53,20 +51,20 @@ class Environment():
 
         return False
 
-    # Determines the enemy's next step, and takes in the enemy's current x and y
-    def futurePath(self, posX, posY):
-        tempX, tempY = posX, posY
+    # Determines the enemy's next step, and takes in the enemy's current x and y, previous x, and previous y
+    def futurePath(self, posX, posY, pastX, pastY):
+        tempX, tempY, canGo = posX, posY, []
 
-        if self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd():
-            tempY = tempY - 1
-        elif self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd():
-            tempY = tempY + 1
-        elif self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd():
-            tempX = tempX - 1
-        elif self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd():
-            tempX = tempX + 1
+        if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
+            canGo.append(self.Point(tempX, tempY - 1))
+        elif tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
+            canGo.append(self.Point(tempX, tempY + 1))
+        elif tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
+            canGo.append(self.Point(tempX - 1, tempY))
+        elif tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
+            canGo.append(self.Point(tempX - 1, tempY))
 
-        return self.Point(tempX, tempY)
+        return canGo[self.random.randrange(0, len(canGo), 1)]
 
 # What is contained in a single grid point
 class SingleGrid():
