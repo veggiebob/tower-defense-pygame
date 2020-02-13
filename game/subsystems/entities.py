@@ -1,4 +1,4 @@
-import pygame
+import pygame, yaml
 
 
 class Tower():
@@ -47,12 +47,14 @@ class Enemy:
         'xpos': int,
         'ypos': int,
         'isFrozen' : bool,
-        #'image': pygame.Surface,
-        #'rect' : pygame.rect
+        'image': pygame.surface,
+        'rect' : pygame.rect
     }
     DEFAULT_ATTRS = {
         'isFrozen' : False
     }
+
+
 
 
     def takeDamage(self, damage):

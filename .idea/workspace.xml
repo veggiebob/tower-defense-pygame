@@ -23,9 +23,6 @@
       </list>
     </option>
   </component>
-  <component name="Git.Rebase.Settings">
-    <option name="ONTO" value="refs/remotes/origin/enemy" />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
