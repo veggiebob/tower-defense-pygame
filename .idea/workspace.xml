@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c284eb49-7740-4235-a275-bfe8894c9d56" name="Default Changelist" comment="added basic constructor">
+    <list default="true" id="aa438535-bbaa-498a-9954-f23b72fefa5a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/game/testing/test_2.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/game/testing/yaml_test_2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game/subsystems/entities.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/subsystems/entities.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/common/yaml_parsing.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/common/yaml_parsing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/subsystems/ui/layout/layout.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/subsystems/ui/layout/layout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/subsystems/ui/layout/panel.py" beforeDir="false" afterPath="$PROJECT_DIR$/game/subsystems/ui/layout/panel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game/testing/test.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/game/testing/test.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Rebase.Settings">
+    <option name="ONTO" value="refs/remotes/origin/enemy" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -37,8 +52,8 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="test#1" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="tower-defense-pygame" />
+    <configuration name="yaml_test_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="tower_defense" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -49,7 +64,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game/testing/test#1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/game/testing/yaml_test_2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -60,7 +75,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test#1" />
+        <item itemvalue="Python.yaml_test_2" />
       </list>
     </recent_temporary>
   </component>
@@ -103,14 +118,7 @@
       <option name="project" value="LOCAL" />
       <updated>1581017643909</updated>
     </task>
-    <task id="LOCAL-00005" summary="added basic constructor">
-      <created>1581537513988</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1581537513988</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -131,7 +139,6 @@
     <MESSAGE value="added Enemies" />
     <MESSAGE value="Additional Enemy variables" />
     <MESSAGE value="fixed issue with duplicate class" />
-    <MESSAGE value="added basic constructor" />
-    <option name="LAST_COMMIT_MESSAGE" value="added basic constructor" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed issue with duplicate class" />
   </component>
 </project>
