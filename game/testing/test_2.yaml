@@ -1,0 +1,39 @@
+layout:
+  name: main_screen
+  class: &layout game.subsystems.ui.layout.layout@Layout
+  intended_window: [0, 0, 1, 1]
+  panels:
+    - left_panel:
+        class: &panel game.subsystems.ui.layout.panel@Panel
+        x: 0
+        y: 0
+        width: 0.5
+        height: 1.0
+    - right_panel:
+        class: *panel
+        x: 0.5
+        y: 0
+        width: 0.5
+        height: 1.0
+
+layout2:
+  name: sub_screen
+  class: *layout
+  intended_window:
+    - 1
+    - 1
+    - 2
+    - 2
+  panels:
+    - top_panel:
+        class: *panel
+        x: 0
+        y: 0
+        width: 1.0
+        height: 0.5
+    - bottom_panel:
+        class: *panel
+        x: 0
+        y: 0.5
+        width: 1.0
+        height: 0.5
