@@ -7,8 +7,9 @@ class Order:
     STANDARD = 0 # left to right / top to bottom
     REVERSED = 1 # right to left / bottom to top
 class Panel:
+    REQ_ATTRS = ['x', 'y', 'width', 'height']
     # panels are on a 1x1 "view-window" in which they can be scaled back using these fractions
-    def __init__ (self, x, y, w, h, name):
+    def __init__ (self, x=None, y=None, w=None, h=None, name=None):
         self.x = x
         self.y = y
         self.width = w
