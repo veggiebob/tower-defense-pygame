@@ -6,6 +6,9 @@ class YAMLInstancer:
     def is_yaml_value_type (T):
         return T == int or T == float or T == str or T == bool
     @staticmethod
+    def is_yaml_value_type (T):
+        return T == int or T == float or T == str
+    @staticmethod
     def get_dict (yaml_string):
         return yaml.load(yaml_string, Loader=yaml.FullLoader)
 
@@ -54,6 +57,9 @@ class YAMLInstancer:
                         code = current_object[index + len(YAMLInstancer.LITERAL):]
                         return eval(code)
                 except: pass
+        # recursive simple parsing stuff
+        object_type = type(current_object)
+        if YAMLInstancer.is_yaml_value_type(object_type):
             return current_object
         if object_type == list:
             # print('%s is a list'%object_name)
@@ -76,7 +82,7 @@ class YAMLInstancer:
                 object_class = YAMLInstancer.get_yaml_string_class(current_object['class'])
             except:
                 raise Exception("unable to get class of object %s"%object_name)
-
+                
         has_reqs = True
         has_defaults = True
         has_types = True
