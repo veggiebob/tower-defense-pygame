@@ -1,0 +1,8 @@
+BasicEnemy:
+  health: 100
+  speed: 5000
+  xpos: 7
+  ypos: 7
+  isFrozen: False
+  class: game.subsystems.entities@Enemy
+
