@@ -1,5 +1,8 @@
 import pygame
 
+from game.common.math import Transform, Vector
+
+
 class Orientation:
     VERTICAL = 0
     HORIZONTAL = 1
@@ -71,16 +74,25 @@ class Panel:
     def has_inner_panels (self):
         return hasattr(self, 'inner_panels')
     @staticmethod
-    def listify_tree (self, transform=Transform()):
+    def listify_tree (self: 'Panel', transform=Transform()):
         if self.has_inner_panels():
-            trans = Transform(transform.position + Vector())
+            trans = Transform(transform.translation + Vector(self.x, self.y), transform.scale * Vector(self.width, self.height))
             l = []
             for p in self.inner_panels:
-                l.append(Panel.listify_tree(p))
+                l.append(Panel.listify_tree(p, trans))
+        else:
+            p = self
+            pos = Vector(p.x, p.y)
+            size = Vector(p.width, p.height)
+            pos = transform.transform_vector(pos)
+            size *= transform.scale
+            p.x = pos.x
+            p.y = pos.y
+            p.width = size.x
+            p.height = size.y
+            return p
+
 
     def get_all_inner (self):
-        ps = [] # all the panels
-        if self.has_inner_panels:
-
-        else:
-            return [self]
+        ps = Panel.listify_tree(self)
+        return ps

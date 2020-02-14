@@ -1,9 +1,10 @@
 import yaml, importlib
 class YAMLInstancer:
     KEYS = ['REQ_ATTRS', 'DEFAULT_ATTRS', 'TYPE_ATTRS']
+    LITERAL = '_literal_'
     @staticmethod
     def is_yaml_value_type (T):
-        return T == int or T == float or T == str
+        return T == int or T == float or T == str or T == bool
     @staticmethod
     def get_dict (yaml_string):
         return yaml.load(yaml_string, Loader=yaml.FullLoader)
@@ -40,10 +41,19 @@ class YAMLInstancer:
 
     @staticmethod
     def get_object (object_name, current_object, inferred_class:type=None):
-        # todo: literal expression evaluation using key _literal_ or something
+        # todo: test literal expression evaluation using key _literal_ or something
+        # todo: make a property 'init' that allows user to do method calls from a list?
         # recursive simple parsing stuff
         object_type = type(current_object)
         if YAMLInstancer.is_yaml_value_type(object_type):
+            if object_type == str:
+                try:
+                    index = current_object.index(YAMLInstancer.LITERAL)
+                    if index >= 0:
+                        print('is a literal')
+                        code = current_object[index + len(YAMLInstancer.LITERAL):]
+                        return eval(code)
+                except: pass
             return current_object
         if object_type == list:
             # print('%s is a list'%object_name)
