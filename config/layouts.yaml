@@ -1,34 +1,10 @@
-start_screen: #this is a comment
-  orientation: horizontal
-  panels:
-    - left_padding:
-        weight: &padding_amount 30%
-    - button_area:
-        weight: pass
-        orientation: vertical
-        panels:
-          - top_padding:
-              weight: *padding_amount
-          - button:
-              weight: pass
-              fill:
-                type: button
-                text: play
-                id: play_button
-          - bottom_padding:
-              weight: *padding_amount
-    - right_padding:
-        weight: *padding_amount
-
-game_screen:
+start_screen:
+  class: &layout game.subsystems.ui.layout.layout@Layout
   orientation: vertical
-  panels:
-    - game_area:
-        weight: 80%
-    - shop_area:
-        orientation: horizontal
-        panels:
-          - money:
-              weight: 50%
-          - health:
-              weight: 50%
+  inner_panels:
+    - top:
+        class: &panel game.subsystems.ui.layout.panel@Panel
+        weight: 0.5
+    - bottom:
+        class: *panel
+        weight: 0.5

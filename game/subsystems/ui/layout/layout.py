@@ -1,5 +1,6 @@
 from game.subsystems.ui.layout.panel import Panel
 from game.subsystems.entities import Tower
+import pygame
 class Layout:
     REQ_ATTRS = ['name', 'panels', 'intended_window']
     TYPE_ATTRS = {
@@ -31,3 +32,8 @@ class Layout:
         self.panels.remove(self.getPanel(panel_name))
         for p in new_panels:
             self.panels.append(p)
+
+    @staticmethod
+    def fromYAMLDict (yaml_dict):
+        return
+

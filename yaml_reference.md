@@ -59,17 +59,17 @@ is equivalent to
 ```
 
 In our codebase, we will frequently use YAML key-value pairs to represent
-objects.
-
+objects.  
+**To see specifics, see <a href="https://github.com/veggiebob/tower-defense-pygame/projects/1">the yaml card in our project base</a>**
 ```python
 # example
-# also please don't structure your code like this
-# this is a BAD example
 class Tower:
+    # these are name-specific keys that 
+    # specify certain ways to read the YAML
     REQ_ATTRS = ['health', 'reload_rate', 'projectile_type']
     DEFAULT_ATTRS = {
         'health': 50,
-        'reload_rate': 20
+        'reload_rate': 20,
         'projectile_type': Projectile
     }
     TYPE_REQ = {
