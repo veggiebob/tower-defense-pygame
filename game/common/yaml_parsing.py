@@ -15,6 +15,7 @@ class YAMLInstancer:
 
     @staticmethod
     def get_yaml_string_class (class_string:str):
+        # todo: search for classes recursively, using os (if the module isn't specified)
         separator = class_string.index('@')
         module_name = class_string[:separator]
         class_name = class_string[separator + 1:]
@@ -39,6 +40,7 @@ class YAMLInstancer:
 
     @staticmethod
     def get_object (object_name, current_object, inferred_class:type=None):
+        # todo: literal expression evaluation using key _literal_ or something
         # recursive simple parsing stuff
         object_type = type(current_object)
         if YAMLInstancer.is_yaml_value_type(object_type):
@@ -65,9 +67,13 @@ class YAMLInstancer:
             except:
                 raise Exception("unable to get class of object %s"%object_name)
 
+        has_reqs = True
         has_defaults = True
         has_types = True
-        requirements = getattr(object_class, YAMLInstancer.KEYS[0])
+        try:
+            requirements = getattr(object_class, YAMLInstancer.KEYS[0])
+        except:
+            has_reqs = False
         try:
             defaults = getattr(object_class, YAMLInstancer.KEYS[1])
         except:
@@ -109,11 +115,12 @@ class YAMLInstancer:
                 setattr(output_object, k, YAMLInstancer.get_object(k, v))
 
         # do requirement and type checks
-        for r in requirements:
-            try:
-                getattr(output_object, r)
-            except:
-                raise Exception('%s of class %s requires property %s' % (object_name, object_class, r))
+        if has_reqs:
+            for r in requirements:
+                try:
+                    getattr(output_object, r)
+                except:
+                    raise Exception('%s of class %s requires property %s' % (object_name, object_class, r))
 
         if has_types:
             for k,v in types.items():

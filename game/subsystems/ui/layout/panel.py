@@ -6,8 +6,13 @@ class Orientation:
 class Order:
     STANDARD = 0 # left to right / top to bottom
     REVERSED = 1 # right to left / bottom to top
+
 class Panel:
     REQ_ATTRS = ['x', 'y', 'width', 'height']
+    DEFAULT_ATTRS = {
+        'inner_panels': [],
+        'orientation': 'vertical'
+    }
     # panels are on a 1x1 "view-window" in which they can be scaled back using these fractions
     def __init__ (self, x=None, y=None, w=None, h=None, name=None):
         self.x = x
@@ -63,3 +68,19 @@ class Panel:
                 plist.append(Panel(self.x + b * i, self.y, b, self.height, names[i]))
 
         return plist
+    def has_inner_panels (self):
+        return hasattr(self, 'inner_panels')
+    @staticmethod
+    def listify_tree (self, transform=Transform()):
+        if self.has_inner_panels():
+            trans = Transform(transform.position + Vector())
+            l = []
+            for p in self.inner_panels:
+                l.append(Panel.listify_tree(p))
+
+    def get_all_inner (self):
+        ps = [] # all the panels
+        if self.has_inner_panels:
+
+        else:
+            return [self]
