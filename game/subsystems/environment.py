@@ -14,7 +14,6 @@ class Environment():
 
             for line in levelOne:
                 level.append(line.rstrip().split(' '))
-
         for i in range(0, len(level[0]), 1):
             self.board.append([])
             for j in range(0, len(level), 1):
@@ -29,7 +28,6 @@ class Environment():
                 # P = Path
                 if array[i][j] == "P":
                     self.board[j][i].changePath(True)
-                # E = End
                 if array[i][j] == "E":
                     self.board[j][i].changeEnd(True)
 
@@ -50,7 +48,6 @@ class Environment():
             return True
 
         return False
-
     # Determines the enemy's next step, and takes in the enemy's current x and y, previous x, and previous y
     def futurePath(self, posX, posY, pastX, pastY):
         tempX, tempY, canGo = posX, posY, []
@@ -63,17 +60,15 @@ class Environment():
             canGo.append(self.Point(tempX - 1, tempY))
         elif tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
             canGo.append(self.Point(tempX - 1, tempY))
-
         return canGo[self.random.randrange(0, len(canGo), 1)]
-
 # What is contained in a single grid point
 class SingleGrid():
     REQ_ATTRS = ["hasTower", "hasEnemy", "hasPath", "hasEnd"]
     DEFAULT_ATTRIBUTES = {
-        "hasTower": False,
-        "hasEnemy": False,
-        "hasPath": False,
-        "hasEnd": False
+        "hasTower" : False,
+        "hasEnemy" : False,
+        "hasPath" : False,
+        "hasEnd" : False
     }
     def __init__(self):
         self.hasTower = False
