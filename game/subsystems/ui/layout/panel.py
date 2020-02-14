@@ -1,14 +1,23 @@
 import pygame
 
+from game.common.math import Transform, Vector
+
+
 class Orientation:
     VERTICAL = 0
     HORIZONTAL = 1
 class Order:
     STANDARD = 0 # left to right / top to bottom
     REVERSED = 1 # right to left / bottom to top
+
 class Panel:
+    REQ_ATTRS = ['x', 'y', 'width', 'height']
+    DEFAULT_ATTRS = {
+        'inner_panels': [],
+        'orientation': 'vertical'
+    }
     # panels are on a 1x1 "view-window" in which they can be scaled back using these fractions
-    def __init__ (self, x, y, w, h, name):
+    def __init__ (self, x=None, y=None, w=None, h=None, name=None):
         self.x = x
         self.y = y
         self.width = w
@@ -62,3 +71,28 @@ class Panel:
                 plist.append(Panel(self.x + b * i, self.y, b, self.height, names[i]))
 
         return plist
+    def has_inner_panels (self):
+        return hasattr(self, 'inner_panels')
+    @staticmethod
+    def listify_tree (self: 'Panel', transform=Transform()):
+        if self.has_inner_panels():
+            trans = Transform(transform.translation + Vector(self.x, self.y), transform.scale * Vector(self.width, self.height))
+            l = []
+            for p in self.inner_panels:
+                l.append(Panel.listify_tree(p, trans))
+        else:
+            p = self
+            pos = Vector(p.x, p.y)
+            size = Vector(p.width, p.height)
+            pos = transform.transform_vector(pos)
+            size *= transform.scale
+            p.x = pos.x
+            p.y = pos.y
+            p.width = size.x
+            p.height = size.y
+            return p
+
+
+    def get_all_inner (self):
+        ps = Panel.listify_tree(self)
+        return ps

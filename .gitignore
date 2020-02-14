@@ -3,3 +3,7 @@
 /.idea
 **.idea
 **__pycache__
+.idea/
+.idea
+./.idea
+/.idea

@@ -75,3 +75,11 @@ class Vector:
         return position.x <= point.x <= position.x + size.x and position.y <= point.y <= position.y + size.y
     def __str__ (self):
         return '<%s, %s>'%(self.x, self.y)
+class Transform:
+    def __init__ (self, translation=Vector(0,0), scale=Vector(1,1)):
+        self.translation = translation
+        self.scale = scale
+    def transform_vector (self, vector):
+        return vector.mult(self.scale).add(self.translation)
+    def get_inverted_transform (self):
+        return Transform(self.translation.neg(), Vector(1/self.scale.x, 1/self.scale.y))
