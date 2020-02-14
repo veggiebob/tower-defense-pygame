@@ -1,4 +1,3 @@
-
 import math
 #Returns a point
 class Point():
@@ -11,6 +10,7 @@ class Point():
     def getY(self):
         return self.posY
 
+get_num_digits = lambda d: math.floor(math.log(d, 10))+1
 mix = lambda a, b, t: (b-a)*t + a
 unmix = lambda v, a, b: (v-a)/(b-a)
 constrain = lambda v, a, b: min(max(v, a), b)
