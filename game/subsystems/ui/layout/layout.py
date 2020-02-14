@@ -1,5 +1,6 @@
 from game.subsystems.ui.layout.panel import Panel
 from game.subsystems.entities import Tower
+import pygame
 class Layout:
     REQ_ATTRS = ['name', 'panels', 'intended_window']
     TYPE_ATTRS = {

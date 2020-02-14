@@ -1,4 +1,6 @@
 # Tower Defense Game
+## YAML
+#### see [the YAML guide](yaml_reference.md)
 ## Git protocol
 1. Get the latest master:
     * first, checkout to master: `git checkout master`
