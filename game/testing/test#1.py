@@ -14,7 +14,6 @@ BLACK = (0,0,0)
 RED = (255,0,0)
 test_yaml = open('./EnemyTest.yaml').read()
 BadGuy = YAMLInstancer.get_single(test_yaml)
-BadGuy = Enemy()
 
 def main():
     global DISPLAYSURF

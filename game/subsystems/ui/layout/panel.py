@@ -13,7 +13,6 @@ class Order:
 class Panel:
     REQ_ATTRS = ['x', 'y', 'width', 'height']
     DEFAULT_ATTRS = {
-        'inner_panels': [],
         'orientation': 'vertical'
     }
     # panels are on a 1x1 "view-window" in which they can be scaled back using these fractions
@@ -23,6 +22,10 @@ class Panel:
         self.width = w
         self.height = h
         self.name = name
+    def __str__ (self):
+        return 'Panel %s -> (%s, %s), (%s, %s)'%(self.name, self.x, self.y, self.width, self.height) + (
+            ' and has %d inner panels'%len(self.inner_panels) if self.has_inner_panels() else ''
+        )
     @staticmethod
     def from_rect (window, name):
         return Panel(window[0], window[1], window[2], window[3], name)
@@ -74,12 +77,12 @@ class Panel:
     def has_inner_panels (self):
         return hasattr(self, 'inner_panels')
     @staticmethod
-    def listify_tree (self: 'Panel', transform=Transform()):
+    def parse_tree (self: 'Panel', transform=Transform()):
         if self.has_inner_panels():
+            # print('panel has attributes %s, %s, %s, %s'%(self.x, self.y, self.width, self.height))
             trans = Transform(transform.translation + Vector(self.x, self.y), transform.scale * Vector(self.width, self.height))
-            l = []
-            for p in self.inner_panels:
-                l.append(Panel.listify_tree(p, trans))
+            l = [Panel.parse_tree(p, trans) for p in self.inner_panels]
+            return l
         else:
             p = self
             pos = Vector(p.x, p.y)
@@ -92,7 +95,22 @@ class Panel:
             p.height = size.y
             return p
 
+    @staticmethod
+    def flatten_list_tree (self, panel_list=[]): # turns a list tree into an unordered, 1-D list
+        if type(self) == list:
+            for p in self:
+                l = Panel.flatten_list_tree(p, panel_list)
+                if type(l) != list:
+                    panel_list.append(l)
+            return panel_list
+        else:
+            return self
+
 
     def get_all_inner (self):
-        ps = Panel.listify_tree(self)
+        ps = Panel.parse_tree(self)
+        ps = Panel.flatten_list_tree(ps)
         return ps
+
+    def get_layout (self):
+        L = Layout()

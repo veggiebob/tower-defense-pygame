@@ -17,9 +17,9 @@ class MouseButton:
 class ColorState:
     # yaml
     DEFAULT_ATTRS = {
-        'off': (200, 200, 200),
-        'hovering': (100, 100, 100),
-        'active': (200, 150, 150)
+        'OFF': (200, 200, 200),
+        'HOVERING': (100, 100, 100),
+        'ACTIVE': (200, 150, 150)
     }
 
     def __init__(self, off, hovering, active):
@@ -29,7 +29,7 @@ class ColorState:
 
     # if not defined, set these
     def may_set_defaults(self):
-        if self.off is None: self.off = ColorState.DEFAULT_ATTRS.OFF
+        if self.off is None: self.off = ColorState.DEFAULT_ATTRS['OFF']
         if self.hovering is None: self.hovering = ColorState.DEFAULT_ATTRS['HOVERING']
         if self.active is None: self.active = ColorState.DEFAULT_ATTRS['ACTIVE']
 

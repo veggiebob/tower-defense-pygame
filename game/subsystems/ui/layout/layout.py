@@ -2,11 +2,9 @@ from game.subsystems.ui.layout.panel import Panel
 from game.subsystems.entities import Tower
 import pygame
 class Layout:
-    REQ_ATTRS = ['name', 'panels', 'intended_window']
-    TYPE_ATTRS = {
-        'panels': list,
-        'intended_window': list
-    }
+    """
+    Layout contains a 1-D list of panels
+    """
     def __init__ (self, name="main_panel", intended_window=(0, 0, 1, 1)):
         self.name = name
         self.intended_window = intended_window

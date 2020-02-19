@@ -1,8 +1,9 @@
 BasicEnemy:
+  class: game.subsystems.entities@Enemy
   health: 100
   speed: 5000
   xpos: 7
   ypos: 7
-  isFrozen: False
-  class: game.subsystems.entities@Enemy
+  isFrozen: false
+  image: _literal_ pygame.Surface((100, 100))
 

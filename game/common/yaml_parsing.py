@@ -6,9 +6,6 @@ class YAMLInstancer:
     def is_yaml_value_type (T):
         return T == int or T == float or T == str or T == bool
     @staticmethod
-    def is_yaml_value_type (T):
-        return T == int or T == float or T == str
-    @staticmethod
     def get_dict (yaml_string):
         return yaml.load(yaml_string, Loader=yaml.FullLoader)
 
@@ -48,6 +45,7 @@ class YAMLInstancer:
         # todo: make a property 'init' that allows user to do method calls from a list?
         # recursive simple parsing stuff
         object_type = type(current_object)
+        # print('object %s type is %s'%(current_object, object_type))
         if YAMLInstancer.is_yaml_value_type(object_type):
             if object_type == str:
                 try:
@@ -60,6 +58,7 @@ class YAMLInstancer:
         # recursive simple parsing stuff
         object_type = type(current_object)
         if YAMLInstancer.is_yaml_value_type(object_type):
+            # print('is being returned')
             return current_object
         if object_type == list:
             # print('%s is a list'%object_name)
