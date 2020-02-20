@@ -2,7 +2,9 @@ BasicEnemy:
   health: 100
   speed: 5000
   xpos: 7
-  ypos: 7
-  isFrozen: False
+  ypos: 6
+  xpast: 7
+  ypast: 7
+  isFrozen: false
   class: game.subsystems.entities@Enemy
 
