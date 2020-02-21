@@ -54,12 +54,12 @@ class Environment():
 
         if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
             canGo.append(self.Point(tempX, tempY - 1))
-        elif tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
+        if tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
             canGo.append(self.Point(tempX, tempY + 1))
-        elif tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
+        if tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
             canGo.append(self.Point(tempX - 1, tempY))
-        elif tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
-            canGo.append(self.Point(tempX - 1, tempY))
+        if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
+            canGo.append(self.Point(tempX + 1, tempY))
         return canGo[self.random.randrange(0, len(canGo), 1)]
 # What is contained in a single grid point
 class SingleGrid():
@@ -84,6 +84,9 @@ class SingleGrid():
 
     def getTower(self):
         return self.hasTower
+
+    def getEnd(self):
+        return self.hasEnd
 
     def changeTower(self, newTower):
         self.hasTower = newTower

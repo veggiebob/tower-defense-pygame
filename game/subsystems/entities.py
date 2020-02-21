@@ -46,7 +46,9 @@ class Enemy:
         'speed': int,
         'xpos': int,
         'ypos': int,
-        'isFrozen' : bool,
+        'xpast': int,
+        'ypast': int,
+        'isFrozen' : bool
         #'image': pygame.Surface,
         #'rect' : pygame.rect
     }
