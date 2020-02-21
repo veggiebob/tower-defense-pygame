@@ -4,6 +4,8 @@ from game.subsystems.ui.layout.panel import Panel
 from game.common.text import Text
 import pygame, sys
 pygame.init()
+
+# should be in it's own file, but this was easier for debugging purposes
 yaml_layout = """
 start_screen:
   x: 0
@@ -28,25 +30,31 @@ start_screen:
 
 # with or without using the class notation, get the instance
 panel = YAMLInstancer.get_single(yaml_layout, Panel)
-# print(panel)
-# print(panel.dump_inner_panels())
+# using a method to get a flattened version of all the panels from tree form (most likely you won't be doing this)
 inner_panels = panel.get_all_inner()
 print('flattened layout:')
-print(';\n'.join([str(p) for p in inner_panels]))
+print(';\n'.join([str(p) for p in inner_panels])) # some debug (print the panels from yaml)
 
+# create a layout to hold the panels
 layout = Layout.fromPanelList(inner_panels)
+# setup some pygame stuff
 WIDTH, HEIGHT = 400, 400
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 DISPLAY.fill((0, 0, 0))
+# map the panels onto the screen
 screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT))
 
+# draw stuff
 T = Text('../common/verdana.ttf')
 visual_border = 2
 for p in screen_panels:
+    # draw the panels on the screen
     r = p.get_rect(border=visual_border)
     pygame.draw.rect(DISPLAY, (255, 255, 255), r, 1)
+    # display text in the middle
     T.draw_to_surface(DISPLAY, (r[0] + r[2] * 0.5, r[1] + r[3] * 0.5), p.name, 10, (255, 255, 255))
 
+# update / handle exiting
 while True:
     if len([e for e in pygame.event.get() if e.type==pygame.QUIT]) > 0:
         pygame.quit()
