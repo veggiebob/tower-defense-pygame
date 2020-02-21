@@ -1,10 +1,22 @@
 start_screen:
-  class: &layout game.subsystems.ui.layout.layout@Layout
-  orientation: vertical
+  x: 0
+  y: 0
+  width: 1
+  height: 1
   inner_panels:
-    - top:
-        class: &panel game.subsystems.ui.layout.panel@Panel
-        weight: 0.5
-    - bottom:
-        class: *panel
-        weight: 0.5
+    - center_column:
+        x: 0.4
+        y: 0
+        width: 0.2
+        height: 1.0
+        inner_panels:
+          - play:
+              x: 0
+              y: 0.3
+              width: 1.0
+              height: 0.1
+          - help:
+              x: 0
+              y: 0.6
+              width: 1.0
+              height: 0.1

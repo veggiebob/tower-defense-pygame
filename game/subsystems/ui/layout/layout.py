@@ -3,7 +3,7 @@ class Layout:
     """
     Layout contains a 1-D list of panels
     """
-    def __init__ (self, name="main_panel"):
+    def __init__ (self, name="main_layout"):
         self.name = name
         self.panels = []
     def clearPanels (self) -> None:
@@ -37,4 +37,9 @@ class Layout:
         self.panels.remove(self.getPanel(panel_name))
         for p in new_panels:
             self.panels.append(p)
+
+    @staticmethod
+    def layoutFromPanel (self, panel: Panel):
+        all_panels = panel.get_all_inner()
+        return Layout.fromPanelList(all_panels)
 

@@ -13,20 +13,21 @@ start_screen:
   width: 1.0
   height: 1.0
   inner_panels:
-    - name: top panel
+    - name: top panel # set name using 'name' property, to an anonymous object
       x: 0
       y: 0
-      height: 0.5
+      height: 0.5 # these are in the parent's "field space" so that 0.5 means 50% of the parent panel
       width: 1.0
-    - bottom_panel:
+    - bottom_panel: # set name by making it an object with a key
         x: 0
         y: 0.5
         width: 1.0
         height: 0.5
         inner_panels:
-        - bottom_left_panel: {x: 0, y: 0, width: 0.5, height: 1.0}
-        - {x: 0.5, y: 0, width: 0.5, height: 1.0}
+        - bottom_left_panel: {x: 0, y: 0, width: 0.5, height: 1.0} # object in scrunched form
+        - {x: 0.5, y: 0, width: 0.5, height: 1.0} # no name property anywhere; reverts to default
 """
+# yaml_layout = open("../../config/layouts.yaml").read() # start menu layout
 
 # with or without using the class notation, get the instance
 panel = YAMLInstancer.get_single(yaml_layout, Panel)

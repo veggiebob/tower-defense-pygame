@@ -11,6 +11,11 @@ class Order:
     REVERSED = 1 # right to left / bottom to top
 
 class Panel:
+    """
+    Panel is a class that holds a rectangle, and optionally a list of Panels
+    As a recursively structured system, it requires a little more interaction with YAML, but
+    most systems should not require it
+    """
     REQ_ATTRS = ['x', 'y', 'width', 'height', 'name']
     DEFAULT_ATTRS = {
     }
@@ -121,4 +126,4 @@ class Panel:
         ps = Panel.flatten_list_tree(ps)
         return ps
 
-Panel.TYPE_ATTRS['inner_panels'] = [Panel] # this only applies if you need a class to CONTAIN ITSELF
+Panel.TYPE_ATTRS['inner_panels'] = [Panel] # this is the dumbest thing and I don't know a way around it

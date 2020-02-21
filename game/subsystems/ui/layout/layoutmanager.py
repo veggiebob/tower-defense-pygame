@@ -5,8 +5,9 @@ class LayoutManager:
     def __init__ (self):
         self.layouts = {}
         self.current_layout = ""
-    def makeLayout (self, name, intended_window):
-        self.layouts[name] = Layout(name, intended_window)
+
+    def makeLayout (self, name):
+        self.layouts[name] = Layout(name)
 
     def getLayout (self, name=None):
         if name is None:
