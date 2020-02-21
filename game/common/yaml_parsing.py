@@ -40,48 +40,63 @@ class YAMLInstancer:
 
 
     @staticmethod
-    def get_object (object_name, current_object, inferred_class:type=None):
+    def get_object (object_name, current_object, inferred_class=None):
         # todo: test literal expression evaluation using key _literal_ or something
         # todo: make a property 'init' that allows user to do method calls from a list?
         # recursive simple parsing stuff
         object_type = type(current_object)
-        # print('object %s type is %s'%(current_object, object_type))
         if YAMLInstancer.is_yaml_value_type(object_type):
-            if object_type == str:
-                try:
-                    index = current_object.index(YAMLInstancer.LITERAL)
-                    if index >= 0:
-                        print('is a literal')
-                        code = current_object[index + len(YAMLInstancer.LITERAL):]
-                        return eval(code)
-                except: pass
-        # recursive simple parsing stuff
-        object_type = type(current_object)
-        if YAMLInstancer.is_yaml_value_type(object_type):
-            # print('is being returned')
+            # if object_type == str:  # this is experimental
+            #     try:
+            #         index = current_object.index(YAMLInstancer.LITERAL)
+            #         if index >= 0:
+            #             print('is a literal')
+            #             code = current_object[index + len(YAMLInstancer.LITERAL):]
+            #             return eval(code)
+            #     except: pass
+
+            # print('setting property %s to object %s, inferred type %s'%(object_name, current_object, inferred_class))
             return current_object
         if object_type == list:
             # print('%s is a list'%object_name)
+            # print('inferred type is %s'%inferred_class)
+            try:
+                inner_type = inferred_class[0]
+            except:
+                inner_type = None
             output = []
+            n_index = -1
             for o in current_object:
-                output.append(YAMLInstancer.get_object(object_name, o))
+                n_index += 1
+                default_name = '%s%d'%(object_name, n_index)
+                output.append(YAMLInstancer.get_object(default_name, o, inner_type))
             return output
         if object_type != dict:
-            raise Exception("%s is not an int, str, list or dict. What's wrong with you?"%current_object)
+            raise Exception("%s is not an int, str, list or dict. You suck?"%current_object)
 
         is_in_parent = len(list(current_object.items())) == 1 # if it's an anonymous object like {'panel': { keys and values . . . } } that only has one object inside
         if is_in_parent:
             child = list(current_object.items())[0] # tuple with key, value
-            return YAMLInstancer.get_object(child[0], child[1])
+            return YAMLInstancer.get_object(child[0], child[1], inferred_class)
 
         # if it's a dict, then we've got some parsing to do
-        object_class = inferred_class
-        if inferred_class is None:
+        next_class = None
+        if inferred_class is not None:
+            if isinstance(inferred_class, type):
+                object_class = inferred_class
+            elif isinstance(inferred_class, list):
+                object_class = list
+                next_class = inferred_class[0]
+                # print('the type is a list, so the next type should be %s'%next_class)
+            else:
+                raise Exception('%s is not type "type" nor "list"!'%inferred_class)
+            # print('object class became inferred_class: %s' % object_class)
+        else:
             try:
                 object_class = YAMLInstancer.get_yaml_string_class(current_object['class'])
             except:
                 raise Exception("unable to get class of object %s"%object_name)
-                
+
         has_reqs = True
         has_defaults = True
         has_types = True
@@ -103,7 +118,7 @@ class YAMLInstancer:
 
         # special 'names'
         try:
-            if requirements.index('name') >= 0:
+            if has_reqs and requirements.index('name') >= 0:
                 try:
                     output_object.name = current_object['name']
                 except:
@@ -122,26 +137,38 @@ class YAMLInstancer:
             if has_types:
                 try:
                     infer_type = types[k]
+                    # print('type detected: %s'%infer_type)
                 except: pass
 
             if has_types and infer_type is not None:
                 setattr(output_object, k, YAMLInstancer.get_object(k, v, infer_type))
             else:
-                setattr(output_object, k, YAMLInstancer.get_object(k, v))
+                if next_class is None:
+                    # print('getting object %s without a reference type'%v)
+                    setattr(output_object, k, YAMLInstancer.get_object(k, v))
+                else:
+                    # print('getting object %s with type %s'%next_class)
+                    setattr(output_object, k, YAMLInstancer.get_object(k, v, next_class))
 
         # do requirement and type checks
         if has_reqs:
             for r in requirements:
-                try:
-                    getattr(output_object, r)
-                except:
-                    raise Exception('%s of class %s requires property %s' % (object_name, object_class, r))
+                if not hasattr(output_object, r):
+                    raise Exception('"%s" of class "%s" requires property "%s"' % (object_name, object_class, r))
 
         if has_types:
             for k,v in types.items():
-                o_type = type(getattr(output_object, k))
-                if o_type != v:
-                    raise Exception('property %s needs to be of type %s, but is currently of type %s'%(k, v, o_type))
+                try:
+                    o_type = type(getattr(output_object, k)) # type of var gotten from yaml
+                    cv = v
+                    if type(v) == list:
+                        cv = list
+                    if o_type != cv:
+                        warning = 'property "%s" needs to be of type %s, but is currently of type %s'%(k, cv, o_type)
+                        print('WARNING: %s'%warning)
+                        # raise Exception(warning)
+                except:
+                    print('um you defined a type for "%s" but the property isn\'t required . . .'%k)
 
         # Yay! Your object has navigated the deadly twists of recursion
         # and the dangerous winding path of requirements and type checks.
@@ -149,18 +176,20 @@ class YAMLInstancer:
         return output_object
 
     @staticmethod
-    def get_single (yaml_string:str):
+    def get_single (yaml_string:str, inferred_type=None):
         d = YAMLInstancer.get_dict(yaml_string)
         name = list(d.items())[0][0]
-        o = YAMLInstancer.get_object(name, d[name])
+        o = YAMLInstancer.get_object(name, d[name], inferred_type)
         return o
 
     @staticmethod
-    def get_multiple (yaml_string:str):
+    def get_multiple (yaml_string:str, inferred_type=None):
+        if yaml_string.strip() == '':
+            return None
         d = YAMLInstancer.get_dict(yaml_string)
         objects = {}
         for k,v in d.items():
-            objects[k] = YAMLInstancer.get_object(k, v)
+            objects[k] = YAMLInstancer.get_object(k, v, inferred_type)
         return objects
 
     @staticmethod

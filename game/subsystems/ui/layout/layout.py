@@ -1,14 +1,21 @@
 from game.subsystems.ui.layout.panel import Panel
-from game.subsystems.entities import Tower
-import pygame
 class Layout:
     """
     Layout contains a 1-D list of panels
     """
-    def __init__ (self, name="main_panel", intended_window=(0, 0, 1, 1)):
+    def __init__ (self, name="main_panel"):
         self.name = name
-        self.intended_window = intended_window
-        self.panels = [Panel.from_rect(intended_window, name)]
+        self.panels = []
+    def clearPanels (self) -> None:
+        self.panels = []
+    def addPanel (self, panel: Panel) -> None:
+        self.panels.append(panel)
+    @staticmethod
+    def fromPanelList (panels: list) -> 'Layout':
+        L = Layout()
+        for p in panels:
+            L.addPanel(p)
+        return L
     def getPanelId (self, name):
         index = 0
         for p in self.panels:
@@ -30,8 +37,4 @@ class Layout:
         self.panels.remove(self.getPanel(panel_name))
         for p in new_panels:
             self.panels.append(p)
-
-    @staticmethod
-    def fromYAMLDict (yaml_dict):
-        return
 

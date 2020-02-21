@@ -11,11 +11,12 @@ class Order:
     REVERSED = 1 # right to left / bottom to top
 
 class Panel:
-    REQ_ATTRS = ['x', 'y', 'width', 'height']
+    REQ_ATTRS = ['x', 'y', 'width', 'height', 'name']
     DEFAULT_ATTRS = {
-        'orientation': 'vertical'
     }
-    # panels are on a 1x1 "view-window" in which they can be scaled back using these fractions
+    TYPE_ATTRS = {
+        'inner_panels': None # to be set afterward (see below class)
+    }
     def __init__ (self, x=None, y=None, w=None, h=None, name=None):
         self.x = x
         self.y = y
@@ -26,6 +27,11 @@ class Panel:
         return 'Panel %s -> (%s, %s), (%s, %s)'%(self.name, self.x, self.y, self.width, self.height) + (
             ' and has %d inner panels'%len(self.inner_panels) if self.has_inner_panels() else ''
         )
+    def dump_inner_panels (self):
+        if self.has_inner_panels():
+            return '\n'.join([str(p) for p in self.inner_panels])
+        else:
+            return 'no inner panels'
     @staticmethod
     def from_rect (window, name):
         return Panel(window[0], window[1], window[2], window[3], name)
@@ -36,9 +42,12 @@ class Panel:
         )
     def to_rect (self, rect):
         return self.to_window(rect[0], rect[1], rect[2], rect[3])
-    def get_rect (self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
-    def split (self, orientation, order, percentage, new_name): # returns a 2-length array of Panels
+    def get_rect (self, border=None):
+        if border is None:
+            return pygame.Rect(self.x, self.y, self.width, self.height)
+        else:
+            return pygame.Rect(self.x + border, self.y + border, self.width - border * 2, self.height - border * 2)
+    def split (self, orientation, order, percentage, new_name): # returns a 2-length array of Panels (for programmatic layout only)
         if orientation == Orientation.VERTICAL:
             p = [
                 Panel(self.x, self.y, self.width, self.height * percentage, self.name),
@@ -60,7 +69,7 @@ class Panel:
         else:
             print('you suck')
             return p
-    def split_multiple (self, orientation, number, names=None):
+    def split_multiple (self, orientation, number, names=None): # for programmatic layout only
         vertical = orientation == Orientation.VERTICAL
         plist = []
         b = self.width / number if not vertical else self.height / number
@@ -100,7 +109,7 @@ class Panel:
         if type(self) == list:
             for p in self:
                 l = Panel.flatten_list_tree(p, panel_list)
-                if type(l) != list:
+                if type(l) != list: # only get the end nodes -- the lowest children. We don't want containers of panels
                     panel_list.append(l)
             return panel_list
         else:
@@ -112,5 +121,4 @@ class Panel:
         ps = Panel.flatten_list_tree(ps)
         return ps
 
-    def get_layout (self):
-        L = Layout()
+Panel.TYPE_ATTRS['inner_panels'] = [Panel] # this only applies if you need a class to CONTAIN ITSELF
