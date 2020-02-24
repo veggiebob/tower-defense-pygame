@@ -1,7 +1,7 @@
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.ui.layout.layout import Layout
 from game.subsystems.ui.layout.panel import Panel
-from game.common.text import Text
+from game.common.text import DEFAULT_TEXT
 import pygame, sys
 pygame.init()
 
@@ -46,14 +46,13 @@ DISPLAY.fill((0, 0, 0))
 screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT))
 
 # draw stuff
-T = Text('../common/verdana.ttf')
 visual_border = 2
 for p in screen_panels:
     # draw the panels on the screen
     r = p.get_rect(border=visual_border)
     pygame.draw.rect(DISPLAY, (255, 255, 255), r, 1)
     # display text in the middle
-    T.draw_to_surface(DISPLAY, (r[0] + r[2] * 0.5, r[1] + r[3] * 0.5), p.name, 10, (255, 255, 255))
+    DEFAULT_TEXT.draw_to_surface(DISPLAY, (r[0] + r[2] * 0.5, r[1] + r[3] * 0.5), p.name, 10, (255, 255, 255))
 
 # update / handle exiting
 while True:

@@ -1,7 +1,7 @@
 import pygame, math
 class Text:
     def __init__ (self, font_path:str=""):
-        self.font_path = "verdana.ttf" if font_path == "" else font_path
+        self.font_path = 'verdana.ttf' if font_path == "" else font_path
         try:
             self.font = pygame.font.Font(self.font_path, 20)
         except:
@@ -25,3 +25,5 @@ class Text:
     
     def get_text_size (self, width, height, text_length):
         return min(width * 0.7 / math.sqrt(text_length), height / text_length) # todo: this will need to be tested
+
+DEFAULT_TEXT = Text()
