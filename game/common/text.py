@@ -1,8 +1,11 @@
 import pygame, math
 class Text:
-    def __init__ (self):
-        self.font_path = "text_font.TTF"
-        self.font = pygame.font.Font(self.font_path, 20)
+    def __init__ (self, font_path:str=""):
+        self.font_path = "verdana.ttf" if font_path == "" else font_path
+        try:
+            self.font = pygame.font.Font(self.font_path, 20)
+        except:
+            raise Exception("please put in a valid font path")
         self.fonts = {
             20:self.font
         }
