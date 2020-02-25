@@ -18,7 +18,7 @@ class Tower():
     }
 
     def fire(self, enemiesList):
-        targetDistance = self.range
+        targetDistance = self.range ** 2
         targetToUse = None
 
         for target in enemiesList:
