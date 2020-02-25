@@ -1,0 +1,6 @@
+
+BasicEnemy:
+  health: 100
+  speed: 5000
+  xpos: 9
+  ypos: 2
