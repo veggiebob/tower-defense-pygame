@@ -4,7 +4,7 @@ import pygame
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'image', 'rect']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage']
 
     TYPE_ATTRS = {
         'range': int,
@@ -17,23 +17,28 @@ class Tower():
         #'rect': pygame.Rect
     }
 
-    def fire(self, enemiesList, timeInterval):
+    def fire(self, enemiesList):
+        targetDistance = self.range ** 2
+        targetToUse = None
+
         for target in enemiesList:
-            if target.futurePosition(timeInterval) <= self.range:
-                return Projectile()
+            distSquared = ((self.xpos - target.xpos) ** 2) + ((self.ypos - target.ypos) ** 2)
+            print(distSquared)
+            if distSquared < targetDistance:
+                targetDistance = distSquared
+                targetToUse = target
+
+        if targetToUse is None:
+            return None
+
+        return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage)
 
 
 class Projectile():
-
-    REQ_ATTRS = ['xpos', 'ypos', 'enemy' 'damage']
-
-    TYPE_ATTRS = {
-        'xpos': int,
-        'ypos': int,
-        #'enemy': Enemy
-        'damage': int
-    }
-
+    def __init__(self, x, y, target, damageAmt):
+        self.xpos, self.ypos = x, y
+        self.enemy = target
+        self.damage = damageAmt
     def impact(self):
         self.enemy.takeDamage(self.damage)
 
@@ -68,4 +73,5 @@ class Enemy:
 
 
 
-
+    def __str__(self):
+        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed))

@@ -1,0 +1,7 @@
+tower1:
+  range: 2
+  fireSpeed: 1000
+  xpos: 6
+  ypos: 3
+  reloadSpeed: 6000
+  projDamage: 50
