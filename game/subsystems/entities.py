@@ -18,9 +18,20 @@ class Tower():
     }
 
     def fire(self, enemiesList):
+        targetDistance = self.range
+        targetToUse = None
+
         for target in enemiesList:
-            if ((target.xpos - self.xpos) ^ 2) + ((target.ypos - self.ypos) ^ 2) <= self.range:
-                return Projectile(self.xpos, self.ypos, target, self.projDamage)
+            distSquared = ((self.xpos - target.xpos) ** 2) + ((self.ypos - target.ypos) ** 2)
+            print(distSquared)
+            if distSquared < targetDistance:
+                targetDistance = distSquared
+                targetToUse = target
+
+        if targetToUse is None:
+            return None
+
+        return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage)
 
 
 class Projectile():
@@ -54,4 +65,4 @@ class Enemy:
         self.health -= damage
 
     def __str__(self):
-        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed) + "\n" )
+        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed))

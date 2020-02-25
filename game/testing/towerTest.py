@@ -20,6 +20,7 @@ tower1 = YAMLInstancer.get_single(test_yaml, Tower)
 enemy1 = YAMLInstancer.get_single(test_yaml2, Enemy)
 proj1 = tower1.fire([enemy1])
 print(enemy1)
-proj1.impact()
+if not proj1 is None:
+    proj1.impact()
 print(enemy1)
 
