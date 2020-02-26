@@ -1,5 +1,7 @@
 import abc, pygame
 from game.common.math import *
+from game.subsystems.ui.layout.panel import Panel
+
 
 class Cursor:
     DEFAULT = pygame.cursors.arrow
@@ -12,6 +14,13 @@ class MouseButton:
     LEFT = 1
     MIDDLE = 2
 
+class Color:
+    REQ_ATTRS = ['r', 'g', 'b']
+    TYPE_ATTRS = {
+        'r': int,
+        'g': int,
+        'b': int
+    }
 
 class ColorState:
     # yaml
@@ -83,7 +92,21 @@ class UiEvent:
 
 
 class UiElement(abc.ABC):  # make it an abstract class
-    def __init__ (self, position: Vector, size: Vector, tint=(1,1,1)):
+    REQ_ATTRS = ['position', 'size', 'name']
+    TYPE_ATTRS = {
+        'position': Vector,
+        'size': Vector,
+        'tint': Color,
+        'onclick': str
+    }
+    def yaml_init (self):
+        try:
+            self.on_click_listener = eval(self.onclick)
+        except: pass
+    def __init__ (self, position=Vector(0,0), size=Vector(0,0), tint=(1,1,1)):
+        """Conventions:
+        on_click_listener is a lambda receiving self
+        """
         self.position = position
         self.size = size
         self.tint = tint
@@ -146,8 +169,12 @@ class UiElement(abc.ABC):  # make it an abstract class
 
     def click (self):
         if self.on_click_listener is not None:
-            self.on_click_listener()
+            self.on_click_listener(self)
 
     def set_on_click_listener (self, listener):
         self.on_click_listener = listener
 
+    def position_on_panel (self, panel:Panel) -> None:
+        self.position = Vector(panel.x, panel.y)
+        self.size = Vector(panel.width, panel.height)
+        self.state = UiEvent() # reset ui

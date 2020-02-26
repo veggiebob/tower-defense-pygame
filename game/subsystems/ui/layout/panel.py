@@ -1,6 +1,7 @@
 import pygame
 
 from game.common.math import Transform, Vector
+from game.subsystems.ui.elements.buttons import *
 
 
 class Orientation:
@@ -20,14 +21,26 @@ class Panel:
     DEFAULT_ATTRS = {
     }
     TYPE_ATTRS = {
-        'inner_panels': None # to be set afterward (see below class)
+        'inner_panels': None, # to be set afterward (see below class)
+        'ui_button': Button,
+        'ui_text': TextView
     }
+
+    def yaml_init(self):
+        try:
+            self.ui_button.panel_name = self.name
+        except: pass
+        try:
+            self.ui_text.panel_name = self.name
+        except: pass
+
     def __init__ (self, x=None, y=None, w=None, h=None, name=None):
         self.x = x
         self.y = y
         self.width = w
         self.height = h
         self.name = name
+
     def __str__ (self):
         return 'Panel %s -> (%s, %s), (%s, %s)'%(self.name, self.x, self.y, self.width, self.height) + (
             ' and has %d inner panels'%len(self.inner_panels) if self.has_inner_panels() else ''
