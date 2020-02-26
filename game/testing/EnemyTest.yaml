@@ -1,9 +1,8 @@
 BasicEnemy:
   health: 100
-  speed: 5000
+  moveInterval: 30
   xpos: 7
   ypos: 6
   xpast: 7
   ypast: 7
-  class: game.subsystems.entities@Enemy
 

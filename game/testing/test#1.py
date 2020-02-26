@@ -1,6 +1,6 @@
 import pygame, sys
 
-#from game.common.yaml_parsing import YAMLInstancer
+from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.environment import *
 from game.subsystems.entities import *
 from pygame.locals import *
@@ -12,16 +12,8 @@ BROWN = (150, 75, 0)
 LIGHTBROWN = (181, 101, 29)
 BLACK = (0,0,0)
 RED = (255,0,0)
-#test_yaml = open('./EnemyTest.yaml').read()
-#BadGuy = YAMLInstancer.get_single(test_yaml)
-BadGuy = Enemy()
-BadGuy.health = 100
-BadGuy.speed = 200
-BadGuy.xpos = 7
-BadGuy.ypos = 6
-BadGuy.xpast = 7
-BadGuy.ypast = 7
-BadGuy.isFrozen = False
+test_yaml = open('./EnemyTest.yaml').read()
+BadGuy = YAMLInstancer.get_single(test_yaml, Enemy)
 
 def main():
     global DISPLAYSURF
@@ -34,7 +26,7 @@ def main():
                 pygame.quit()
                 sys.exit()
         timeDifference = pygame.time.get_ticks() - now
-        if timeDifference >= BadGuy.speed:
+        if timeDifference >= BadGuy.moveInterval:
             now = pygame.time.get_ticks()
             tester.board[BadGuy.xpos][BadGuy.ypos].hasEnemy = False
             tempx = tester.futurePath(BadGuy.xpos, BadGuy.ypos, BadGuy.xpast, BadGuy.ypast).getX()
