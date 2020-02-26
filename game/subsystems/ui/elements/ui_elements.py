@@ -83,9 +83,10 @@ class UiEvent:
 
 
 class UiElement(abc.ABC):  # make it an abstract class
-    def __init__ (self, position: Vector, size: Vector):
+    def __init__ (self, position: Vector, size: Vector, tint=(1,1,1)):
         self.position = position
         self.size = size
+        self.tint = tint
         self.on_click_listener = None
         self.state = UiEvent()
         self.state_colors = {
@@ -106,7 +107,7 @@ class UiElement(abc.ABC):  # make it an abstract class
     @abc.abstractmethod
     def draw_on_surface(self, surface: pygame.Surface): pass
 
-    def set_color (self, event_name: str, color):
+    def set_color (self, event_name: str, color): # todo: make this a tint
         self.state_colors[event_name] = color
 
     def set_state_colors (self, events_colors: dict):
@@ -115,12 +116,14 @@ class UiElement(abc.ABC):  # make it an abstract class
     def get_color (self):
         for k,v in self.state_colors.items():
             if self.check_state(k):
-                return v
+                return v[0] * self.tint[0], v[1] * self.tint[1], v[2] * self.tint[2]
+        return self.state_colors['default']
 
     def get_cursor (self):
         for k,v in self.state_cursors.items():
             if self.check_state(k):
                 return v
+        return self.state_cursors['default']
 
     def check_state (self, _property: str):
         return self.state.has(_property)

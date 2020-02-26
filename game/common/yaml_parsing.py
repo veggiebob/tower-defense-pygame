@@ -1,6 +1,7 @@
 import yaml, importlib
 class YAMLInstancer:
     KEYS = ['REQ_ATTRS', 'DEFAULT_ATTRS', 'TYPE_ATTRS']
+    YAML_INIT_METHOD_NAME = 'yaml_init'
     LITERAL = '_literal_'
     @staticmethod
     def is_yaml_value_type (T):
@@ -41,8 +42,6 @@ class YAMLInstancer:
 
     @staticmethod
     def get_object (object_name, current_object, inferred_class=None):
-        # todo: test literal expression evaluation using key _literal_ or something
-        # todo: make a property 'init' that allows user to do method calls from a list?
         # recursive simple parsing stuff
         object_type = type(current_object)
         if YAMLInstancer.is_yaml_value_type(object_type):
@@ -170,6 +169,8 @@ class YAMLInstancer:
                 except:
                     print('um you defined a type for "%s" but the property isn\'t required . . .'%k)
 
+        if hasattr(output_object, YAMLInstancer.YAML_INIT_METHOD_NAME):
+            getattr(output_object, YAMLInstancer.YAML_INIT_METHOD_NAME)()
         # Yay! Your object has navigated the deadly twists of recursion
         # and the dangerous winding path of requirements and type checks.
         # Your object is now free to go

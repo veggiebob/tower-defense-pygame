@@ -59,6 +59,9 @@ class Vector:
         return Vector(self.x, self.y)
     def to_tuple (self):
         return (self.x, self.y)
+    @staticmethod
+    def from_tuple (tup:list):
+        return Vector(tup[0], tup[1])
     def to_complex(self):
         return self.x + self.y*1j
     @staticmethod
@@ -70,9 +73,8 @@ class Vector:
         return Vector(mix(self.x, v.x, t), mix(self.y, v.y, t))
     def to_int (self):
         return Vector(int(self.x), int(self.y))
-    @staticmethod
-    def in_box (position, size, point):
-        return position.x <= point.x <= position.x + size.x and position.y <= point.y <= position.y + size.y
+    def in_box (self, position, size):
+        return position.x <= self.x <= position.x + size.x and position.y <= self.y <= position.y + size.y
     def __str__ (self):
         return '<%s, %s>'%(self.x, self.y)
 class Transform:
