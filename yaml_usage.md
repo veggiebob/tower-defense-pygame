@@ -9,7 +9,7 @@ from game.common.yaml_parsing import YAMLInstancer
    - this gives you a **str** of the file
    - you could also do it in plain string format
    - ```python
-     """
+     file_content = """
      object:
          property1: value
          property2: value
