@@ -12,9 +12,11 @@ BROWN = (150, 75, 0)
 LIGHTBROWN = (181, 101, 29)
 BLACK = (0,0,0)
 RED = (255,0,0)
+GREEN = (0,255,00)
 test_yaml = open('./EnemyTest.yaml').read()
 BadGuy = YAMLInstancer.get_single(test_yaml, Enemy)
-
+towertest_yaml = test_yaml = open('./basictower.yaml').read()
+Tower = YAMLInstancer.get_single(towertest_yaml, Tower)
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
@@ -48,6 +50,8 @@ def main():
                     temp.fill(BLACK)
                 if tester.board[x][y].hasEnemy == True:
                     temp.fill(RED)
+                if tester.board[x][y].hasTower == True:
+                    temp.fill(GREEN)
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
         pygame.display.update()
 
