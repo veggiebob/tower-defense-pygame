@@ -44,11 +44,11 @@ class Projectile():
 
 class Enemy:
     # position is a tuple in the format (x,y)
-    REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'image', 'rect']
+    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast']
     #Not sure what to call the next line
     TYPE_ATTRS = {
         "health" : int,
-        'speed': int,
+        'moveInterval': int,
         'xpos': int,
         'ypos': int,
         'xpast': int,
@@ -56,20 +56,11 @@ class Enemy:
         #'image': pygame.Surface,
         #'rect' : pygame.rect
     }
-    def __init__(self):
-        self.OrigionalHealth = self.health
-        self.isFrozen = False
-        self.isDead = False
 
     def takeDamage(self, damage):
         self.health -= damage
         if self.health <= 0:
             self.die()
-    def freeze(self):
-        self.isFrozen = True
-
-    def die(self):
-        self.isDead = True
 
 
 
