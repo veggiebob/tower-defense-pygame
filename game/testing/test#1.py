@@ -22,6 +22,7 @@ def main():
     clock = pygame.time.Clock()
     now = pygame.time.get_ticks()
     tester.board[BadGuy.xpos][BadGuy.ypos].hasEnemy = True
+    tester.board[Tower.xpos][Tower.ypos].hasTower = True
     while True:
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
