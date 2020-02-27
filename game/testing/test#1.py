@@ -7,13 +7,17 @@ from pygame.locals import *
 pygame.init()
 tester = Environment()
 DISPLAYSURF = pygame.display.set_mode((50 * len(tester.board), 50 * len(tester.board[0])))
-
+temp = pygame.image.load('Tower.png')
+TowerImage = pygame.transform.scale(temp, (50,50))
 BROWN = (150, 75, 0)
 LIGHTBROWN = (181, 101, 29)
 BLACK = (0,0,0)
 RED = (255,0,0)
+GREEN = (0,255,00)
 test_yaml = open('./EnemyTest.yaml').read()
 baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+towertest_yaml = open('./basictower.yaml').read()
+Tower = YAMLInstancer.get_single(towertest_yaml, Tower)
 baddies = []
 for enemyStr in baddiesStr:
     baddies.append(baddiesStr[enemyStr])
@@ -23,6 +27,7 @@ for enemyStr in baddiesStr:
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
+    
     for enemyStart in baddies:
         tester.board[enemyStart.xpos][enemyStart.ypos].hasEnemy = True
     while True:
@@ -43,6 +48,8 @@ def main():
                     temp.fill(BLACK)
                 if tester.board[x][y].hasEnemy == True:
                     temp.fill(RED)
+                if tester.board[x][y].hasTower == True:
+                    temp.blit(TowerImage, (0,0))
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
         pygame.display.update()
 
