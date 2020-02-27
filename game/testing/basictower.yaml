@@ -5,3 +5,4 @@ BasicTower:
   ypos: 3
   reloadSpeed: 30
   projDamage: 50
+  projSpeed : 20
