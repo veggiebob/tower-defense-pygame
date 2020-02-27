@@ -4,7 +4,7 @@ import pygame
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed', 'lastfire']
 
     TYPE_ATTRS = {
         'range': int,
@@ -13,7 +13,8 @@ class Tower():
         'ypos': int,
         'reloadSpeed': int,
         'projDamage': int,
-        'projSpeed': int
+        'projSpeed': int,
+        'lastfire': int
         #'image': pygame.Surface,
         #'rect': pygame.Rect
     }

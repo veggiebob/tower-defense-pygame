@@ -19,6 +19,7 @@ baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
 towertest_yaml = open('./basictower.yaml').read()
 Tower = YAMLInstancer.get_single(towertest_yaml, Tower)
 baddies = []
+projs = []
 for enemyStr in baddiesStr:
     baddies.append(baddiesStr[enemyStr])
 
@@ -66,5 +67,13 @@ def enemyMove(enemy1):
         enemy1.ypos = tempy
         tester.board[enemy1.xpos][enemy1.ypos].hasEnemy = True
         enemy1.lastmove = pygame.time.get_ticks()
+    print(projs)
+
+
+def towerChecks(tower1):
+    now = pygame.time.get_ticks()
+    timeDifference = now - tower1.lastfire
+    if timeDifference >= tower1.reloadSpeed:
+        projs.append(tower1.fire(baddies))
 
 main()
