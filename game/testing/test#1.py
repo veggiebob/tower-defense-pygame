@@ -27,7 +27,7 @@ for enemyStr in baddiesStr:
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
-    
+    tester.board[Tower.xpos][Tower.ypos].hasTower = True
     for enemyStart in baddies:
         tester.board[enemyStart.xpos][enemyStart.ypos].hasEnemy = True
     while True:
