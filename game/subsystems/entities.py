@@ -4,7 +4,7 @@ import pygame
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed']
 
     TYPE_ATTRS = {
         'range': int,
@@ -13,6 +13,7 @@ class Tower():
         'ypos': int,
         'reloadSpeed': int,
         'projDamage': int,
+        'projSpeed': int
         #'image': pygame.Surface,
         #'rect': pygame.Rect
     }
@@ -31,20 +32,21 @@ class Tower():
         if targetToUse is None:
             return None
 
-        return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage)
+        return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage, self.projSpeed)
 
 
 class Projectile():
-    def __init__(self, x, y, target, damageAmt):
+    def __init__(self, x, y, target, damageAmt, projSpeed):
         self.xpos, self.ypos = x, y
         self.enemy = target
         self.damage = damageAmt
+        self.speed = projSpeed
     def impact(self):
         self.enemy.takeDamage(self.damage)
 
 class Enemy:
     # position is a tuple in the format (x,y)
-    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast']
+    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast', 'lastmove']
     #Not sure what to call the next line
     TYPE_ATTRS = {
         "health" : int,
@@ -53,6 +55,7 @@ class Enemy:
         'ypos': int,
         'xpast': int,
         'ypast': int,
+        'lastmove': int
         #'image': pygame.Surface,
         #'rect' : pygame.rect
     }

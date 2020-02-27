@@ -13,30 +13,25 @@ LIGHTBROWN = (181, 101, 29)
 BLACK = (0,0,0)
 RED = (255,0,0)
 test_yaml = open('./EnemyTest.yaml').read()
-BadGuy = YAMLInstancer.get_single(test_yaml, Enemy)
+baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+baddies = []
+for enemyStr in baddiesStr:
+    baddies.append(baddiesStr[enemyStr])
+
+
 
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
-    now = pygame.time.get_ticks()
-    tester.board[BadGuy.xpos][BadGuy.ypos].hasEnemy = True
+    for enemyStart in baddies:
+        tester.board[enemyStart.xpos][enemyStart.ypos].hasEnemy = True
     while True:
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 pygame.quit()
                 sys.exit()
-        timeDifference = pygame.time.get_ticks() - now
-        if timeDifference >= BadGuy.moveInterval:
-            now = pygame.time.get_ticks()
-            tester.board[BadGuy.xpos][BadGuy.ypos].hasEnemy = False
-            tempx = tester.futurePath(BadGuy.xpos, BadGuy.ypos, BadGuy.xpast, BadGuy.ypast).getX()
-            tempy = tester.futurePath(BadGuy.xpos, BadGuy.ypos, BadGuy.xpast, BadGuy.ypast).getY()
-            BadGuy.xpast = BadGuy.xpos
-            BadGuy.ypast = BadGuy.ypos
-            BadGuy.xpos = tempx
-            BadGuy.ypos = tempy
-            tester.board[BadGuy.xpos][BadGuy.ypos].hasEnemy = True
-            now = pygame.time.get_ticks()
+        for badGuy in baddies:
+            enemyMove(badGuy)
         for x in range(0, len(tester.board)):
             for y in range(0, len(tester.board[0])):
                 temp = pygame.Surface((50, 50))
@@ -50,5 +45,19 @@ def main():
                     temp.fill(RED)
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
         pygame.display.update()
+
+def enemyMove(enemy1):
+    now = pygame.time.get_ticks()
+    timeDifference = now - enemy1.lastmove
+    if timeDifference >= enemy1.moveInterval:
+        tester.board[enemy1.xpos][enemy1.ypos].hasEnemy = False
+        tempx = tester.futurePath(enemy1.xpos, enemy1.ypos, enemy1.xpast, enemy1.ypast).getX()
+        tempy = tester.futurePath(enemy1.xpos, enemy1.ypos, enemy1.xpast, enemy1.ypast).getY()
+        enemy1.xpast = enemy1.xpos
+        enemy1.ypast = enemy1.ypos
+        enemy1.xpos = tempx
+        enemy1.ypos = tempy
+        tester.board[enemy1.xpos][enemy1.ypos].hasEnemy = True
+        enemy1.lastmove = pygame.time.get_ticks()
 
 main()

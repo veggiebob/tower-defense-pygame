@@ -5,4 +5,5 @@ BasicEnemy:
   ypos: 6
   xpast: 7
   ypast: 7
+  lastmove: 0
 
