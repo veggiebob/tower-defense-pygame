@@ -1,7 +1,6 @@
 import pygame
-
 from game.common.math import Transform, Vector
-from game.subsystems.ui.elements.buttons import *
+from game.subsystems.ui.elements.buttons import Button, TextView
 
 
 class Orientation:
@@ -21,6 +20,9 @@ class Panel:
     DEFAULT_ATTRS = {
     }
     TYPE_ATTRS = {
+        'x': float,
+        'y': float,
+        'width': float,
         'inner_panels': None, # to be set afterward (see below class)
         'ui_button': Button,
         'ui_text': TextView
@@ -42,7 +44,7 @@ class Panel:
         self.name = name
 
     def __str__ (self):
-        return 'Panel %s -> (%s, %s), (%s, %s)'%(self.name, self.x, self.y, self.width, self.height) + (
+        return 'Panel %s -> (%s, %s), (%s, %s), ui_element: %s'%(self.name, self.x, self.y, self.width, self.height, self.ui_button if hasattr(self, 'ui_button') else 'None') + (
             ' and has %d inner panels'%len(self.inner_panels) if self.has_inner_panels() else ''
         )
     def dump_inner_panels (self):
@@ -50,14 +52,13 @@ class Panel:
             return '\n'.join([str(p) for p in self.inner_panels])
         else:
             return 'no inner panels'
-    @staticmethod
-    def from_rect (window, name):
-        return Panel(window[0], window[1], window[2], window[3], name)
     def to_window (self, x, y, window_width, window_height):
-        return Panel.from_rect(
-            pygame.Rect(x + self.x * window_width, y + self.y * window_height, self.width * window_width, self.height * window_height),
-            self.name
-        )
+        p = self
+        p.x = x + self.x * window_width
+        p.y = y + self.y * window_height
+        p.width = self.width * window_width
+        p.height = self.height * window_height
+        return p
     def to_rect (self, rect):
         return self.to_window(rect[0], rect[1], rect[2], rect[3])
     def get_rect (self, border=None):

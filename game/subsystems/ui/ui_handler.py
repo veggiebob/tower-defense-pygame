@@ -1,3 +1,7 @@
+from game.common.math import Vector
+from game.subsystems.ui.layout.layout import Layout
+
+
 class ElementsHandler:
     @staticmethod
     def from_panel_list (panels:list) -> 'ElementsHandler':
@@ -5,9 +9,11 @@ class ElementsHandler:
         for p in panels:
             try:
                 elements.append(p.ui_button)
+                print('added ui button! %s'%p.ui_button)
             except: pass
             try:
                 elements.append(p.ui_text)
+                print('added ui text! %s'%p.ui_text)
             except: pass
         return ElementsHandler(panels, elements)
 
@@ -19,11 +25,12 @@ class ElementsHandler:
         self.element_keys = {}
         self.do_key()
 
-    def reposition_elements(self):
+    def reposition_elements(self, layout: Layout):
         for e in self.elements:
-            e.position_on_panel(self.get_panel(e.panel_name))
+            print('moving element %s onto panel %s using name %s'%(e, layout.getPanel(e.panel_name), e.panel_name))
+            e.position_on_panel(layout.getPanel(e.panel_name))
 
-    def update(self, mouse_position: bool, mouse_down: bool, mouse_pressed: bool):
+    def update(self, mouse_position: Vector, mouse_down: bool, mouse_pressed: bool):
         for e in self.elements:
             e.update(mouse_position, mouse_down, mouse_pressed)
 
@@ -42,7 +49,14 @@ class ElementsHandler:
         if not self.keyed:
             self.do_key()
         return self.panel_keys[name]
+
     def get_element (self, name: str):
         if not self.keyed:
             self.do_key()
         return self.element_keys[name]
+
+    def get_elements (self):
+        return self.elements
+
+    def get_panels (self):
+        return self.panels

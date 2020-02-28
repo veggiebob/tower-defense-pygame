@@ -17,5 +17,10 @@ class LayoutManager:
         except:
             return None
 
-    def setLayout (self, name):
+    def setCurrentLayout (self, name):
         self.current_layout = name
+
+    def addLayout (self, layout: Layout, name=None):
+        if name is None:
+            name = layout.name
+        self.layouts[name] = layout
