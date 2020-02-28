@@ -18,7 +18,7 @@ GREEN = (0,255,00)
 test_yaml = open('./EnemyTest.yaml').read()
 baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
 towertest_yaml = open('./basictower.yaml').read()
-Tower = YAMLInstancer.get_single(towertest_yaml, Tower)
+tower1 = YAMLInstancer.get_single(towertest_yaml, Tower)
 baddies = []
 projs = []
 for enemyStr in baddiesStr:
@@ -28,7 +28,7 @@ for enemyStr in baddiesStr:
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
-    tester.board[Tower.xpos][Tower.ypos].hasTower = True
+    tester.board[tower1.xpos][tower1.ypos].hasTower = True
     for enemyStart in baddies:
         tester.board[enemyStart.xpos][enemyStart.ypos].hasEnemy = True
     while True:
@@ -36,6 +36,7 @@ def main():
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 pygame.quit()
                 sys.exit()
+        towerChecks(tower1)
         for badGuy in baddies:
             enemyMove(badGuy)
             if badGuy.health <= 0:
@@ -45,7 +46,6 @@ def main():
             baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
             for enemyStr in baddiesStr:
                 baddies.append(baddiesStr[enemyStr])
-
         for x in range(0, len(tester.board)):
             for y in range(0, len(tester.board[0])):
                 temp = pygame.Surface((50, 50))
@@ -60,6 +60,16 @@ def main():
                 if tester.board[x][y].hasTower == True:
                     temp.blit(TowerImage, (0,0))
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
+        for proj1 in projs:
+            if proj1.xpos == proj1.enemy.xpos and proj1.ypos == proj1.enemy.ypos:
+                proj1.impact()
+                projs.remove(proj1)
+            else:
+                projMove(proj1)
+                proj1.setRealPos(((proj1.xpos - 1) * 50), ((proj1.ypos - 1) * 50))
+                temp = pygame.Surface((20, 20))
+                pygame.draw.circle(temp, GREEN, (10, 10), 10)
+                DISPLAYSURF.blit(temp, (proj1.realX, proj1.realY))
         pygame.display.update()
 
 def enemyMove(enemy1):
@@ -78,10 +88,30 @@ def enemyMove(enemy1):
     print(projs)
 
 
+def projMove(proj1):
+    now = pygame.time.get_ticks()
+    timeDifference = now - proj1.lastmove
+    if timeDifference >= proj1.speed:
+        tX, tY = proj1.enemy.xpos, proj1.enemy.ypos
+        if proj1.xpos > tX:
+            proj1.xpos = proj1.xpos - 1
+        elif proj1.xpos < tX:
+            proj1.xpos = proj1.xpos + 1
+        elif proj1.ypos > tY:
+            proj1.ypos = proj1.ypos - 1
+        elif proj1.ypos < tY:
+            proj1.ypos = proj1.ypos + 1
+        proj1.lastmove = now
+
+
+
+
+
 def towerChecks(tower1):
     now = pygame.time.get_ticks()
     timeDifference = now - tower1.lastfire
     if timeDifference >= tower1.reloadSpeed:
         projs.append(tower1.fire(baddies))
+        tower1.lastfire = now
 
 main()
