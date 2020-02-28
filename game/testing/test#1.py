@@ -24,7 +24,6 @@ for enemyStr in baddiesStr:
     baddies.append(baddiesStr[enemyStr])
 
 
-
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
