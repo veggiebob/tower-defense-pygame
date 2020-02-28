@@ -15,7 +15,7 @@ Text.DEFAULT_TEXT = Text("../common/verdana.ttf")
 yaml_layout = open("big_layout_test.yaml").read() # start menu layout
 
 # with or without using the class notation, get the instance
-panel = YAMLInstancer.get_single(yaml_layout, Panel)
+panel = YAMLInstancer.get_single(yaml_layout, Panel, debug=True)
 # using a method to get a flattened version of all the panels from tree form (most likely you won't be doing this)
 inner_panels = panel.get_all_inner()
 print('flattened layout:')
@@ -55,6 +55,7 @@ while True:
         elif e.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    DISPLAY.fill((100, 100, 100))
     gui.update(mouse_position, mouse_down, mouse_pressed)
     gui.draw_to_surface(DISPLAY)
     pygame.display.update()

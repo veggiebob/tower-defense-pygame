@@ -21,8 +21,13 @@ start_screen:
                   r: 255
                   g: 0
                   b: 0
+                onclick: "lambda self: print('hello world. I am button %s'%(self.text))"
           - help:
               x: 0
               y: 0.6
               width: 1.0
               height: 0.1
+              ui_button:
+                text: help
+                tint: {r: 0, g: 255, b: 0}
+                onclick: "lambda self: print('you clicked the help button')"

@@ -41,7 +41,7 @@ class YAMLInstancer:
 
 
     @staticmethod
-    def get_object (object_name, current_object, inferred_class=None):
+    def get_object (object_name, current_object, inferred_class=None, debug=False):
         # recursive simple parsing stuff
         object_type = type(current_object)
         if YAMLInstancer.is_yaml_value_type(object_type):
@@ -53,8 +53,8 @@ class YAMLInstancer:
             #             code = current_object[index + len(YAMLInstancer.LITERAL):]
             #             return eval(code)
             #     except: pass
-
-            # print('setting property %s to object %s, inferred type %s'%(object_name, current_object, inferred_class))
+            if debug:
+                print('setting property %s to object %s, inferred type %s'%(object_name, current_object, inferred_class))
             return current_object
         if object_type == list:
             # print('%s is a list'%object_name)
@@ -163,11 +163,13 @@ class YAMLInstancer:
                     if type(v) == list:
                         cv = list
                     if o_type != cv:
-                        warning = 'property "%s" needs to be of type %s, but is currently of type %s'%(k, cv, o_type)
-                        print('WARNING: %s'%warning)
-                        # raise Exception(warning)
+                        if debug:
+                            warning = 'property "%s" needs to be of type %s, but is currently of type %s'%(k, cv, o_type)
+                            print('WARNING: %s'%warning)
+                            # raise Exception(warning)
                 except:
-                    print('um you defined a type for "%s" but the property isn\'t required . . .'%k)
+                    if debug:
+                        print('um you defined a type for "%s" but the property isn\'t required . . .'%k)
 
         if hasattr(output_object, YAMLInstancer.YAML_INIT_METHOD_NAME):
             getattr(output_object, YAMLInstancer.YAML_INIT_METHOD_NAME)()
@@ -177,20 +179,20 @@ class YAMLInstancer:
         return output_object
 
     @staticmethod
-    def get_single (yaml_string:str, inferred_type=None):
+    def get_single (yaml_string:str, inferred_type=None, debug=False):
         d = YAMLInstancer.get_dict(yaml_string)
         name = list(d.items())[0][0]
-        o = YAMLInstancer.get_object(name, d[name], inferred_type)
+        o = YAMLInstancer.get_object(name, d[name], inferred_type, debug)
         return o
 
     @staticmethod
-    def get_multiple (yaml_string:str, inferred_type=None):
+    def get_multiple (yaml_string:str, inferred_type=None, debug=False):
         if yaml_string.strip() == '':
             return None
         d = YAMLInstancer.get_dict(yaml_string)
         objects = {}
         for k,v in d.items():
-            objects[k] = YAMLInstancer.get_object(k, v, inferred_type)
+            objects[k] = YAMLInstancer.get_object(k, v, inferred_type, debug)
         return objects
 
     @staticmethod

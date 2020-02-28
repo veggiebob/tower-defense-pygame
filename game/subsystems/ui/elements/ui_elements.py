@@ -26,6 +26,12 @@ class Color:
         self.b = b
     def to_tuple (self):
         return constrain(int(self.r), 0, 255), constrain(int(self.g), 0, 255), constrain(int(self.b), 0, 255)
+    def __mul__ (self, scale):
+        return Color(self.r * scale, self.g * scale, self.b * scale)
+    def __truediv__(self, scale):
+        return Color(self.r / scale, self.g / scale, self.b / scale)
+    def __str__ (self):
+        return '(r:%s, g:%s, b:%s)'%(self.r, self.g, self.b)
 
 class ColorState:
     # yaml
@@ -107,12 +113,10 @@ class UiElement(abc.ABC):  # make it an abstract class
     def yaml_init (self):
         try:
             self.on_click_listener = eval(self.onclick)
-            print('set onclick to "%s"'%self.onclick)
-            self.tint = Color(
-                self.tint.r / 255.0,
-                self.tint.g / 255.0,
-                self.tint.b / 255.0
-            )
+            print('set on click listener to %s'%self.onclick)
+        except: pass
+        try:
+            self.tint /= 255
         except: pass
     def __init__ (self, position=Vector(0,0), size=Vector(0,0), tint=Color()):
         """Conventions:
@@ -179,7 +183,9 @@ class UiElement(abc.ABC):  # make it an abstract class
         return self.position + self.size * 0.5
 
     def click (self):
+        print('clicked')
         if self.on_click_listener is not None:
+            print('ran on click listener')
             self.on_click_listener(self)
 
     def set_on_click_listener (self, listener):
