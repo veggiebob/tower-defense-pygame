@@ -42,8 +42,11 @@ class Projectile():
         self.enemy = target
         self.damage = damageAmt
         self.speed = projSpeed
+        self.lastmove = 0
     def impact(self):
         self.enemy.takeDamage(self.damage)
+    def setRealPos(self, rX, rY):
+        self.realX, self.realY = rX, rY
 
 class Enemy:
     # position is a tuple in the format (x,y)
@@ -63,8 +66,6 @@ class Enemy:
 
     def takeDamage(self, damage):
         self.health -= damage
-        if self.health <= 0:
-            self.die()
 
 
 
