@@ -1,5 +1,4 @@
 import pygame, sys
-
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.environment import *
 from game.subsystems.entities import *
@@ -9,6 +8,8 @@ tester = Environment()
 DISPLAYSURF = pygame.display.set_mode((50 * len(tester.board), 50 * len(tester.board[0])))
 temp = pygame.image.load('Tower.png')
 TowerImage = pygame.transform.scale(temp, (50,50))
+temp2 = pygame.image.load('Enemy.png')
+EnemyImage = pygame.transform.scale(temp2, (50,50))
 BROWN = (150, 75, 0)
 LIGHTBROWN = (181, 101, 29)
 BLACK = (0,0,0)
@@ -24,7 +25,6 @@ for enemyStr in baddiesStr:
     baddies.append(baddiesStr[enemyStr])
 
 
-
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
@@ -36,9 +36,16 @@ def main():
             if event.type == QUIT or (event.type == KEYUP and event.key == K_ESCAPE):
                 pygame.quit()
                 sys.exit()
+        towerChecks(tower1)
         for badGuy in baddies:
             enemyMove(badGuy)
-        towerChecks(tower1)
+            if badGuy.health <= 0:
+                baddies.remove(badGuy)
+        if len(baddies) == 0:
+            test_yaml = open('./EnemyTest.yaml').read()
+            baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+            for enemyStr in baddiesStr:
+                baddies.append(baddiesStr[enemyStr])
         for x in range(0, len(tester.board)):
             for y in range(0, len(tester.board[0])):
                 temp = pygame.Surface((50, 50))
@@ -49,7 +56,7 @@ def main():
                 if tester.board[x][y].hasEnd == True:
                     temp.fill(BLACK)
                 if tester.board[x][y].hasEnemy == True:
-                    temp.fill(RED)
+                    temp.blit(EnemyImage, (0,0))
                 if tester.board[x][y].hasTower == True:
                     temp.blit(TowerImage, (0,0))
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
