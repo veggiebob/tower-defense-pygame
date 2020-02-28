@@ -32,6 +32,9 @@ class Environment():
                     self.board[j][i].changePath(True)
                 if array[i][j] == "E":
                     self.board[j][i].changeEnd(True)
+                #this will probably be deleted later
+                if array[i][j] == "T":
+                    self.board[j][i].changeTower(True)
 
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):

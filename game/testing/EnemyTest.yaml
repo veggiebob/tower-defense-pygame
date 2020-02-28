@@ -1,8 +1,27 @@
 BasicEnemy:
   health: 100
-  moveInterval: 30
+  moveInterval: 250
   xpos: 7
   ypos: 6
   xpast: 7
   ypast: 7
+  lastmove: 0
 
+
+MediumEnemy:
+  health: 150
+  moveInterval: 200
+  xpos: 7
+  ypos: 6
+  xpast: 7
+  ypast: 7
+  lastmove: 0
+
+HardEnemy:
+  health: 200
+  moveInterval: 150
+  xpos: 7
+  ypos: 6
+  xpast: 7
+  ypast: 7
+  lastmove: 0

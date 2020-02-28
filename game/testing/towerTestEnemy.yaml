@@ -6,3 +6,4 @@ BasicEnemy:
   ypos: 2
   xpast: 9
   ypast: 2
+  lastfire: 50
