@@ -41,6 +41,7 @@ def main():
             enemyMove(badGuy)
             if badGuy.health <= 0:
                 baddies.remove(badGuy)
+                tester.board[badGuy.xpos][badGuy.ypos].hasEnemy = False
         if len(baddies) == 0:
             test_yaml = open('./EnemyTest.yaml').read()
             baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
