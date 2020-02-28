@@ -1,5 +1,4 @@
 import pygame, sys
-
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.environment import *
 from game.subsystems.entities import *
@@ -37,6 +36,14 @@ def main():
                 sys.exit()
         for badGuy in baddies:
             enemyMove(badGuy)
+            if badGuy.health <= 0:
+                baddies.remove(badGuy)
+        if len(baddies) == 0:
+            test_yaml = open('./EnemyTest.yaml').read()
+            baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+            for enemyStr in baddiesStr:
+                baddies.append(baddiesStr[enemyStr])
+
         for x in range(0, len(tester.board)):
             for y in range(0, len(tester.board[0])):
                 temp = pygame.Surface((50, 50))
