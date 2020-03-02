@@ -37,11 +37,7 @@ def main():
                 pygame.quit()
                 sys.exit()
         towerChecks(tower1)
-        for badGuy in baddies:
-            enemyMove(badGuy)
-            if badGuy.health <= 0:
-                baddies.remove(badGuy)
-                tester.board[badGuy.xpos][badGuy.ypos].hasEnemy = False
+
         if len(baddies) == 0:
             test_yaml = open('./EnemyTest.yaml').read()
             baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
@@ -61,13 +57,30 @@ def main():
                 if tester.board[x][y].hasTower == True:
                     temp.blit(TowerImage, (0,0))
                 DISPLAYSURF.blit(temp, (x * 50, y * 50))
+        for badGuy in baddies:
+            enemyMove(badGuy)
+            if badGuy.health <= 0:
+                baddies.remove(badGuy)
+                print(badGuy)
+                tester.board[badGuy.xpos][badGuy.ypos].hasEnemy = False
         for proj1 in projs:
-            if proj1.xpos == proj1.enemy.xpos and proj1.ypos == proj1.enemy.ypos:
-                proj1.impact()
+            proj1.xpos, proj1.ypos = int(proj1.realX / 50),  int(proj1.realY / 50)
+            target1 = proj1.enemy
+            ok = False
+            for alive in baddies:
+                ok = ok or alive == target1
+            if not ok:
                 projs.remove(proj1)
+                print(proj1)
+            elif proj1.xpos == proj1.enemy.xpos and proj1.ypos == proj1.enemy.ypos:
+                proj1.impact()
+                proj1.damage = 0
+                proj1.hittimer += 1
+                if proj1.hittimer >= 9:
+                    projs.remove(proj1)
+                    print(proj1)
             else:
                 projMove(proj1)
-                proj1.setRealPos(((proj1.xpos - 1) * 50), ((proj1.ypos - 1) * 50))
                 temp = pygame.Surface((20, 20))
                 pygame.draw.circle(temp, GREEN, (10, 10), 10)
                 DISPLAYSURF.blit(temp, (proj1.realX, proj1.realY))
@@ -86,22 +99,21 @@ def enemyMove(enemy1):
         enemy1.ypos = tempy
         tester.board[enemy1.xpos][enemy1.ypos].hasEnemy = True
         enemy1.lastmove = pygame.time.get_ticks()
-    print(projs)
 
 
 def projMove(proj1):
     now = pygame.time.get_ticks()
     timeDifference = now - proj1.lastmove
-    if timeDifference >= proj1.speed:
-        tX, tY = proj1.enemy.xpos, proj1.enemy.ypos
-        if proj1.xpos > tX:
-            proj1.xpos = proj1.xpos - 1
-        elif proj1.xpos < tX:
-            proj1.xpos = proj1.xpos + 1
-        elif proj1.ypos > tY:
-            proj1.ypos = proj1.ypos - 1
-        elif proj1.ypos < tY:
-            proj1.ypos = proj1.ypos + 1
+    if timeDifference >= proj1.speed and proj1.hittimer == 0:
+        tX, tY = proj1.enemy.xpos * 50, proj1.enemy.ypos * 50
+        if proj1.realX > tX:
+            proj1.realXs = proj1.realX - 10
+        if proj1.realX < tX:
+            proj1.realX = proj1.realX + 10
+        if proj1.realY > tY:
+            proj1.realY = proj1.realY - 10
+        if proj1.realY < tY:
+            proj1.realY = proj1.realY + 10
         proj1.lastmove = now
 
 
