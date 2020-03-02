@@ -21,8 +21,6 @@ class Environment():
             for j in range(0, len(level), 1):
                 self.board[i].append(SingleGrid())
 
-        #Temporary until updated
-        level[0][11] = "S"
         self.createBoard(level)
 
     # Puts the map into the board array
@@ -116,8 +114,6 @@ class Environment():
                 lastY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getY()
 
                 temp = self.returnPlaces(nowX, nowY, lastX, lastY)
-                for j in range(0, len(temp), 1):
-                    print(str(counter) + " : " + str(temp[j].getX()) + " and " + str(temp[j].getY()))
 
                 self.pathes[i].addPoint(temp[0])
 
@@ -125,9 +121,6 @@ class Environment():
                     for j in range(1, len(temp), 1):
                         self.pathes.append(self.pathes[i])
                         self.pathes[i + j].addPoint(temp[j])
-                print(self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getX())
-                print(self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getX())
-
             endsFound = 0
             for i in range(0, len(self.pathes), 1):
                 tempPoint = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1)
