@@ -7,3 +7,13 @@ BasicTower:
   projDamage: 50
   projSpeed : 20
   lastfire: 0
+
+SecondTower:
+  range: 60
+  fireSpeed: 1
+  xpos: 20
+  ypos: 4
+  reloadSpeed: 700
+  projDamage: 50
+  projSpeed : 60
+  lastfire: 0
