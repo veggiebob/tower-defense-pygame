@@ -18,17 +18,20 @@ GREEN = (0,255,00)
 test_yaml = open('./EnemyTest.yaml').read()
 baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
 towertest_yaml = open('./basictower.yaml').read()
-tower1 = YAMLInstancer.get_single(towertest_yaml, Tower)
+tower1 = YAMLInstancer.get_multiple(towertest_yaml, Tower)
 baddies = []
+tows = []
 projs = []
 for enemyStr in baddiesStr:
     baddies.append(baddiesStr[enemyStr])
-
+for towerStr in tower1:
+    tows.append(tower1[towerStr])
 
 def main():
     global DISPLAYSURF
     clock = pygame.time.Clock()
-    tester.board[tower1.xpos][tower1.ypos].hasTower = True
+    for tower1 in tows:
+        tester.board[tower1.xpos][tower1.ypos].hasTower = True
     for enemyStart in baddies:
         tester.board[enemyStart.xpos][enemyStart.ypos].hasEnemy = True
     while True:
@@ -37,6 +40,8 @@ def main():
                 pygame.quit()
                 sys.exit()
         towerChecks(tower1)
+        for tower1 in tows:
+            towerChecks(tower1)
         for badGuy in baddies:
             enemyMove(badGuy)
             if badGuy.health <= 0:
