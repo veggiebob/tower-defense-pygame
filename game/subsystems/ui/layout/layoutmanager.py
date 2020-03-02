@@ -20,7 +20,9 @@ class LayoutManager:
     def setCurrentLayout (self, name):
         self.current_layout = name
 
-    def addLayout (self, layout: Layout, name=None):
+    def addLayout (self, layout: Layout, name=None, set_current=False):
         if name is None:
             name = layout.name
         self.layouts[name] = layout
+        if set_current:
+            self.setCurrentLayout(name)

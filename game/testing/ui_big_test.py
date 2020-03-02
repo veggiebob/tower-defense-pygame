@@ -6,34 +6,21 @@ from game.subsystems.ui.layout.layoutmanager import LayoutManager
 from game.subsystems.ui.layout.panel import Panel
 from game.common.text import Text
 import pygame, sys
-
 from game.subsystems.ui.ui_handler import ElementsHandler
 
 pygame.init()
 Text.DEFAULT_TEXT = Text("../common/verdana.ttf")
-
-yaml_layout = open("big_layout_test.yaml").read() # start menu layout
-
-# with or without using the class notation, get the instance
-panel = YAMLInstancer.get_single(yaml_layout, Panel, debug=True)
-# using a method to get a flattened version of all the panels from tree form (most likely you won't be doing this)
-inner_panels = panel.get_all_inner()
-print('flattened layout:')
-print(';\n'.join([str(p) for p in inner_panels])) # some debug (print the panels from yaml)
-
-# create a layout to hold the panels
-layout = Layout.fromPanelList(inner_panels)
-# setup some pygame stuff
 WIDTH, HEIGHT = 400, 400
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
-DISPLAY.fill((0, 0, 0))
-# map the panels onto the screen
-screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT))
 
-#gui
+yaml_layout = open("big_layout_test.yaml").read() # start menu layout
+panel_layouts = YAMLInstancer.get_multiple(yaml_layout, Panel, debug=False)
 layout_manager = LayoutManager()
-layout_manager.addLayout(layout, 'main')
-layout_manager.setCurrentLayout('main')
+for panel_name, panel_layout in panel_layouts.items():
+    layout = Layout.layoutFromPanel(panel_layout)
+    layout_manager.addLayout(layout, panel_name, set_current=True)
+
+screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT))
 elements_handler = ElementsHandler.from_panel_list(screen_panels)
 print('all elements: %s'%elements_handler.get_elements())
 gui = GUI(elements_handler, layout_manager)
