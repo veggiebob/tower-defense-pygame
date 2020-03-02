@@ -21,6 +21,8 @@ class Environment():
             for j in range(0, len(level), 1):
                 self.board[i].append(SingleGrid())
 
+        #Temporary until updated
+        level[0][11] = "S"
         self.createBoard(level)
 
     # Puts the map into the board array
@@ -77,17 +79,19 @@ class Environment():
             canGo.append(self.Point(tempX - 1, tempY))
         if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
             canGo.append(self.Point(tempX + 1, tempY))
+        print(len(canGo))
         return canGo
 
     #Creates the a list with all the path points
     def createPath(self):
-        path, numPathes = [], 0
+        path, numPathes = Path(), 0
         for i in range(0, len(self.board), 1):
             for j in range(0, len(self.board[i]), 1):
                 if self.board[i][j].getStart():
-                    path.append(self.Point(i, j))
+                    path.addPoint(self.Point(i, j))
 
-        lastX, lastY, nowX, nowY, temp, endsFound = path[0].getX(), path[0].getY(), 0, 0, [], 0
+        lastX, lastY, temp, endsFound = path.returnPoint(0).getX(), path.returnPoint(0).getY(), [], 0
+        nowX, nowY = lastX, lastY
         self.pathes.append(path)
 
         if lastX != 0:
@@ -104,23 +108,36 @@ class Environment():
                 self.pathes[0].addPoint(self.Point(lastX, lastY + 1))
 
         while endsFound != len(self.pathes):
-            for i in range(0, len(self.pathes), 1):
-                currentPathX = self.pathes[i].returnPoint(len(self.pathes[i].returnLength()) - 1).getX()
-                currentPathY = self.pathes[i].returnPoint(len(self.pathes[i].returnLength()) - 1).getY()
+            pathesNum = len(self.pathes)
 
-                temp = self.returnPlaces(nowX, nowY, currentPathX, currentPathY)
+            for i in range(0, pathesNum, 1):
+                #the path is being added in the wrong place. It needs to be added after the path there. So, after i
+                #Also, be careful about i and j. It's in a for loop that uses i
+                #Finish by Sunday evening
+                nowX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getX()
+                nowY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getY()
+                lastX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getX()
+                lastY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getY()
+
+                print("one : " + str(nowX) + " two : " + str(nowY) + " three : " + str(lastX) + " four : " + str(lastY))
+                temp = self.returnPlaces(lastX, lastY, nowX, nowY)
+
+                #Testers
+                # print(len(temp))
+                # print(len(self.pathes))
                 if len(temp) > 1:
-                    for j in range(0, len(temp), 1):
+                    for j in range(1, len(temp), 1):
                         self.pathes.append(self.pathes[i])
                         self.pathes[i + j].addPoint(temp[j])
-                else:
-                    self.pathes[i].addPoint(temp[0])
 
+                self.pathes[i].addPoint(temp[0])
 
+                #print("first : " + str(len(self.pathes)))
 
             endsFound = 0
             for i in range(0, len(self.pathes), 1):
-                tempPoint = self.pathes[i].returnPoint(len(self.pathes[i]))
+                tempPoint = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1)
+                #print(str(tempPoint.getX()) + " and " + str(tempPoint.getY()))
                 if self.board[tempPoint.getX()][tempPoint.getY()].getEnd() :
                     endsFound += 1
 
@@ -196,5 +213,7 @@ class Path():
     def returnPoint(self, index):
         return self.allPoints[index]
 
-    def returnLength(self):
+    def pathLength(self):
         return len(self.allPoints)
+
+tester = Environment()
