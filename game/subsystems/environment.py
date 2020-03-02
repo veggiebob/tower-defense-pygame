@@ -4,7 +4,9 @@ class Environment():
 
     def __init__(self):
         self.board = []
+        self.path = []
         self.readFile(0)
+        self.createPath()
 
     # Opens the map and puts it as the board
     def readFile(self, whatLevel):
@@ -30,6 +32,9 @@ class Environment():
                     self.board[j][i].changePath(True)
                 if array[i][j] == "E":
                     self.board[j][i].changeEnd(True)
+                #this will probably be deleted later
+                if array[i][j] == "T":
+                    self.board[j][i].changeTower(True)
 
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
@@ -61,6 +66,18 @@ class Environment():
         if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
             canGo.append(self.Point(tempX + 1, tempY))
         return canGo[self.random.randrange(0, len(canGo), 1)]
+
+    #Creates the a list with all the path points
+    def createPath(self):
+        for i in range(0, len(self.board), 1):
+            for j in range(0, len(self.board[i]), 1):
+                if self.board[i][j].getPath():
+                    self.path.append(self.Point(i, j))
+
+    #Given a time, returns the position an enemy should be at
+    def timeToPos(self, time):
+        randInt = 2
+
 # What is contained in a single grid point
 class SingleGrid():
     REQ_ATTRS = ["hasTower", "hasEnemy", "hasPath", "hasEnd"]

@@ -4,7 +4,7 @@ import pygame
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'image', 'rect']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed', 'lastfire']
 
     TYPE_ATTRS = {
         'range': int,
@@ -13,51 +13,61 @@ class Tower():
         'ypos': int,
         'reloadSpeed': int,
         'projDamage': int,
+        'projSpeed': int,
+        'lastfire': int
         #'image': pygame.Surface,
         #'rect': pygame.Rect
     }
 
-    def fire(self, enemiesList, timeInterval):
+    def fire(self, enemiesList):
+        targetDistance = self.range ** 2
+        targetToUse = None
+
         for target in enemiesList:
-            if target.futurePosition(timeInterval) <= self.range:
-                return Projectile()
+            distSquared = ((self.xpos - target.xpos) ** 2) + ((self.ypos - target.ypos) ** 2)
+            print(distSquared)
+            if distSquared < targetDistance:
+                targetDistance = distSquared
+                targetToUse = target
+
+        if targetToUse is None:
+            return None
+
+        return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage, self.projSpeed)
 
 
 class Projectile():
-
-    REQ_ATTRS = ['xpos', 'ypos', 'enemy' 'damage']
-
-    TYPE_ATTRS = {
-        'xpos': int,
-        'ypos': int,
-        #'enemy': Enemy
-        'damage': int
-    }
-
+    def __init__(self, x, y, target, damageAmt, projSpeed):
+        self.xpos, self.ypos = x, y
+        self.enemy = target
+        self.damage = damageAmt
+        self.speed = projSpeed
+        self.lastmove = 0
     def impact(self):
         self.enemy.takeDamage(self.damage)
+    def setRealPos(self, rX, rY):
+        self.realX, self.realY = rX, rY
 
 class Enemy:
     # position is a tuple in the format (x,y)
-    REQ_ATTRS = ['health', 'speed', 'xpos', 'ypos', 'isFrozen', 'image', 'rect']
+    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast', 'lastmove']
     #Not sure what to call the next line
     TYPE_ATTRS = {
         "health" : int,
-        'speed': int,
+        'moveInterval': int,
         'xpos': int,
         'ypos': int,
         'xpast': int,
         'ypast': int,
-        'isFrozen' : bool
+        'lastmove': int
         #'image': pygame.Surface,
         #'rect' : pygame.rect
     }
-    DEFAULT_ATTRS = {
-        'isFrozen' : False
-    }
-
 
     def takeDamage(self, damage):
         self.health -= damage
 
 
+
+    def __str__(self):
+        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed))
