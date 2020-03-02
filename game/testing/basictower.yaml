@@ -15,5 +15,5 @@ SecondTower:
   ypos: 4
   reloadSpeed: 700
   projDamage: 50
-  projSpeed : 60
+  projSpeed : 20
   lastfire: 0

@@ -110,7 +110,7 @@ def projMove(proj1):
     if timeDifference >= proj1.speed and proj1.hittimer == 0:
         tX, tY = proj1.enemy.xpos * 50, proj1.enemy.ypos * 50
         if proj1.realX > tX:
-            proj1.realXs = proj1.realX - 10
+            proj1.realX = proj1.realX - 10
         if proj1.realX < tX:
             proj1.realX = proj1.realX + 10
         if proj1.realY > tY:
