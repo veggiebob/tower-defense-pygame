@@ -1,6 +1,7 @@
 import abc, pygame
 from game.common.math import *
 
+
 class Cursor:
     DEFAULT = pygame.cursors.arrow
     HAND = pygame.cursors.diamond
@@ -12,6 +13,25 @@ class MouseButton:
     LEFT = 1
     MIDDLE = 2
 
+class Color:
+    REQ_ATTRS = ['r', 'g', 'b']
+    TYPE_ATTRS = {
+        'r': int,
+        'g': int,
+        'b': int
+    }
+    def __init__ (self, r=0.0, g=0.0, b=0.0):
+        self.r = r
+        self.g = g
+        self.b = b
+    def to_tuple (self):
+        return constrain(int(self.r), 0, 255), constrain(int(self.g), 0, 255), constrain(int(self.b), 0, 255)
+    def __mul__ (self, scale):
+        return Color(self.r * scale, self.g * scale, self.b * scale)
+    def __truediv__(self, scale):
+        return Color(self.r / scale, self.g / scale, self.b / scale)
+    def __str__ (self):
+        return '(r:%s, g:%s, b:%s)'%(self.r, self.g, self.b)
 
 class ColorState:
     # yaml
@@ -83,16 +103,35 @@ class UiEvent:
 
 
 class UiElement(abc.ABC):  # make it an abstract class
-    def __init__ (self, position: Vector, size: Vector):
+    REQ_ATTRS = ['name', 'tint']
+    TYPE_ATTRS = {
+        'position': Vector,
+        'size': Vector,
+        'tint': Color,
+        'onclick': str
+    }
+    def yaml_init (self):
+        try:
+            self.on_click_listener = eval(self.onclick)
+            print('set on click listener to %s'%self.onclick)
+        except: pass
+        try:
+            self.tint /= 255
+        except: pass
+    def __init__ (self, position=Vector(0,0), size=Vector(0,0), tint=Color()):
+        """Conventions:
+        on_click_listener is a lambda receiving self
+        """
         self.position = position
         self.size = size
+        self.tint = tint
         self.on_click_listener = None
         self.state = UiEvent()
         self.state_colors = {
-            UiEvent.ACTIVE: (100, 100, 100),
-            UiEvent.HOVER: (150, 150, 150),
-            UiEvent.CLICKED: (0, 0, 0),
-            'default': (255, 255, 255)
+            UiEvent.ACTIVE: Color(100, 100, 100),
+            UiEvent.HOVER: Color(150, 150, 150),
+            UiEvent.CLICKED: Color(0, 0, 0),
+            'default': Color(255, 255, 255)
         }
         self.state_cursors = {
             UiEvent.ACTIVE: Cursor.PRESS,
@@ -106,7 +145,7 @@ class UiElement(abc.ABC):  # make it an abstract class
     @abc.abstractmethod
     def draw_on_surface(self, surface: pygame.Surface): pass
 
-    def set_color (self, event_name: str, color):
+    def set_color (self, event_name: str, color): # todo: make this a tint
         self.state_colors[event_name] = color
 
     def set_state_colors (self, events_colors: dict):
@@ -115,12 +154,14 @@ class UiElement(abc.ABC):  # make it an abstract class
     def get_color (self):
         for k,v in self.state_colors.items():
             if self.check_state(k):
-                return v
+                return Color(v.r * self.tint.r, v.g * self.tint.g, v.b * self.tint.b)
+        return self.state_colors['default']
 
     def get_cursor (self):
         for k,v in self.state_cursors.items():
             if self.check_state(k):
                 return v
+        return self.state_cursors['default']
 
     def check_state (self, _property: str):
         return self.state.has(_property)
@@ -142,9 +183,15 @@ class UiElement(abc.ABC):  # make it an abstract class
         return self.position + self.size * 0.5
 
     def click (self):
+        print('clicked')
         if self.on_click_listener is not None:
-            self.on_click_listener()
+            print('ran on click listener')
+            self.on_click_listener(self)
 
     def set_on_click_listener (self, listener):
         self.on_click_listener = listener
 
+    def position_on_panel (self, panel) -> None:
+        self.position = Vector(panel.x, panel.y)
+        self.size = Vector(panel.width, panel.height)
+        self.state = UiEvent() # reset ui

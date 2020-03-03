@@ -1,6 +1,7 @@
 # Tower Defense Game
 ## YAML
-#### see [the YAML guide](yaml_reference.md)
+#### see [the YAML reference](yaml_reference.md) for info on how yaml works
+#### see [the YAML usage guide](yaml_usage.md) for info on how to use the `YAMLInstancer`
 ## Git protocol
 1. Get the latest master:
     * first, checkout to master: `git checkout master`
