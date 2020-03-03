@@ -203,5 +203,3 @@ class Path():
 
     def pathLength(self):
         return len(self.allPoints)
-
-tester = Environment()
