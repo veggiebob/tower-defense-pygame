@@ -1,0 +1,9 @@
+
+BasicEnemy:
+  health: 100
+  moveInterval: 5000
+  xpos: 9
+  ypos: 2
+  xpast: 9
+  ypast: 2
+  lastfire: 50
