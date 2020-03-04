@@ -9,6 +9,10 @@ class GUI:
         self.layout_manager = layout_manager
         self.needs_resize = True
         self.current_layout = layout_manager.getLayout()
+
+    def get_element(self, name: str):
+        return self.elements_handler.get_element(name)
+
     def change_layout(self, layout_name:str):
         self.layout_manager.setCurrentLayout(layout_name)
         self.needs_resize = True
