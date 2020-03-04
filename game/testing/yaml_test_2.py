@@ -1,7 +1,7 @@
 # this is a more detailed testing of yaml, hopefully with nested classes as anonymous instances
 from game.common.yaml_parsing import YAMLInstancer
 def print_all_attributes (obj):
-    return 'instance of %s: {\n%s\n}' % (obj.__, '\n'.join(["%s: %s" % (k, v) for k, v in vars(obj).items() if k!="__"]))
+    return 'instance of %s: {\n%s\n}' % (obj.__ if hasattr(obj, '__') else obj.__class__, '\n'.join(["%s: %s" % (k, v) for k, v in vars(obj).items() if k!="__"]))
 
 # open and read test yaml file
 test_yaml = open('./test_2.yaml').read()
