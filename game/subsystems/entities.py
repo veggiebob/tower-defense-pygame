@@ -39,10 +39,12 @@ class Tower():
 class Projectile():
     def __init__(self, x, y, target, damageAmt, projSpeed):
         self.xpos, self.ypos = x, y
+        self.setRealPos(self.xpos * 50, self.ypos * 50)
         self.enemy = target
         self.damage = damageAmt
         self.speed = projSpeed
         self.lastmove = 0
+        self.hittimer = 0
     def impact(self):
         self.enemy.takeDamage(self.damage)
     def setRealPos(self, rX, rY):
@@ -70,4 +72,4 @@ class Enemy:
 
 
     def __str__(self):
-        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed))
+        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.moveInterval))
