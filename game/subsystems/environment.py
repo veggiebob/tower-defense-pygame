@@ -208,9 +208,3 @@ class Path():
     def pathLength(self):
         return len(self.allPoints)
 
-
-import pygame, sys
-from game.subsystems.environment import *
-from pygame.locals import *
-
-pygame.init()
