@@ -1,3 +1,4 @@
+from game.subsystems.gameState import GameState
 from game.subsystems.ui.graphical_user_interface import GUI
 
 from game.common.math import Vector
