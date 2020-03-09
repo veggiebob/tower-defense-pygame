@@ -10,51 +10,6 @@ start_screen:
         width: 0.1
         height: 1.0
         inner_panels:
-          - Tower1a:
-              x: 0
-              y: 0
-              width: 1.0
-              height: 0.1
-              ui_button:
-                text: Tower1a
-                tint:
-                  r: 255
-                  g: 0
-                  b: 0
-                onclick: "lambda self: print('hello world. I am button %s'%(self.text))"
-          - Tower2a:
-              x: 0
-              y: 0.1
-              width: 1.0
-              height: 0.1
-              ui_button:
-                text: Tower 2
-                tint: {r: 0, g: 255, b: 0}
-                onclick: "lambda self: print('you clicked the tower 2a button')"
-          - Tower3a:
-              x: 0
-              y: 0.2
-              width: 1.0
-              height: 0.1
-              ui_button:
-                text: Tower 3a
-                tint: {r: 0, g: 255, b: 0}
-                onclick: "lambda self: print('you clicked the tower 3a button')"
-          - Tower4a:
-              x: 0
-              y: 0.3
-              width: 1.0
-              height: 0.1
-              ui_button:
-                text: Tower 4a
-                tint: {r: 0, g: 255, b: 0}
-                onclick: "lambda self: print('you clicked the tower 4aa button')"
-    - furthest_column:
-        x: 0.9
-        y: 0
-        width: 0.1
-        height: 1.0
-        inner_panels:
           - Tower1:
               x: 0
               y: 0
@@ -67,30 +22,75 @@ start_screen:
                   g: 0
                   b: 0
                 onclick: "lambda self: print('hello world. I am button %s'%(self.text))"
-          - Tower2:
+          - Tower3:
               x: 0
               y: 0.1
               width: 1.0
               height: 0.1
               ui_button:
-                text: Tower 2
+                text: Tower 3
                 tint: {r: 0, g: 255, b: 0}
-                onclick: "lambda self: print('you clicked the tower 2 button')"
-          - Tower3:
+                onclick: "lambda self: print('you clicked the tower 2a button')"
+          - Tower5:
               x: 0
               y: 0.2
               width: 1.0
               height: 0.1
               ui_button:
-                text: Tower 3
+                text: Tower 5
                 tint: {r: 0, g: 255, b: 0}
-                onclick: "lambda self: print('you clicked the tower 3 button')"
-          - Tower4:
+                onclick: "lambda self: print('you clicked the tower 3a button')"
+          - Tower7:
               x: 0
               y: 0.3
               width: 1.0
               height: 0.1
               ui_button:
+                text: Tower 7
+                tint: {r: 0, g: 255, b: 0}
+                onclick: "lambda self: print('you clicked the tower 4aa button')"
+    - furthest_column:
+        x: 0.9
+        y: 0
+        width: 0.1
+        height: 1.0
+        inner_panels:
+          - Tower2:
+              x: 0
+              y: 0
+              width: 1.0
+              height: 0.1
+              ui_button:
+                text: Tower 2
+                tint:
+                  r: 255
+                  g: 0
+                  b: 0
+                onclick: "lambda self: print('hello world. I am button %s'%(self.text))"
+          - Tower4:
+              x: 0
+              y: 0.1
+              width: 1.0
+              height: 0.1
+              ui_button:
                 text: Tower 4
+                tint: {r: 0, g: 255, b: 0}
+                onclick: "lambda self: print('you clicked the tower 2 button')"
+          - Tower6:
+              x: 0
+              y: 0.2
+              width: 1.0
+              height: 0.1
+              ui_button:
+                text: Tower 6
+                tint: {r: 0, g: 255, b: 0}
+                onclick: "lambda self: print('you clicked the tower 3 button')"
+          - Tower8:
+              x: 0
+              y: 0.3
+              width: 1.0
+              height: 0.1
+              ui_button:
+                text: Tower 8
                 tint: {r: 0, g: 255, b: 0}
                 onclick: "lambda self: print('you clicked the htower 4 button')"
