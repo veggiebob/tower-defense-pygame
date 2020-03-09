@@ -51,6 +51,35 @@ class GameState():
                     temp.fill(BROWN)
                 self.bgSurf.blit(temp, (50 * x, 50 * y))
 
+
+    def enemyAdd(self, enemy1):
+        self.baddies.append(enemy1)
+
+
+    def getEntitiesSurface(self):
+        global EnemyImage, TowerImage
+        surfaces = []
+        for enemy1 in self.baddies:
+            temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp.blit(EnemyImage, (enemy1.xpos * 50, enemy1.ypos * 50))
+            surfaces.append(temp)
+        for tower1 in self.towers:
+            temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp.blit(TowerImage, (tower1.xpos * 50, tower1.ypos * 50))
+            surfaces.append(temp)
+        projSurf = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+        for proj1 in self.projs:
+            temp = pygame.Surface((20, 20))
+            pygame.draw.circle(temp, GREEN, (10, 10), 10)
+            projSurf.blit(temp, (proj1.realX, proj1.realY))
+        surfaces.append(projSurf)
+        return surfaces
+
+
+    def towerAdd(self, tower1):
+        self.towers.append(tower1)
+
+
     def tick(self, dT):
         self.now += dT
 
