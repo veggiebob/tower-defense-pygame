@@ -11,7 +11,7 @@ BasicTower:
 SecondTower:
   range: 60
   fireSpeed: 1
-  xpos: 20
+  xpos: 1
   ypos: 4
   reloadSpeed: 700
   projDamage: 50
