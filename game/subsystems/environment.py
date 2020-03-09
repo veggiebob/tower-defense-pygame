@@ -34,11 +34,11 @@ class Environment():
                     self.board[j][i].changeEnd(True)
                 if array[i][j] == "S":
                     self.board[j][i].changeStart(True)
+        self.board[11][0].changeStart(True)
 
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
-        if self.adjacentPath(posX, posY):
-            self.board[posX][posY].changeTower(True)
+        return self.adjacentPath(posX, posY)
 
     # Determines if a tower can be placed in the specified position
     def adjacentPath(self, posX, posY):
@@ -80,6 +80,39 @@ class Environment():
             canGo.append(self.Point(tempX + 1, tempY))
         return canGo
 
+    def firstPath(self):
+        path = Path()
+        for i in range(0, len(self.board), 1):
+            for j in range(0, len(self.board[i]), 1):
+                if self.board[i][j].getStart() :
+                    path.addPoint(self.Point(i, j))
+
+        lastX, lastY, temp, endFound = path.returnPoint(0).getX(), path.returnPoint(0).getY(), [], False
+        nowX, nowY = lastX, lastY
+        self.pathes.append(path)
+
+        if lastX != 0:
+            if self.board[lastX - 1][lastY].getPath():
+                self.pathes[0].addPoint(self.Point(lastX - 1, lastY))
+        elif lastX != len(self.board):
+            if self.board[lastX + 1][lastY].getPath():
+                self.pathes[0].addPoint(self.Point(lastX + 1, lastY))
+        elif lastY != 0:
+            if self.board[lastX][lastY - 1].getPath():
+                self.pathes[0].addPoint(self.Point(lastX, lastY - 1))
+        elif lastY != len(self.board[lastX]):
+            if self.board[lastX][lastY + 1].getPath():
+                self.pathes[0].addPoint(self.Point(lastX, lastY + 1))
+
+        while not endFound:
+            nowX, nowY = self.pathes[0].returnPoint(self.pathes[0].pathLength() - 1).getX(), self.pathes[0].returnPoint(self.pathes[0].pathLength() - 1).getY()
+            lastX, lastY = self.pathes[0].returnPoint(self.pathes[0].pathLength() - 2).getX(), self.pathes[0].returnPoint(self.pathes[0].pathLength() - 2).getY()
+            temp = self.returnPlaces(nowX, nowY, lastX, lastY)
+            self.pathes[0].addPoint(temp[0])
+
+            if self.board[self.pathes[0].returnPoint(self.pathes[0].pathLength() - 1).getX()][self.pathes[0].returnPoint(self.pathes[0].pathLength() - 1).getY()].getEnd():
+                endFound = True
+
     # Creates the a list with all the path points
     def createPath(self):
         path, numPathes = Path(), 0
@@ -109,19 +142,21 @@ class Environment():
         while endsFound < len(self.pathes):
             pathesNum = len(self.pathes)
             for i in range(0, pathesNum, 1):
-                nowX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getX()
-                nowY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getY()
-                lastX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getX()
-                lastY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getY()
+                xOne, yOne = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getX(), self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getY()
+                if not self.board[xOne][yOne].getEnd() :
+                    nowX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getX()
+                    nowY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1).getY()
+                    lastX = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getX()
+                    lastY = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 2).getY()
 
-                temp = self.returnPlaces(nowX, nowY, lastX, lastY)
+                    temp = self.returnPlaces(nowX, nowY, lastX, lastY)
 
-                self.pathes[i].addPoint(temp[0])
+                    self.pathes[i].addPoint(temp[0])
 
-                if len(temp) > 1:
-                    for j in range(1, len(temp), 1):
-                        self.pathes.append(self.pathes[i])
-                        self.pathes[i + j].addPoint(temp[j])
+                    if len(temp) > 1:
+                        for j in range(1, len(temp), 1):
+                            self.pathes.append(self.pathes[i])
+                            self.pathes[i + j].addPoint(temp[j])
             endsFound = 0
             for i in range(0, len(self.pathes), 1):
                 tempPoint = self.pathes[i].returnPoint(self.pathes[i].pathLength() - 1)
@@ -132,8 +167,8 @@ class Environment():
 
     # Given a time, returns the position an enemy should be at
     def timeToPos(self, time, pathIndex):
-        tempPoint = self.pathes[pathIndex].returnPoint(time)
-        nextPoint = self.pathes[pathIndex].returnPoint(time + 1)
+        tempPoint = self.pathes[pathIndex].returnPoint(int(time))
+        nextPoint = self.pathes[pathIndex].returnPoint(int(time) + 1)
 
         returnX, returnY = tempPoint.getX(), tempPoint.getY()
 
@@ -207,4 +242,3 @@ class Path():
 
     def pathLength(self):
         return len(self.allPoints)
-
