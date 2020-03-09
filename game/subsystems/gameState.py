@@ -143,11 +143,19 @@ class GameState():
                 proj1.realY = proj1.realY + 10
             proj1.lastmove = self.now
 
+
+    def mouseToBoard(self, mX, mY):
+        return int((mX - (mX % 50)) / 50), int((mY - (mY % 50)) / 50)
+
     def towerChecks(self, tower1):
         timeDifference = self.now - tower1.lastfire
         if timeDifference >= tower1.reloadSpeed:
             self.projs.append(tower1.fire(self.baddies))
             tower1.lastfire = self.now
+
+    def towerHover(self, mousePos, mouseDown):
+        if mouseDown:
+
 
 
 
