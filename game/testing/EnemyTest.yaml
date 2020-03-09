@@ -6,6 +6,7 @@ BasicEnemy:
   xpast: 7
   ypast: 7
   lastmove: 0
+  money: 30
 
 
 MediumEnemy:
@@ -16,6 +17,7 @@ MediumEnemy:
   xpast: 7
   ypast: 7
   lastmove: 0
+  money: 30
 
 HardEnemy:
   health: 200
@@ -25,3 +27,4 @@ HardEnemy:
   xpast: 7
   ypast: 7
   lastmove: 0
+  money: 30
