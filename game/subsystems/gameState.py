@@ -88,6 +88,24 @@ class GameState():
 
         self.drawBG()
 
+        for proj1 in self.projs:
+            proj1.xpos, proj1.ypos = int(proj1.realX / 50), int(proj1.realY / 50)
+            target1 = proj1.enemy
+            ok = False
+            for alive in self.baddies:
+                ok = ok or alive == target1
+            if not ok:
+                self.projs.remove(proj1)
+            elif proj1.xpos == proj1.enemy.xpos and proj1.ypos == proj1.enemy.ypos:
+                proj1.impact()
+                proj1.damage = 0
+                proj1.hittimer += 1
+                if proj1.hittimer >= 9:
+                    self.projs.remove(proj1)
+                    print(proj1)
+            else:
+                self.projMove(proj1)
+
         for badGuy in self.baddies:
             self.enemyMove(badGuy)
 

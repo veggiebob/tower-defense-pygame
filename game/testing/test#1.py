@@ -84,9 +84,6 @@ def main():
                     print(proj1)
             else:
                 projMove(proj1)
-                temp = pygame.Surface((20, 20))
-                pygame.draw.circle(temp, GREEN, (10, 10), 10)
-                DISPLAYSURF.blit(temp, (proj1.realX, proj1.realY))
         pygame.display.update()
 
 def enemyMove(enemy1):
