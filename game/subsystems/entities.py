@@ -4,7 +4,7 @@ import pygame
 class Tower():
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
-    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed', 'lastfire']
+    REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed', 'lastfire', 'price']
 
     TYPE_ATTRS = {
         'range': int,
@@ -14,7 +14,8 @@ class Tower():
         'reloadSpeed': int,
         'projDamage': int,
         'projSpeed': int,
-        'lastfire': int
+        'lastfire': int,
+        'price': int
         #'image': pygame.Surface,
         #'rect': pygame.Rect
     }
@@ -39,10 +40,12 @@ class Tower():
 class Projectile():
     def __init__(self, x, y, target, damageAmt, projSpeed):
         self.xpos, self.ypos = x, y
+        self.setRealPos(self.xpos * 50, self.ypos * 50)
         self.enemy = target
         self.damage = damageAmt
         self.speed = projSpeed
         self.lastmove = 0
+        self.hittimer = 0
     def impact(self):
         self.enemy.takeDamage(self.damage)
     def setRealPos(self, rX, rY):
@@ -50,7 +53,7 @@ class Projectile():
 
 class Enemy:
     # position is a tuple in the format (x,y)
-    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast', 'lastmove']
+    REQ_ATTRS = ['health', 'moveInterval', 'xpos', 'ypos', 'xpast', 'ypast', 'lastmove', 'money']
     #Not sure what to call the next line
     TYPE_ATTRS = {
         "health" : int,
@@ -59,7 +62,8 @@ class Enemy:
         'ypos': int,
         'xpast': int,
         'ypast': int,
-        'lastmove': int
+        'lastmove': int,
+        'money': int
         #'image': pygame.Surface,
         #'rect' : pygame.rect
     }
@@ -70,4 +74,4 @@ class Enemy:
 
 
     def __str__(self):
-        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.speed))
+        return("Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.moveInterval))
