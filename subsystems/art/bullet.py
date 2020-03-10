@@ -1,6 +1,6 @@
 import pygame,math
 from pygame.locals import *
-class Bullet(pygame.sprite.Sprite):
+class Bullet():
     def __init__(self,imageName):
         self.image = pygame.transform.scale(pygame.image.load("%s.jpg" %imageName), (40,40))
         self.altImage = pygame.transform.scale(pygame.image.load("%s.jpg" %imageName), (40,40))
