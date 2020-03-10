@@ -2,9 +2,9 @@ BasicEnemy:
   health: 100
   moveInterval: 250
   xpos: 5
-  ypos: 6
-  xpast: 7
-  ypast: 7
+  ypos: 8
+  xpast: 5
+  ypast: 9
   lastmove: 0
   money: 30
 
@@ -13,9 +13,9 @@ MediumEnemy:
   health: 150
   moveInterval: 200
   xpos: 5
-  ypos: 6
-  xpast: 7
-  ypast: 7
+  ypos: 7
+  xpast: 5
+  ypast: 8
   lastmove: 0
   money: 30
 
@@ -23,8 +23,8 @@ HardEnemy:
   health: 200
   moveInterval: 100
   xpos: 5
-  ypos: 6
-  xpast: 7
-  ypast: 7
+  ypos: 7
+  xpast: 5
+  ypast: 8
   lastmove: 0
   money: 30

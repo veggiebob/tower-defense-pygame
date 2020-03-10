@@ -5,12 +5,13 @@ from game.subsystems.ui.layout.layout import Layout
 from game.subsystems.ui.layout.layoutmanager import LayoutManager
 from game.subsystems.ui.layout.panel import Panel
 from game.common.text import Text
+from game.subsystems.gameState import *
 import pygame, sys
 from game.subsystems.ui.ui_handler import ElementsHandler
 
 pygame.init()
 Text.DEFAULT_TEXT = Text("../common/verdana.ttf")
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 1000, 1000
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 
 yaml_layout = open("Shoptest.yaml").read() # start menu layout
@@ -25,10 +26,22 @@ elements_handler = ElementsHandler.from_panel_list(screen_panels)
 print('all elements: %s'%elements_handler.get_elements())
 gui = GUI(elements_handler, layout_manager)
 
+daGame = GameState("TestMap2.txt")
+
 # update / handle exiting
 mouse_position = Vector(0, 0)
 mouse_down = False
 mouse_pressed = False
+
+test_yaml = open('./EnemyTest.yaml').read()
+baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+towertest_yaml = open('./basictower.yaml').read()
+tower1 = YAMLInstancer.get_multiple(towertest_yaml, Tower)
+for enemyStr in baddiesStr:
+    daGame.enemyAdd(enemyStr)
+for towerStr in tower1:
+    daGame.towerAdd(towerStr)
+
 while True:
     mouse_pressed = False
     for e in pygame.event.get():
@@ -43,6 +56,7 @@ while True:
             pygame.quit()
             sys.exit()
     DISPLAY.fill((100, 100, 255))
+    DISPLAY.blit(daGame.bgSurf, (0,0))
     gui.update(mouse_position, mouse_down, mouse_pressed)
     gui.draw_to_surface(DISPLAY)
     pygame.display.update()

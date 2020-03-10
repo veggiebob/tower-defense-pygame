@@ -12,7 +12,7 @@ class Environment():
     def readFile(self, whatLevel):
         level = []
         if whatLevel == 0:
-            levelOne = open('../../config/maps/testMap.txt')
+            levelOne = open('../../config/maps/TestMap2.txt')
 
             for line in levelOne:
                 level.append(line.rstrip().split(' '))
