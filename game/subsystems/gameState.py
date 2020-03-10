@@ -37,6 +37,9 @@ class GameState():
         #Drawing the background surface
         self.drawBG()
 
+        self.towerHoverImage = pygame.Surface((50, 50))
+        self.towerHoverX, self.towerHoverY = 0, 0
+
 
     def drawBG(self):
         for x in range(len(self.gameEnv.board)):
@@ -50,6 +53,8 @@ class GameState():
                 else:
                     temp.fill(BROWN)
                 self.bgSurf.blit(temp, (50 * x, 50 * y))
+        if self.hovering:
+            self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
 
 
     def enemyAdd(self, enemy1):
@@ -143,11 +148,26 @@ class GameState():
                 proj1.realY = proj1.realY + 10
             proj1.lastmove = self.now
 
+
+    def mouseToBoard(self, mX, mY):
+        return int((mX - (mX % 50)) / 50), int((mY - (mY % 50)) / 50)
+
     def towerChecks(self, tower1):
         timeDifference = self.now - tower1.lastfire
         if timeDifference >= tower1.reloadSpeed:
             self.projs.append(tower1.fire(self.baddies))
             tower1.lastfire = self.now
+
+
+    def changeTowerHover(self, newTowerImage):
+        self.towerHoverImage = newTowerImage
+
+
+    def towerHover(self, mousePos, mouseDown):
+        if mouseDown:
+            self.hovering = True
+            self.towerHoverX, self.towerHoverY = self.mouseToBoard(mousePos[0], mousePos[1])
+
 
 
 
