@@ -38,6 +38,7 @@ class GameState():
         self.drawBG()
 
         self.towerHoverImage = pygame.Surface((50, 50))
+        self.towerHoverX, self.towerHoverY = 0, 0
 
 
     def drawBG(self):
@@ -52,6 +53,8 @@ class GameState():
                 else:
                     temp.fill(BROWN)
                 self.bgSurf.blit(temp, (50 * x, 50 * y))
+        if self.hovering:
+            self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
 
 
     def enemyAdd(self, enemy1):
@@ -162,7 +165,8 @@ class GameState():
 
     def towerHover(self, mousePos, mouseDown):
         if mouseDown:
-            self.bgSurf.blit(self.towerHoverImage, self.mouseToBoard(mousePos[0], mousePos[1]))
+            self.hovering = True
+            self.towerHoverX, self.towerHoverY = self.mouseToBoard(mousePos[0], mousePos[1])
 
 
 
