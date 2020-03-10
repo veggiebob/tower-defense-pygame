@@ -7,6 +7,7 @@ BasicTower:
   projDamage: 50
   projSpeed : 20
   lastfire: 0
+  price: 100
 
 SecondTower:
   range: 60
@@ -17,3 +18,4 @@ SecondTower:
   projDamage: 50
   projSpeed : 20
   lastfire: 0
+  price: 100
