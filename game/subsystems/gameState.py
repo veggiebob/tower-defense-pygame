@@ -37,6 +37,8 @@ class GameState():
         #Drawing the background surface
         self.drawBG()
 
+        self.towerHoverImage = pygame.Surface((50, 50))
+
 
     def drawBG(self):
         for x in range(len(self.gameEnv.board)):
@@ -153,8 +155,14 @@ class GameState():
             self.projs.append(tower1.fire(self.baddies))
             tower1.lastfire = self.now
 
+
+    def changeTowerHover(self, newTowerImage):
+        self.towerHoverImage = newTowerImage
+
+
     def towerHover(self, mousePos, mouseDown):
         if mouseDown:
+            self.bgSurf.blit(self.towerHoverImage, self.mouseToBoard(mousePos[0], mousePos[1]))
 
 
 
