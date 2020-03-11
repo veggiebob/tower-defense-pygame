@@ -33,16 +33,17 @@ mouse_position = Vector(0, 0)
 mouse_down = False
 mouse_pressed = False
 
-test_yaml = open('./EnemyTest.yaml').read()
+test_yaml = open('./enemy2.yaml').read()
 baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
-towertest_yaml = open('./basictower.yaml').read()
+towertest_yaml = open('./Tower2.yaml').read()
 tower1 = YAMLInstancer.get_multiple(towertest_yaml, Tower)
-for enemyStr in baddiesStr:
-    daGame.enemyAdd(enemyStr)
-for towerStr in tower1:
-    daGame.towerAdd(towerStr)
-
+for enemyStr, v in baddiesStr.items():
+    daGame.enemyAdd(v)
+for towerStr, v in tower1.items():
+    daGame.towerAdd(v)
+fps = 30
 while True:
+    clock = pygame.time.Clock()
     mouse_pressed = False
     for e in pygame.event.get():
         if e.type == pygame.MOUSEMOTION:
@@ -55,8 +56,13 @@ while True:
         elif e.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    clock.tick(30)
+    daGame.tick(30)
     DISPLAY.fill((100, 100, 255))
     DISPLAY.blit(daGame.bgSurf, (0,0))
+    surfaces = daGame.getEntitiesSurface()
+    for each in surfaces:
+        DISPLAY.blit(each, (0, 0))
     gui.update(mouse_position, mouse_down, mouse_pressed)
     gui.draw_to_surface(DISPLAY)
     pygame.display.update()
