@@ -56,7 +56,7 @@ class Testing ():
 
 def main():
     envirTest = Testing()
-    #envirTest.timeTest()
+    # envirTest.timeTest()
     timer = pygame.time
     holdX, holdY = envirTest.test.pathes[0].returnPoint().getX(), envirTest.test.pathes[0].returnPoint().getY()
     while True:
