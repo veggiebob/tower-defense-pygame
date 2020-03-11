@@ -9,13 +9,13 @@ class LayoutManager:
     def makeLayout (self, name):
         self.layouts[name] = Layout(name)
 
-    def getLayout (self, name=None):
+    def getLayout (self, name=None) -> Layout:
         if name is None:
             name = self.current_layout
         try:
             return self.layouts[name]
         except:
-            return None
+            return self.current_layout
 
     def setCurrentLayout (self, name):
         self.current_layout = name

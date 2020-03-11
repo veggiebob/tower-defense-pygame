@@ -126,6 +126,7 @@ class UiElement(abc.ABC):  # make it an abstract class
         self.size = size
         self.tint = tint
         self.on_click_listener = None
+        self.click_args = None # optional arguments supplied as **kwargs to click listener, but this variable is a dict
         self.state = UiEvent()
         self.state_colors = {
             UiEvent.ACTIVE: Color(100, 100, 100),
@@ -186,7 +187,13 @@ class UiElement(abc.ABC):  # make it an abstract class
         print('clicked')
         if self.on_click_listener is not None:
             print('ran on click listener')
-            self.on_click_listener(self)
+            if self.click_args is None:
+                self.on_click_listener(self)
+            else:
+                self.on_click_listener(self, **self.click_args)
+
+    def set_click_args (self, args: dict):
+        self.click_args = args
 
     def set_on_click_listener (self, listener):
         self.on_click_listener = listener
