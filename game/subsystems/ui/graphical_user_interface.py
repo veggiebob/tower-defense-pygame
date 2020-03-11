@@ -15,6 +15,7 @@ class GUI:
 
     def change_layout(self, layout_name:str):
         self.layout_manager.setCurrentLayout(layout_name)
+        self.current_layout = self.layout_manager.getLayout()
         self.needs_resize = True
     def update (self, mouse_position, mouse_down, mouse_press):
         if self.needs_resize:

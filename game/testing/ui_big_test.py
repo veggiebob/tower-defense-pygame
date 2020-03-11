@@ -18,12 +18,14 @@ panel_layouts = YAMLInstancer.get_multiple(yaml_layout, Panel, debug=False)
 layout_manager = LayoutManager()
 for panel_name, panel_layout in panel_layouts.items():
     layout = Layout.layoutFromPanel(panel_layout)
-    layout_manager.addLayout(layout, panel_name, set_current=True)
-
+    layout_manager.addLayout(layout, panel_name)
+layout_manager.setCurrentLayout('game_screen')
+layout = layout_manager.getLayout('game_screen')
 screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT))
 elements_handler = ElementsHandler.from_panel_list(screen_panels)
 print('all elements: %s'%elements_handler.get_elements())
 gui = GUI(elements_handler, layout_manager)
+# gui.change_layout('game_screen')
 
 # update / handle exiting
 mouse_position = Vector(0, 0)
@@ -44,5 +46,5 @@ while True:
             sys.exit()
     DISPLAY.fill((100, 100, 100))
     gui.update(mouse_position, mouse_down, mouse_pressed)
-    gui.draw_to_surface(DISPLAY)
+    gui.draw_to_surface(DISPLAY, draw_panel_borders=True)
     pygame.display.update()

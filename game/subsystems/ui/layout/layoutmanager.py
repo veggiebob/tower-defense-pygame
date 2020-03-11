@@ -19,10 +19,12 @@ class LayoutManager:
 
     def setCurrentLayout (self, name):
         self.current_layout = name
+        if not name in self.layouts.keys():
+            raise Exception("%s is not a layout name. The layout names are: %s"%(name, '[' + ', '.join(self.layouts.keys()) + ']'))
 
-    def addLayout (self, layout: Layout, name=None, set_current=False):
+    def addLayout (self, layout: Layout, name=None):
         if name is None:
             name = layout.name
         self.layouts[name] = layout
-        if set_current:
-            self.setCurrentLayout(name)
+        # if set_current:
+        #     self.setCurrentLayout(name) # cannot set_current because you need the gui to change layouts properly

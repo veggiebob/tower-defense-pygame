@@ -31,3 +31,37 @@ start_screen:
                 text: help
                 tint: {r: 0, g: 255, b: 0}
                 onclick: "lambda self: print('you clicked the help button')"
+
+game_screen:
+  x: 0
+  y: 0
+  width: 1
+  height: 1
+  inner_panels:
+    - game_area:
+        x: 0
+        y: 0
+        width: 0.8 # WIDTH OF GAME SCREEN
+        height: 1.0
+    - other:
+        x: 0.8 #
+        y: 0
+        width: 0.2 #
+        height: 1.0
+        inner_panels:
+          - tower_scroller:
+              x: 0
+              y: 0
+              width: 1.0
+              height: 0.9 # HEIGHT OF TOWER SCROLLER
+          - money_counter:
+              x: 0
+              y: 0.9 #
+              width: 1.0
+              height: 0.1 #
+              ui_button:
+                text: hello_world
+                tint:
+                  r: 255
+                  g: 255
+                  b: 255

@@ -33,31 +33,31 @@ class Color:
     def __str__ (self):
         return '(r:%s, g:%s, b:%s)'%(self.r, self.g, self.b)
 
-class ColorState:
-    # yaml
-    DEFAULT_ATTRS = {
-        'OFF': (200, 200, 200),
-        'HOVERING': (100, 100, 100),
-        'ACTIVE': (200, 150, 150)
-    }
-
-    def __init__(self, off, hovering, active):
-        self.off = off
-        self.hovering = hovering
-        self.active = active
-
-    # if not defined, set these
-    def may_set_defaults(self):
-        if self.off is None: self.off = ColorState.DEFAULT_ATTRS['OFF']
-        if self.hovering is None: self.hovering = ColorState.DEFAULT_ATTRS['HOVERING']
-        if self.active is None: self.active = ColorState.DEFAULT_ATTRS['ACTIVE']
-
-    # force set to default
-    def set_defaults(self):
-        self.off = None
-        self.hovering = None
-        self.active = None
-        self.may_set_defaults()
+# class ColorState:
+#     # yaml
+#     DEFAULT_ATTRS = {
+#         'OFF': (200, 200, 200),
+#         'HOVERING': (100, 100, 100),
+#         'ACTIVE': (200, 150, 150)
+#     }
+#
+#     def __init__(self, off, hovering, active):
+#         self.off = off
+#         self.hovering = hovering
+#         self.active = active
+#
+#     # if not defined, set these
+#     def may_set_defaults(self):
+#         if self.off is None: self.off = ColorState.DEFAULT_ATTRS['OFF']
+#         if self.hovering is None: self.hovering = ColorState.DEFAULT_ATTRS['HOVERING']
+#         if self.active is None: self.active = ColorState.DEFAULT_ATTRS['ACTIVE']
+#
+#     # force set to default
+#     def set_defaults(self):
+#         self.off = None
+#         self.hovering = None
+#         self.active = None
+#         self.may_set_defaults()
 
 
 class UiEvent:
@@ -195,3 +195,6 @@ class UiElement(abc.ABC):  # make it an abstract class
         self.position = Vector(panel.x, panel.y)
         self.size = Vector(panel.width, panel.height)
         self.state = UiEvent() # reset ui
+
+    def __str__ (self):
+        return '<UiElement -> position %s, size %s, tint %s>'%(self.position, self.size, self.tint)

@@ -1,4 +1,4 @@
-from game.subsystems.ui.elements.ui_elements import UiElement, Vector
+from game.subsystems.ui.elements.ui_elements import UiElement, Vector, Color
 from game.common.text import Text
 import pygame
 
@@ -7,7 +7,7 @@ class TextView(UiElement):
     TYPE_ATTRS = {k[0]:k[1] for k in (list(UiElement.TYPE_ATTRS.items()) + list({
         'text': str
     }.items()))} # adding two dictionaries together
-    def __init__(self, position=Vector(), size=Vector(), text=Vector(), tint=(1,1,1)):
+    def __init__(self, position=Vector(), size=Vector(), text=Vector(), tint=Color(1,1,1)):
         UiElement.__init__(self, position, size, tint)
         self.text = text
     def draw(self) -> pygame.Surface:
@@ -21,5 +21,5 @@ class TextView(UiElement):
 class Button(TextView): # inheritance gang
     REQ_ATTRS = TextView.REQ_ATTRS
     TYPE_ATTRS = TextView.TYPE_ATTRS
-    def __init__(self, position=Vector(), size=Vector(), text="", tint=(1,1,1)):
+    def __init__(self, position=Vector(), size=Vector(), text="", tint=Color(1,1,1)):
         TextView.__init__(self, position, size, text, tint)
