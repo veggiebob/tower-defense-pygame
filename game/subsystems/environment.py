@@ -5,8 +5,10 @@ class Environment():
     def __init__(self):
         self.board = []
         self.pathes = []
+        self.enemies = []
         self.readFile(0)
         self.createPath()
+        self.addEnemy()
 
     # Opens the map and puts it as the board
     def readFile(self, whatLevel):
@@ -23,6 +25,11 @@ class Environment():
 
         self.createBoard(level)
 
+    def addEnemy(self):
+        self.enemies.append(EnemyPath())
+        tempIndex = self.random.randrange(0, len(self.pathes), 1)
+        self.enemies[len(self.enemies) - 1].changeIndex(tempIndex)
+
     # Puts the map into the board array
     def createBoard(self, array):
         for i in range(0, len(array), 1):
@@ -34,7 +41,6 @@ class Environment():
                     self.board[j][i].changeEnd(True)
                 if array[i][j] == "S":
                     self.board[j][i].changeStart(True)
-        self.board[11][0].changeStart(True)
 
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
@@ -166,9 +172,9 @@ class Environment():
             counter += 1
 
     # Given a time, returns the position an enemy should be at
-    def timeToPos(self, time, pathIndex):
-        tempPoint = self.pathes[pathIndex].returnPoint(int(time))
-        nextPoint = self.pathes[pathIndex].returnPoint(int(time) + 1)
+    def timeToPos(self, time, enemyIndex):
+        tempPoint = self.pathes[self.enemies[enemyIndex].getIndex()].returnPoint(int(time))
+        nextPoint = self.pathes[self.enemies[enemyIndex].getIndex()].returnPoint(int(time) + 1)
 
         returnX, returnY = tempPoint.getX(), tempPoint.getY()
 
@@ -242,3 +248,15 @@ class Path():
 
     def pathLength(self):
         return len(self.allPoints)
+
+class EnemyPath():
+    from game.subsystems.entities import Enemy
+    def __init__(self):
+        self.entityHolder = self.Enemy()
+        self.index = 0
+
+    def changeIndex(self, newIndex):
+        self.index = newIndex
+
+    def getIndex(self):
+        return self.index
