@@ -28,6 +28,8 @@ class GameState():
         #In-class time interval tracker
         self.now = 0
 
+        self.hovering = 0
+
         #Class environment object
         self.gameEnv = Environment()
 
@@ -66,15 +68,23 @@ class GameState():
         surfaces = []
         for enemy1 in self.baddies:
             temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp = temp.convert_alpha()
+            temp.fill((0, 0, 0, 0))
             temp.blit(EnemyImage, (enemy1.xpos * 50, enemy1.ypos * 50))
             surfaces.append(temp)
         for tower1 in self.towers:
             temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp = temp.convert_alpha()
+            temp.fill((0, 0, 0, 0))
             temp.blit(TowerImage, (tower1.xpos * 50, tower1.ypos * 50))
             surfaces.append(temp)
         projSurf = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+        projSurf = projSurf.convert_alpha()
+        projSurf.fill((0, 0, 0, 0))
         for proj1 in self.projs:
             temp = pygame.Surface((20, 20))
+            temp = temp.convert_alpha()
+            temp.fill((0, 0, 0, 0))
             pygame.draw.circle(temp, GREEN, (10, 10), 10)
             projSurf.blit(temp, (proj1.realX, proj1.realY))
         surfaces.append(projSurf)
