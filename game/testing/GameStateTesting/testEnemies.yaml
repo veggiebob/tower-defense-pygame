@@ -1,0 +1,9 @@
+Bill:
+  health: 100
+  moveInterval: 45
+  xpos: 0
+  ypos: 0
+  xpast: 0
+  ypast: 0
+  lastmove: 0
+  money: 40
