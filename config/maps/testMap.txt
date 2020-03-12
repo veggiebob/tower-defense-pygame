@@ -1,5 +1,5 @@
 N N N N N N N N N N N N N N N N N N N
-N N N N N P P P P P P P P P N N N N N
+N N N N N P P P P P S P P P N N N N N
 N N N N N P N N N N N N N P P P P P N
 N N N N N P P P P P P N N N N N N P N
 N N N N N N N N N N P N N N N N N P N
@@ -7,6 +7,6 @@ N N P P P P P P N N P N N N N N N P N
 N N P N N N N P P P P N N N N N N P N
 N N P P P P N N N N N N N N N N N P N
 N N N N N P N N N N N N N N N N N P N
-N N N N N P N N N N N N N N N N N P N
+N N N N N E N N N N N N N N N N N P N
 N N N N N N N N N N N N N N N N N E N
 N N N N N N N N N N N N N N N N N N N
