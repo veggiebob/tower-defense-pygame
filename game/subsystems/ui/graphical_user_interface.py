@@ -1,3 +1,4 @@
+from game.subsystems.ui.elements.ui_elements import UiElement
 from game.subsystems.ui.layout.layoutmanager import LayoutManager
 from game.subsystems.ui.layout.panel import Panel
 from ..ui.ui_handler import ElementsHandler
@@ -9,6 +10,11 @@ class GUI:
         self.layout_manager = layout_manager
         self.needs_resize = True
         self.current_layout = layout_manager.getLayout()
+
+    def get_element(self, name: str) -> UiElement:
+        return self.elements_handler.get_element(name)
+    def get_panel(self, name: str) -> Panel:
+        return self.layout_manager.getLayout().getPanel(name)
     def change_layout(self, layout_name:str):
         self.layout_manager.setCurrentLayout(layout_name)
         self.needs_resize = True
