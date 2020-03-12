@@ -8,6 +8,7 @@ class Environment():
         self.enemies = []
         self.readFile(0)
         self.createPath()
+        self.addEnemy()
 
     # Opens the map and puts it as the board
     def readFile(self, whatLevel):
@@ -172,8 +173,8 @@ class Environment():
 
     # Given a time, returns the position an enemy should be at
     def timeToPos(self, time, enemyIndex):
-        tempPoint = self.pathes[self.enemies[enemyIndex].returnIndex()].returnPoint(int(time))
-        nextPoint = self.pathes[self.enemies[enemyIndex].returnIndex()].returnPoint(int(time) + 1)
+        tempPoint = self.pathes[self.enemies[enemyIndex].getIndex()].returnPoint(int(time))
+        nextPoint = self.pathes[self.enemies[enemyIndex].getIndex()].returnPoint(int(time) + 1)
 
         returnX, returnY = tempPoint.getX(), tempPoint.getY()
 
