@@ -19,12 +19,3 @@ MediumEnemy:
   lastmove: 0
   money: 30
 
-HardEnemy:
-  health: 200
-  moveInterval: 250
-  xpos: 2
-  ypos: 8
-  xpast: 2
-  ypast: 9
-  lastmove: 0
-  money: 30
