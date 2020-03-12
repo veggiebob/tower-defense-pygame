@@ -37,7 +37,7 @@ class Layout:
             index += 1
         return -1
 
-    def getPanel(self, name):
+    def getPanel(self, name) -> Panel:
         return self.panels[self.getPanelId(name)]
 
     def getPanelsOnRect(self, rect): # returns same list of panels, with position + size parameters changed to fit this layout
