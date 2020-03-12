@@ -1,0 +1,21 @@
+BasicTower:
+  range: 60
+  fireSpeed: 1
+  xpos: 3
+  ypos: 6
+  reloadSpeed: 700
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100
+
+SecondTower:
+  range: 60
+  fireSpeed: 1
+  xpos: 8
+  ypos: 6
+  reloadSpeed: 700
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100
