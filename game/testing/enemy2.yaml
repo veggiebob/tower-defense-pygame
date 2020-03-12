@@ -1,0 +1,21 @@
+BasicEnemy:
+  health: 100
+  moveInterval: 200
+  xpos: 2
+  ypos: 10
+  xpast: 2
+  ypast: 11
+  lastmove: 0
+  money: 30
+
+
+MediumEnemy:
+  health: 150
+  moveInterval: 250
+  xpos: 2
+  ypos: 9
+  xpast: 2
+  ypast: 10
+  lastmove: 0
+  money: 30
+
