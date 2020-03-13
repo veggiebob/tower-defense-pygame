@@ -1,3 +1,5 @@
+import copy
+
 import pygame, sys
 
 from game.common.math import Vector
@@ -131,7 +133,7 @@ class GameState():
                         print('did not place tower %s, %s'%(self.towerHoverX, self.towerHoverY))
                     self.holdingTower.xpos = self.towerHoverX
                     self.holdingTower.ypos = self.towerHoverY
-                    self.towerAdd(self.holdingTower)
+                    self.towerAdd(copy.deepcopy(self.holdingTower))
                 except: pass
                 self.drawBG()
             self.holdingTower = None
@@ -166,8 +168,8 @@ class GameState():
             self.enemyMove(badGuy)
 
             if badGuy.health <= 0:
-                self.baddies.remove(badGuy)
                 self.gameEnv.board[badGuy.xpos][badGuy.ypos].hasEnemy = False
+                self.baddies.remove(badGuy)
 
 
 

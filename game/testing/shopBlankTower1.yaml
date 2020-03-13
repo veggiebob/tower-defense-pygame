@@ -8,3 +8,33 @@ BasicTower:
   projSpeed : 20
   lastfire: 0
   price: 100
+BasicTower1:
+  range: 60
+  fireSpeed: 1
+  xpos: 0
+  ypos: 0
+  reloadSpeed: 500
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100
+BasicTower2:
+  range: 60
+  fireSpeed: 1
+  xpos: 0
+  ypos: 0
+  reloadSpeed: 300
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100
+BasicTower3:
+  range: 60
+  fireSpeed: 1
+  xpos: 0
+  ypos: 0
+  reloadSpeed: 100
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100

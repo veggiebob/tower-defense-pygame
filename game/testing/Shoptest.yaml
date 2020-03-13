@@ -14,6 +14,14 @@ start_screen:
           orientation: vertical
           elements:
             - tower1:
-                text: tower1
-                onclick: |
-                  lambda a: print('I am %s'%a.name)
+                text: basicTower
+                onclick: ""
+            - tower2:
+                text: basicTower1
+                onclick: ""
+            - tower3:
+                text: basicTower2
+                onclick: ""
+            - tower4:
+                text: basicTower3
+                name: "yeet"
