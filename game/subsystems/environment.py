@@ -1,3 +1,6 @@
+from game.subsystems.entities import Enemy
+
+
 class Environment():
     import pygame, sys, random
     from game.common.math import Point
@@ -75,15 +78,22 @@ class Environment():
 
     def returnPlaces(self, posX, posY, pastX, pastY):
         tempX, tempY, canGo = posX, posY, []
-
-        if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
-            canGo.append(self.Point(tempX, tempY - 1))
-        if tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
-            canGo.append(self.Point(tempX, tempY + 1))
-        if tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
-            canGo.append(self.Point(tempX - 1, tempY))
-        if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
-            canGo.append(self.Point(tempX + 1, tempY))
+        try:
+            if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
+                canGo.append(self.Point(tempX, tempY - 1))
+        except: pass
+        try:
+            if tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
+                canGo.append(self.Point(tempX, tempY + 1))
+        except: pass
+        try:
+            if tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
+                canGo.append(self.Point(tempX - 1, tempY))
+        except: pass
+        try:
+            if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
+                canGo.append(self.Point(tempX + 1, tempY))
+        except: pass
         return canGo
 
     def firstPath(self):
@@ -126,7 +136,7 @@ class Environment():
             for j in range(0, len(self.board[i]), 1):
                 if self.board[i][j].getStart():
                     path.addPoint(self.Point(i, j))
-
+        print(path.allPoints)
         lastX, lastY, temp, endsFound = path.returnPoint(0).getX(), path.returnPoint(0).getY(), [], 0
         nowX, nowY = lastX, lastY
         self.pathes.append(path)

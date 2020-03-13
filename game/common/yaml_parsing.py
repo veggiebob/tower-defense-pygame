@@ -181,6 +181,8 @@ class YAMLInstancer:
     @staticmethod
     def get_single (yaml_string:str, inferred_type=None, debug=False):
         d = YAMLInstancer.get_dict(yaml_string)
+        if debug:
+            print('yaml dict: %s'%d)
         name = list(d.items())[0][0]
         o = YAMLInstancer.get_object(name, d[name], inferred_type, debug)
         return o
@@ -190,6 +192,8 @@ class YAMLInstancer:
         if yaml_string.strip() == '':
             return None
         d = YAMLInstancer.get_dict(yaml_string)
+        if debug:
+            print('yaml dict: %s'%d)
         objects = {}
         for k,v in d.items():
             objects[k] = YAMLInstancer.get_object(k, v, inferred_type, debug)

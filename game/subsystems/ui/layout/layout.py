@@ -6,7 +6,7 @@ class Layout:
     Layout contains a 1-D list of panels
     and ElementsHandler
     """
-    #todo: this class contains an ElementsHandler -- because elements are specific to layouts
+    #ELEMENTS ARE SPECIFIC TO LAYOUTS
     @staticmethod
     def layoutFromPanel(panel: Panel):
         all_panels = panel.get_all_inner()

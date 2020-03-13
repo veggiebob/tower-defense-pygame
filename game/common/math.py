@@ -10,6 +10,9 @@ class Point():
     def getY(self):
         return self.posY
 
+    def __str__ (self):
+        return "(%s, %s)"%(self.posX, self.posY)
+
 get_num_digits = lambda d: math.floor(math.log(d, 10))+1
 mix = lambda a, b, t: (b-a)*t + a
 unmix = lambda v, a, b: (v-a)/(b-a)

@@ -15,8 +15,6 @@ class TextView(UiElement):
         pygame.draw.rect(surf, self.get_color().to_tuple(), (0, 0) + self.size.to_tuple(), 0)
         Text.DEFAULT_TEXT.draw_to_surface(surf, (self.size * 0.5).to_tuple(), self.text, 20, (0, 0, 0))
         return surf
-    def draw_on_surface(self, surface: pygame.Surface) -> None:
-        surface.blit(self.draw(), self.position.to_tuple())
 
 class Button(TextView): # inheritance gang
     REQ_ATTRS = TextView.REQ_ATTRS

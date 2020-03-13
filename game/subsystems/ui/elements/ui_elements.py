@@ -24,6 +24,13 @@ class Color:
         self.r = r
         self.g = g
         self.b = b
+    @staticmethod
+    def read (potential_color):
+        p = potential_color
+        if type(p) == tuple:
+            return Color(p[0], p[1], p[2])
+        elif type(p) == Color:
+            return Color(p.r, p.g, p.b)
     def to_tuple (self):
         return constrain(int(self.r), 0, 255), constrain(int(self.g), 0, 255), constrain(int(self.b), 0, 255)
     def __mul__ (self, scale):
@@ -143,19 +150,22 @@ class UiElement(abc.ABC):  # make it an abstract class
     @abc.abstractmethod
     def draw (self) -> pygame.Surface: pass
 
-    @abc.abstractmethod
-    def draw_on_surface(self, surface: pygame.Surface): pass
+    def draw_on_surface(self, surface: pygame.Surface):
+        surface.blit(self.draw(), self.position.to_tuple())
 
-    def set_color (self, event_name: str, color): # todo: make this a tint
+    def set_color (self, event_name: str, color: Color):
         self.state_colors[event_name] = color
 
     def set_state_colors (self, events_colors: dict):
         self.state_colors = events_colors
 
     def get_color (self):
-        for k,v in self.state_colors.items():
+        for k,vv in self.state_colors.items():
             if self.check_state(k):
-                return Color(v.r * self.tint.r, v.g * self.tint.g, v.b * self.tint.b)
+                v = Color.read(vv)
+                t = Color.read(self.tint)
+                # print('colors: %s, %s'%(v, self.tint))
+                return Color(v.r * t.r, v.g * t.g, v.b * t.b)
         return self.state_colors['default']
 
     def get_cursor (self):
@@ -188,8 +198,10 @@ class UiElement(abc.ABC):  # make it an abstract class
         if self.on_click_listener is not None:
             print('ran on click listener')
             if self.click_args is None:
+                print('ran without args')
                 self.on_click_listener(self)
             else:
+                print('ran with args %s'%self.click_args)
                 self.on_click_listener(self, **self.click_args)
 
     def set_click_args (self, args: dict):

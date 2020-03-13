@@ -6,7 +6,7 @@ class ElementsHandler:
     @staticmethod
     def from_panel_list (panels:list) -> 'ElementsHandler':
         elements = []
-        for p in panels:
+        for p in panels: # todo: this code is sooo bad ;(
             try:
                 elements.append(p.ui_button)
                 print('added ui button! %s'%p.ui_button)
@@ -14,6 +14,10 @@ class ElementsHandler:
             try:
                 elements.append(p.ui_text)
                 print('added ui text! %s'%p.ui_text)
+            except: pass
+            try:
+                elements.append(p.ui_linear)
+                print('added ui linear! %s'%p.ui_linear)
             except: pass
         return ElementsHandler(panels, elements)
 
