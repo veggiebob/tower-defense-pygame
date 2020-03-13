@@ -1,0 +1,10 @@
+BasicTower:
+  range: 60
+  fireSpeed: 1
+  xpos: 0
+  ypos: 0
+  reloadSpeed: 700
+  projDamage: 50
+  projSpeed : 20
+  lastfire: 0
+  price: 100
