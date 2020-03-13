@@ -165,7 +165,10 @@ class UiElement(abc.ABC):  # make it an abstract class
                 v = Color.read(vv)
                 t = Color.read(self.tint)
                 # print('colors: %s, %s'%(v, self.tint))
-                return Color(v.r * t.r, v.g * t.g, v.b * t.b)
+                try:
+                    return Color(v.r * t.r, v.g * t.g, v.b * t.b)
+                except:
+                    return Color(255, 255, 255)
         return self.state_colors['default']
 
     def get_cursor (self):

@@ -1,5 +1,6 @@
 from game.common.math import Vector
 from game.common.yaml_parsing import YAMLInstancer
+from game.subsystems.ui.elements.buttons import Button
 from game.subsystems.ui.graphical_user_interface import GUI
 from game.subsystems.ui.layout.layout import Layout
 from game.subsystems.ui.layout.layoutmanager import LayoutManager
@@ -29,7 +30,9 @@ gui = GUI(elements_handler, layout_manager)
 daGame = GameState("TestMap2.txt")
 
 ###SETTING ONCLICKS
-e = gui.get_element('tower_column').get_element_by_index(0)
+tower_column = gui.get_element('tower_column')
+tower_column.add_element(Button(text="hello world!", tint=Color(255, 0, 0)))
+e = tower_column.get_element_by_index(0)
 e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
 e.set_click_args({
     'gamestate': daGame,
@@ -71,7 +74,7 @@ while True:
     DISPLAY.blit(daGame.bgSurf, (0,0))
     surfaces = daGame.getEntitiesSurface()
     for each in surfaces:
-        DISPLAY.blit(each, (0, 0)) # todo: nooooooooooooooooooooooooooooooooooooooooooooooooooo
+        DISPLAY.blit(*each) # todo: nooooooooooooooooooooooooooooooooooooooooooooooooooo
         # this is what makes the game extremely slow right now
         # please make entities blitted at their good positions and be their own good sizes
     gui.update(mouse_position, mouse_down, mouse_pressed)

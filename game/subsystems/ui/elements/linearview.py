@@ -45,3 +45,5 @@ class LinearView(UiElement):#Linear layout for buttons
                 return e
         print('element not found!!!!!!!!!!!!')
         return None
+    def add_element (self, element:Button):
+        self.elements.append(element)

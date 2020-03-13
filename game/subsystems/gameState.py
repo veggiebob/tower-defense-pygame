@@ -22,7 +22,7 @@ class GameState():
         self.draw_dim = 50
 
         temp = pygame.image.load('Tower.png')
-        TowerImage = pygame.transform.scale(temp, (self.draw_dim, self.draw_dim))
+        TowerImage = pygame.transform.scale(temp, (self.draw_dim,)*2)
         temp2 = pygame.image.load('Enemy.png')
         EnemyImage = pygame.transform.scale(temp2, (self.draw_dim,)*2)
 
@@ -72,26 +72,26 @@ class GameState():
 
     def getEntitiesSurface(self):
         global EnemyImage, TowerImage
-        surfaces = []
+        surfaces = [] # [surface, tupleposition]
         for enemy1 in self.baddies:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(EnemyImage, (enemy1.xpos * self.draw_dim, enemy1.ypos * self.draw_dim))
-            surfaces.append(temp)
+            temp.blit(EnemyImage, (0, 0))
+            surfaces.append((temp, (enemy1.xpos * self.draw_dim, enemy1.ypos * self.draw_dim)))
         for tower1 in self.towers:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(TowerImage, (tower1.xpos * self.draw_dim , tower1.ypos))
-            surfaces.append(temp)
+            temp.blit(TowerImage, (0, 0))
+            surfaces.append((temp, (tower1.xpos * self.draw_dim , tower1.ypos)))
 
         if self.isHoldingTower:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(TowerImage, (self.mouse_position.x - self.draw_dim/2, self.mouse_position.y - self.draw_dim/2))
-            surfaces.append(temp)
+            temp.blit(TowerImage, (0, 0))
+            surfaces.append((temp, (self.mouse_position.x - self.draw_dim/2, self.mouse_position.y - self.draw_dim/2)))
 
         projSurf = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
         projSurf = projSurf.convert_alpha()
@@ -103,7 +103,7 @@ class GameState():
             temp.fill((0, 0, 0, 0))
             pygame.draw.circle(temp, GREEN, (10, 10), 10)
             projSurf.blit(temp, (proj1.realX, proj1.realY))
-        surfaces.append(projSurf)
+        surfaces.append((projSurf, (0, 0)))
         return surfaces
 
 
