@@ -1,4 +1,4 @@
-from game.common.math import Vector
+from game.common.math import Vector, constrain
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.ui.elements.buttons import Button
 from game.subsystems.ui.graphical_user_interface import GUI
@@ -14,6 +14,9 @@ pygame.init()
 Text.DEFAULT_TEXT = Text("../common/verdana.ttf")
 WIDTH, HEIGHT = 800, 600
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
+
+# SETUP ENTITIES
+enemies = list(YAMLInstancer.get_multiple(open('EnemyTest.yaml').read(), Enemy).values())
 
 yaml_layout = open("Shoptest.yaml").read() # start menu layout
 panel_layouts = YAMLInstancer.get_multiple(yaml_layout, Panel, debug=False) # get a dictionary with all the layouts
@@ -31,7 +34,9 @@ daGame = GameState("TestMap2.txt")
 
 ###SETTING ONCLICKS
 tower_column = gui.get_element('tower_column')
-tower_column.add_element(Button(text="hello world!", tint=Color(255, 0, 0)))
+nb = Button(text="hello world!", tint=Color(255, 0, 0))
+nb.name = 'yeet'
+tower_column.add_element(nb)
 e = tower_column.get_element_by_index(0)
 e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
 e.set_click_args({
@@ -53,6 +58,13 @@ for enemyStr, v in baddiesStr.items():
 for towerStr, v in tower1.items():
     daGame.towerAdd(v)
 fps = 30
+gtime = 0
+difficulty = 1
+def difficulty_to_enemy (diff=0):
+    e = enemies[constrain(int(diff), 0, len(enemies) - 1)]
+    print('enemy:')
+    print(e)
+    return e
 while True:
     clock = pygame.time.Clock()
     mouse_pressed = False
@@ -67,8 +79,14 @@ while True:
         elif e.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+    gtime += 1
     clock.tick(30)
     daGame.tick(30)
+    if gtime%100 == 0: # start a wave
+        difficulty += 1
+        print('starting wave %d'%difficulty)
+        for a in range(0, difficulty):
+            daGame.enemyAdd(difficulty_to_enemy(difficulty))
     daGame.update(mouse_position, mouse_down, mouse_pressed)
     DISPLAY.fill((100, 100, 255))
     DISPLAY.blit(daGame.bgSurf, (0,0))

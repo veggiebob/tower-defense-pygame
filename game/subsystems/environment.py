@@ -1,3 +1,4 @@
+from game.common.math import Point
 from game.subsystems.entities import Enemy
 
 
@@ -45,6 +46,17 @@ class Environment():
                 if array[i][j] == "S":
                     self.board[j][i].changeStart(True)
 
+    def getAStart (self):
+        x = -1
+        y = -1
+        for b in self.board:
+            y += 1
+            x = -1
+            for bb in b:
+                x += 1
+                if bb.getStart():
+                    return Point(x, y)
+
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
         if self.adjacentPath(posX, posY):
@@ -68,14 +80,22 @@ class Environment():
     def futurePath(self, posX, posY, pastX, pastY):
         tempX, tempY, canGo = posX, posY, []
 
-        if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
-            canGo.append(self.Point(tempX, tempY - 1))
-        if tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
-            canGo.append(self.Point(tempX, tempY + 1))
-        if tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
-            canGo.append(self.Point(tempX - 1, tempY))
-        if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
-            canGo.append(self.Point(tempX + 1, tempY))
+        try:
+            if tempY - 1 != pastY and (self.board[tempX][tempY - 1].getPath() or self.board[tempX][tempY - 1].getEnd()):
+                canGo.append(self.Point(tempX, tempY - 1))
+        except: pass
+        try:
+            if tempY + 1 != pastY and (self.board[tempX][tempY + 1].getPath() or self.board[tempX][tempY + 1].getEnd()):
+                canGo.append(self.Point(tempX, tempY + 1))
+        except: pass
+        try:
+            if tempX - 1 != pastX and (self.board[tempX - 1][tempY].getPath() or self.board[tempX - 1][tempY].getEnd()):
+                canGo.append(self.Point(tempX - 1, tempY))
+        except: pass
+        try:
+            if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
+                canGo.append(self.Point(tempX + 1, tempY))
+        except: pass
         return canGo[self.random.randrange(0, len(canGo), 1)]
 
     def returnPlaces(self, posX, posY, pastX, pastY):

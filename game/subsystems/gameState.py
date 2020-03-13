@@ -69,8 +69,9 @@ class GameState():
         if self.hovering:
             self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
 
-
     def enemyAdd(self, enemy1):
+        enemy1.xpos = self.gameEnv.getAStart().getX()
+        enemy1.xpos = self.gameEnv.getAStart().getY()
         self.baddies.append(enemy1)
 
 
