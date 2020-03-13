@@ -44,6 +44,10 @@ class GameState():
         self.drawBG()
 
         self.towerHoverImage = pygame.Surface((self.draw_dim, self.draw_dim))
+        self.towerHoverImage = self.towerHoverImage.convert_alpha()
+        self.towerHoverImage.fill((0, 0, 0, 0))
+
+
         self.towerHoverX, self.towerHoverY = 0, 0
         self.holdingTower = None
         self.isHoldingTower = False
