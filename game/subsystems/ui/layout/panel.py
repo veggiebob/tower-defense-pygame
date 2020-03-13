@@ -1,6 +1,7 @@
 import pygame
 from game.common.math import Transform, Vector
 from game.subsystems.ui.elements.buttons import Button, TextView
+from game.subsystems.ui.elements.linearview import LinearView
 
 
 class Orientation:
@@ -25,7 +26,8 @@ class Panel:
         'width': float,
         'inner_panels': None, # to be set afterward (see below class)
         'ui_button': Button,
-        'ui_text': TextView
+        'ui_text': TextView,
+        'ui_linear': LinearView
     }
 
     def yaml_init(self):
@@ -34,6 +36,9 @@ class Panel:
         except: pass
         try:
             self.ui_text.panel_name = self.name
+        except: pass
+        try:
+            self.ui_linear.panel_name = self.name
         except: pass
 
     def __init__ (self, x=None, y=None, w=None, h=None, name=None):

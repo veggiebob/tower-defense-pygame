@@ -1,4 +1,6 @@
 import pygame, sys
+
+from game.common.math import Vector
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.environment import *
 from game.subsystems.entities import *
@@ -17,10 +19,12 @@ class GameState():
 
         global TowerImage, EnemyImage
 
+        self.draw_dim = 50
+
         temp = pygame.image.load('Tower.png')
-        TowerImage = pygame.transform.scale(temp, (50, 50))
+        TowerImage = pygame.transform.scale(temp, (self.draw_dim,)*2)
         temp2 = pygame.image.load('Enemy.png')
-        EnemyImage = pygame.transform.scale(temp2, (50, 50))
+        EnemyImage = pygame.transform.scale(temp2, (self.draw_dim,)*2)
 
         #Arrays for Entities
         self.baddies, self.towers, self.projs = [], [], []
@@ -34,19 +38,22 @@ class GameState():
         self.gameEnv = Environment()
 
         #Background surface for game
-        self.bgSurf = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+        self.bgSurf = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
 
         #Drawing the background surface
         self.drawBG()
 
-        self.towerHoverImage = pygame.Surface((50, 50))
+        self.towerHoverImage = pygame.Surface((self.draw_dim, self.draw_dim))
         self.towerHoverX, self.towerHoverY = 0, 0
+        self.holdingTower = None
+        self.isHoldingTower = False
+        self.mouse_position = Vector()
 
 
     def drawBG(self):
         for x in range(len(self.gameEnv.board)):
             for y in range(len(self.gameEnv.board[0])):
-                temp = pygame.Surface((50, 50))
+                temp = pygame.Surface((self.draw_dim, self.draw_dim))
                 boardSpace = self.gameEnv.board[x][y]
                 if boardSpace.hasEnd:
                     temp.fill(RED)
@@ -54,7 +61,7 @@ class GameState():
                     temp.fill(LIGHTBROWN)
                 else:
                     temp.fill(BROWN)
-                self.bgSurf.blit(temp, (50 * x, 50 * y))
+                self.bgSurf.blit(temp, (self.draw_dim * x, self.draw_dim * y))
         if self.hovering:
             self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
 
@@ -65,35 +72,57 @@ class GameState():
 
     def getEntitiesSurface(self):
         global EnemyImage, TowerImage
-        surfaces = []
+        surfaces = [] # [surface, tupleposition]
         for enemy1 in self.baddies:
-            temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(EnemyImage, (enemy1.xpos * 50, enemy1.ypos * 50))
-            surfaces.append(temp)
+            temp.blit(EnemyImage, (0, 0))
+            surfaces.append((temp, (enemy1.xpos * self.draw_dim, enemy1.ypos * self.draw_dim)))
         for tower1 in self.towers:
-            temp = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(TowerImage, (tower1.xpos * 50, tower1.ypos * 50))
-            surfaces.append(temp)
-        projSurf = pygame.Surface((50 * len(self.gameEnv.board), 50 * len(self.gameEnv.board[0])))
+            temp.blit(TowerImage, (0, 0))
+            surfaces.append((temp, (tower1.xpos * self.draw_dim , tower1.ypos)))
+
+        if self.isHoldingTower:
+            temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
+            temp = temp.convert_alpha()
+            temp.fill((0, 0, 0, 0))
+            temp.blit(TowerImage, (0, 0))
+            surfaces.append((temp, (self.mouse_position.x - self.draw_dim/2, self.mouse_position.y - self.draw_dim/2)))
+
+        projSurf = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
         projSurf = projSurf.convert_alpha()
         projSurf.fill((0, 0, 0, 0))
         for proj1 in self.projs:
+            if proj1 is None: continue
             temp = pygame.Surface((20, 20))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
             pygame.draw.circle(temp, GREEN, (10, 10), 10)
             projSurf.blit(temp, (proj1.realX, proj1.realY))
-        surfaces.append(projSurf)
+        surfaces.append((projSurf, (0, 0)))
         return surfaces
 
 
     def towerAdd(self, tower1):
         self.towers.append(tower1)
 
+    def update (self, mouse_position: Vector, mouse_down: bool, mouse_pressed: bool):
+        self.towerHoverX, self.towerHoverY = self.mouseToBoard(mouse_position.x, mouse_position.y)
+        self.mouse_position = mouse_position
+        if mouse_pressed:
+            self.drawBG() # just in case
+        if not mouse_down:
+            if self.isHoldingTower: # you just released a tower
+                try:
+                    self.gameEnv.placeTower(self.towerHoverX, self.towerHoverY) # todo: actually make this work
+                except: pass
+                self.drawBG()
+            self.holdingTower = None
+            self.isHoldingTower = False
 
     def tick(self, dT):
         self.now += dT
@@ -101,10 +130,9 @@ class GameState():
         for tower1 in self.towers:
             self.towerChecks(tower1)
 
-        self.drawBG()
-
         for proj1 in self.projs:
-            proj1.xpos, proj1.ypos = int(proj1.realX / 50), int(proj1.realY / 50)
+            if proj1 is None: continue
+            proj1.xpos, proj1.ypos = int(proj1.realX / self.draw_dim), int(proj1.realY / self.draw_dim)
             target1 = proj1.enemy
             ok = False
             for alive in self.baddies:
@@ -147,7 +175,7 @@ class GameState():
     def projMove(self, proj1):
         timeDifference = self.now - proj1.lastmove
         if timeDifference >= proj1.speed and proj1.hittimer == 0:
-            tX, tY = proj1.enemy.xpos * 50, proj1.enemy.ypos * 50
+            tX, tY = proj1.enemy.xpos * self.draw_dim, proj1.enemy.ypos * self.draw_dim
             if proj1.realX > tX:
                 proj1.realX = proj1.realX - 10
             if proj1.realX < tX:
@@ -160,7 +188,7 @@ class GameState():
 
 
     def mouseToBoard(self, mX, mY):
-        return int((mX - (mX % 50)) / 50), int((mY - (mY % 50)) / 50)
+        return int((mX - (mX % self.draw_dim)) / self.draw_dim), int((mY - (mY % self.draw_dim)) / self.draw_dim)
 
     def towerChecks(self, tower1):
         timeDifference = self.now - tower1.lastfire
@@ -173,10 +201,10 @@ class GameState():
         self.towerHoverImage = newTowerImage
 
 
-    def towerHover(self, mousePos, mouseDown):
-        if mouseDown:
-            self.hovering = True
-            self.towerHoverX, self.towerHoverY = self.mouseToBoard(mousePos[0], mousePos[1])
+    def grabTower(self, tower:Tower):
+        self.hovering = True
+        self.holdingTower = tower
+        self.isHoldingTower = True
 
 
 
