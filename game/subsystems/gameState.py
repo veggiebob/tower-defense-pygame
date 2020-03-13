@@ -84,7 +84,7 @@ class GameState():
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
             temp.blit(TowerImage, (0, 0))
-            surfaces.append((temp, (tower1.xpos * self.draw_dim , tower1.ypos)))
+            surfaces.append((temp, (tower1.xpos * self.draw_dim , tower1.ypos * self.draw_dim)))
 
         if self.isHoldingTower:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
@@ -118,7 +118,15 @@ class GameState():
         if not mouse_down:
             if self.isHoldingTower: # you just released a tower
                 try:
-                    self.gameEnv.placeTower(self.towerHoverX, self.towerHoverY) # todo: actually make this work
+                    successful = self.gameEnv.placeTower(self.towerHoverX, self.towerHoverY) # todo: actually make this work
+                    print('tried to place a tower')
+                    if successful:
+                        print('operation successful %s, %s'%(self.towerHoverX, self.towerHoverY))
+                    else:
+                        print('did not place tower %s, %s'%(self.towerHoverX, self.towerHoverY))
+                    self.holdingTower.xpos = self.towerHoverX
+                    self.holdingTower.ypos = self.towerHoverY
+                    self.towerAdd(self.holdingTower)
                 except: pass
                 self.drawBG()
             self.holdingTower = None

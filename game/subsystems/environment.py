@@ -47,6 +47,8 @@ class Environment():
 
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
+        if self.adjacentPath(posX, posY):
+            self.board[posX][posY].changeTower(True)
         return self.adjacentPath(posX, posY)
 
     # Determines if a tower can be placed in the specified position

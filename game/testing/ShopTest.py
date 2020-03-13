@@ -74,9 +74,7 @@ while True:
     DISPLAY.blit(daGame.bgSurf, (0,0))
     surfaces = daGame.getEntitiesSurface()
     for each in surfaces:
-        DISPLAY.blit(*each) # todo: nooooooooooooooooooooooooooooooooooooooooooooooooooo
-        # this is what makes the game extremely slow right now
-        # please make entities blitted at their good positions and be their own good sizes
+        DISPLAY.blit(*each)
     gui.update(mouse_position, mouse_down, mouse_pressed)
     gui.draw_to_surface(DISPLAY, draw_panel_borders=True)
     pygame.display.update()
