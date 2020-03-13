@@ -39,9 +39,11 @@ nb.name = 'yeet'
 tower_column.add_element(nb)
 e = tower_column.get_element_by_index(0)
 e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
+tower1DefYaml = open('./shopBlankTower1.yaml').read()
+tower1Blank = YAMLInstancer.get_single(tower1DefYaml, Tower)
 e.set_click_args({
     'gamestate': daGame,
-    'tower': Tower(), #todo: make this the tower that this one contains
+    'tower': tower1Blank, #todo: make this the tower that this one contains
 })
 
 # update / handle exiting
