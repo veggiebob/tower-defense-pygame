@@ -5,7 +5,7 @@ BasicTower:
   ypos: 0
   reloadSpeed: 700
   projDamage: 50
-  projSpeed : 20
+  projSpeed : &slow 10
   lastfire: 0
   price: 100
 BasicTower1:
@@ -15,7 +15,7 @@ BasicTower1:
   ypos: 0
   reloadSpeed: 500
   projDamage: 50
-  projSpeed : 20
+  projSpeed : *slow
   lastfire: 0
   price: 100
 BasicTower2:
@@ -25,7 +25,7 @@ BasicTower2:
   ypos: 0
   reloadSpeed: 300
   projDamage: 50
-  projSpeed : 20
+  projSpeed : *slow
   lastfire: 0
   price: 100
 BasicTower3:
@@ -35,6 +35,6 @@ BasicTower3:
   ypos: 0
   reloadSpeed: 100
   projDamage: 50
-  projSpeed : 20
+  projSpeed : *slow
   lastfire: 0
   price: 100

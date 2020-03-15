@@ -34,31 +34,31 @@ daGame = GameState("TestMap2.txt")
 
 ###SETTING ONCLICKS
 tower_column = gui.get_element('tower_column')
-nb = Button(text="hello world!", tint=Color(255, 0, 0))
-nb.name = 'yeet'
-tower_column.add_element(nb)
-e = tower_column.get_element_by_index(0)
-e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
-tower1DefYaml = open('./shopBlankTower1.yaml').read()
-tower1Blank = YAMLInstancer.get_single(tower1DefYaml, Tower)
-e.set_click_args({
-    'gamestate': daGame,
-    'tower': tower1Blank, #todo: make this the tower that this one contains
-})
+towers = open('./shopBlankTower1.yaml').read()
+all_towers = list(YAMLInstancer.get_multiple(towers, Tower).values())
+index = -1
+for e in tower_column.get_elements():
+    index += 1
+    print('button element is %s'%e)
+    e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
+    e.set_click_args({
+        'gamestate': daGame,
+        'tower': all_towers[index]
+    })
 
 # update / handle exiting
 mouse_position = Vector(0, 0)
 mouse_down = False
 mouse_pressed = False
 
-test_yaml = open('./enemy2.yaml').read()
-baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
-towertest_yaml = open('./Tower2.yaml').read()
-tower1 = YAMLInstancer.get_multiple(towertest_yaml, Tower)
-for enemyStr, v in baddiesStr.items():
-    daGame.enemyAdd(v)
-for towerStr, v in tower1.items():
-    daGame.towerAdd(v)
+# test_yaml = open('./enemy2.yaml').read()
+# baddiesStr = YAMLInstancer.get_multiple(test_yaml, Enemy)
+# towertest_yaml = open('./Tower2.yaml').read()
+# tower1 = YAMLInstancer.get_multiple(towertest_yaml, Tower)
+# for enemyStr, v in baddiesStr.items():
+#     daGame.enemyAdd(v)
+# for towerStr, v in tower1.items():
+#     daGame.towerAdd(v)
 fps = 30
 gtime = 0
 difficulty = 1
@@ -84,12 +84,12 @@ while True:
     gtime += 1
     clock.tick(30)
     daGame.tick(30)
+    daGame.update(mouse_position, mouse_down, mouse_pressed)
     if gtime%100 == 0: # start a wave
         difficulty += 1
         print('starting wave %d'%difficulty)
         for a in range(0, difficulty):
             daGame.enemyAdd(difficulty_to_enemy(difficulty))
-    daGame.update(mouse_position, mouse_down, mouse_pressed)
     DISPLAY.fill((100, 100, 255))
     DISPLAY.blit(daGame.bgSurf, (0,0))
     surfaces = daGame.getEntitiesSurface()

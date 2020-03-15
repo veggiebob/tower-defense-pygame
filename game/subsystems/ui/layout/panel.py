@@ -1,3 +1,5 @@
+import copy
+
 import pygame
 from game.common.math import Transform, Vector
 from game.subsystems.ui.elements.buttons import Button, TextView

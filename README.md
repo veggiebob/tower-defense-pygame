@@ -1,4 +1,6 @@
 # Tower Defense Game
+## HOW TO RUN
+#### [Run this file](game/main/main.py)
 ## YAML
 #### see [the YAML reference](yaml_reference.md) for info on how yaml works
 #### see [the YAML usage guide](yaml_usage.md) for info on how to use the `YAMLInstancer`

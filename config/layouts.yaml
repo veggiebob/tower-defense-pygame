@@ -1,3 +1,30 @@
+game_screen:
+  x: 0
+  y: 0
+  width: 1
+  height: 1
+  inner_panels:
+    - tower_column:
+        x: 0.8
+        y: 0
+        width: 0.2
+        height: 1.0
+        ui_linear:
+          name: tower_column
+          orientation: vertical
+          elements:
+            - tower1:
+                text: basicTower
+                onclick: ""
+            - tower2:
+                text: basicTower1
+                onclick: ""
+            - tower3:
+                text: basicTower2
+                onclick: ""
+            - tower4:
+                text: basicTower3
+                onclick: ""
 start_screen:
   x: 0
   y: 0
@@ -15,6 +42,9 @@ start_screen:
               y: 0.3
               width: 1.0
               height: 0.1
+              ui_button:
+                  text: play
+                  tint: {r: 0, g: 255, b: 0}
           - help:
               x: 0
               y: 0.6

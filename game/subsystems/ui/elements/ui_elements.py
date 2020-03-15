@@ -217,3 +217,6 @@ class UiElement(abc.ABC):  # make it an abstract class
         self.position = Vector(panel.x, panel.y)
         self.size = Vector(panel.width, panel.height)
         self.state = UiEvent() # reset ui
+
+    def __str__ (self):
+        return 'UiElement -> position: %s, size %s'%(self.position, self.size)

@@ -56,7 +56,8 @@ class Environment():
                 x += 1
                 if bb.getStart():
                     return Point(x, y)
-
+    def getTile (self, posX, posY) -> 'SingleGrid':
+        return self.board[posX][posY]
     # Places the tower if it can be placed there
     def placeTower(self, posX, posY):
         if self.adjacentPath(posX, posY):
@@ -96,7 +97,9 @@ class Environment():
             if tempX + 1 != pastX and (self.board[tempX + 1][tempY].getPath() or self.board[tempX + 1][tempY].getEnd()):
                 canGo.append(self.Point(tempX + 1, tempY))
         except: pass
-        return canGo[self.random.randrange(0, len(canGo), 1)]
+        if len(canGo) > 0:
+            return canGo[self.random.randrange(0, len(canGo), 1)]
+        return Point(posX, posY)
 
     def returnPlaces(self, posX, posY, pastX, pastY):
         tempX, tempY, canGo = posX, posY, []

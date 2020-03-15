@@ -37,6 +37,8 @@ class LinearView(UiElement):#Linear layout for buttons
         for e in self.elements:
             v: Button = e
             v.update(mouse_position, mouse_down, mouse_pressed)
+    def get_elements (self) -> list:
+        return self.elements
     def get_element_by_index (self, index: int) -> Button:
         return self.elements[index]
     def get_element_by_name (self, name: str) -> Button:
@@ -47,3 +49,5 @@ class LinearView(UiElement):#Linear layout for buttons
         return None
     def add_element (self, element:Button):
         self.elements.append(element)
+    def __str__ (self):
+        return 'LinearView -> [%s]'%', '.join(str(e) for e in self.elements)

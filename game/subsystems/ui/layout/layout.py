@@ -1,3 +1,5 @@
+import copy
+
 from game.subsystems.ui.layout.panel import Panel
 
 
@@ -10,13 +12,13 @@ class Layout:
     @staticmethod
     def layoutFromPanel(panel: Panel):
         all_panels = panel.get_all_inner()
-        return Layout.fromPanelList(all_panels)
+        return copy.deepcopy(Layout.fromPanelList(all_panels))
 
     @staticmethod
     def fromPanelList(panels: list) -> 'Layout':
         L = Layout()
         for p in panels:
-            L.addPanel(p)
+            L.addPanel(copy.deepcopy(p))
         return L
 
     def __init__(self, name="main_layout"):

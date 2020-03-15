@@ -1,3 +1,5 @@
+import copy
+
 from game.common.math import Vector
 from game.subsystems.ui.layout.layout import Layout
 
@@ -6,18 +8,18 @@ class ElementsHandler:
     @staticmethod
     def from_panel_list (panels:list) -> 'ElementsHandler':
         elements = []
-        for p in panels: # todo: this code is sooo bad ;(
+        for p in panels:
             try:
-                elements.append(p.ui_button)
-                print('added ui button! %s'%p.ui_button)
+                elements.append(copy.deepcopy(p.ui_button))
+                # print('added ui button! %s'%p.ui_button)
             except: pass
             try:
-                elements.append(p.ui_text)
-                print('added ui text! %s'%p.ui_text)
+                elements.append(copy.deepcopy(p.ui_text))
+                # print('added ui text! %s'%p.ui_text)
             except: pass
             try:
-                elements.append(p.ui_linear)
-                print('added ui linear! %s'%p.ui_linear)
+                elements.append(copy.deepcopy(p.ui_linear))
+                # print('added ui linear! %s'%p.ui_linear)
             except: pass
         return ElementsHandler(panels, elements)
 
@@ -44,10 +46,6 @@ class ElementsHandler:
         for e in self.elements:
             self.element_keys[e.name] = e
         self.keyed = True
-
-    def re_key (self):
-        self.keyed = False
-        self.do_key()
 
     def get_panel (self, name: str):
         if not self.keyed:

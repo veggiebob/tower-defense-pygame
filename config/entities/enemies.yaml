@@ -1,2 +1,14 @@
-%YAML 1.1
----
+BasicEnemy:
+  health: 100
+  moveInterval: 250
+  money: 30
+
+MediumEnemy:
+  health: 150
+  moveInterval: 200
+  money: 30
+
+HardEnemy:
+  health: 200
+  moveInterval: 100
+  money: 30
