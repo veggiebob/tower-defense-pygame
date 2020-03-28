@@ -184,11 +184,11 @@ class YAMLInstancer:
         if debug:
             print('yaml dict: %s'%d)
         name = list(d.items())[0][0]
-        o = YAMLInstancer.get_object(name, d[name], inferred_type, debug)
+        o: inferred_type = YAMLInstancer.get_object(name, d[name], inferred_type, debug)
         return o
 
     @staticmethod
-    def get_multiple (yaml_string:str, inferred_type=None, debug=False):
+    def get_multiple (yaml_string:str, inferred_type=None, debug=False) -> dict:
         if yaml_string.strip() == '':
             return None
         d = YAMLInstancer.get_dict(yaml_string)
@@ -196,7 +196,7 @@ class YAMLInstancer:
             print('yaml dict: %s'%d)
         objects = {}
         for k,v in d.items():
-            objects[k] = YAMLInstancer.get_object(k, v, inferred_type, debug)
+            objects[k]: inferred_type = YAMLInstancer.get_object(k, v, inferred_type, debug)
         return objects
 
     @staticmethod

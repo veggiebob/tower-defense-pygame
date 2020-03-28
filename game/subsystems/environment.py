@@ -161,7 +161,7 @@ class Environment():
             for j in range(0, len(self.board[i]), 1):
                 if self.board[i][j].getStart():
                     path.addPoint(self.Point(i, j))
-        print(path.allPoints)
+        # print(path.allPoints)
         lastX, lastY, temp, endsFound = path.returnPoint(0).getX(), path.returnPoint(0).getY(), [], 0
         nowX, nowY = lastX, lastY
         self.pathes.append(path)

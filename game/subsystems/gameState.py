@@ -1,4 +1,5 @@
 import copy
+from typing import List
 
 import pygame, sys
 
@@ -25,7 +26,9 @@ class GameState():
         self.draw_dim = scale
 
         #Arrays for Entities
-        self.baddies, self.towers, self.projs = [], [], []
+        self.baddies:List[Enemy] = []
+        self.towers:List[Tower] = []
+        self.projs:List[Projectile] = []
         self.shop = Shop(initial_money)
         self.player = Player(initial_health)
 
@@ -83,13 +86,23 @@ class GameState():
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
             temp.blit(self.enemyImage, (0, 0))
-            surfaces.append((temp, (enemy1.getFloatPosition(self.now) * self.draw_dim).to_tuple()))
+            surfaces.append((temp, (enemy1.getFloatPosition(self.now) * self.draw_dim).to_int().to_tuple()))
         for tower1 in self.towers:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
             temp.blit(self.towerImage, (0, 0))
-            surfaces.append((temp, (tower1.xpos * self.draw_dim , tower1.ypos * self.draw_dim)))
+            pos = (tower1.xpos * self.draw_dim, tower1.ypos * self.draw_dim)
+            surfaces.append((temp, pos))
+
+            #range circle
+            cs:int = tower1.range * 2
+            hcs = int(cs/2)
+            tmp = pygame.Surface((cs, cs))
+            tmp = tmp.convert_alpha(tmp)
+            tmp.fill((0, 0, 0, 0))
+            pygame.draw.circle(tmp, (255, 0, 0), (hcs,)*2, hcs, 1)
+            surfaces.append((tmp, (Vector.from_tuple(pos) + (self.draw_dim / 2 - hcs)).to_int().to_tuple()))
 
         if self.isHoldingTower:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))

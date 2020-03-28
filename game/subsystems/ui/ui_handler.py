@@ -2,6 +2,7 @@ import copy
 
 from game.common.math import Vector
 from game.subsystems.ui.layout.layout import Layout
+from game.subsystems.ui.layout.panel import Panel
 
 
 class ElementsHandler:
@@ -9,6 +10,7 @@ class ElementsHandler:
     def from_panel_list (panels:list) -> 'ElementsHandler':
         elements = []
         for p in panels:
+            p:Panel = p
             try:
                 elements.append(copy.deepcopy(p.ui_button))
                 # print('added ui button! %s'%p.ui_button)
@@ -33,7 +35,7 @@ class ElementsHandler:
 
     def reposition_elements(self, layout: Layout):
         for e in self.elements:
-            print('moving element %s onto panel %s using name %s'%(e, layout.getPanel(e.panel_name), e.panel_name))
+            # print('moving element %s onto panel %s using name %s'%(e, layout.getPanel(e.panel_name), e.panel_name))
             e.position_on_panel(layout.getPanel(e.panel_name))
 
     def update(self, mouse_position: Vector, mouse_down: bool, mouse_pressed: bool):

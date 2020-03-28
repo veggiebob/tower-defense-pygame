@@ -27,7 +27,7 @@ class Tower():
 
         for target in enemiesList:
             distSquared = ((self.xpos - target.xpos) ** 2) + ((self.ypos - target.ypos) ** 2)
-            print(distSquared)
+            # print(distSquared)
             if distSquared < targetDistance:
                 targetDistance = distSquared
                 targetToUse = target

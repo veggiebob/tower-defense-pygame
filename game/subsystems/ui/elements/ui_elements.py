@@ -120,7 +120,7 @@ class UiElement(abc.ABC):  # make it an abstract class
     def yaml_init (self):
         try:
             self.on_click_listener = eval(self.onclick)
-            print('set on click listener to %s'%self.onclick)
+            #print('set on click listener to %s'%self.onclick)
         except: pass
         try:
             self.tint /= 255
@@ -197,14 +197,14 @@ class UiElement(abc.ABC):  # make it an abstract class
         return self.position + self.size * 0.5
 
     def click (self):
-        print('clicked')
+        #print('clicked')
         if self.on_click_listener is not None:
-            print('ran on click listener')
+            #print('ran on click listener')
             if self.click_args is None:
-                print('ran without args')
+                #print('ran without args')
                 self.on_click_listener(self)
             else:
-                print('ran with args %s'%self.click_args)
+                #print('ran with args %s'%self.click_args)
                 self.on_click_listener(self, **self.click_args)
 
     def set_click_args (self, args: dict):

@@ -1,6 +1,6 @@
 from game.common.math import Vector, constrain
 from game.common.yaml_parsing import YAMLInstancer
-from game.subsystems.ui.elements.buttons import Button
+from game.subsystems.ui.elements.buttons import Button, TextView
 from game.subsystems.ui.graphical_user_interface import GUI
 from game.subsystems.ui.layout.layout import Layout
 from game.subsystems.ui.layout.layoutmanager import LayoutManager
@@ -28,16 +28,15 @@ layout_manager = LayoutManager()
 # get the layouts
 panel_layouts = YAMLInstancer.get_multiple(GET_YAML('layouts'), Panel, debug=False) # get a dictionary with all the layouts
 for pn, p in panel_layouts.items():
+    p: Panel = p # tell it that p is a panel
+    #print('panels: %s'%p.get_all_inner())
     layout = Layout.layoutFromPanel(p) # get the layout
+    #print('layout gotten: %s, its panels: %s'%(layout, layout.panels))
     screen_panels = layout.getPanelsOnRect((0, 0, WIDTH, HEIGHT)) # transform panels so that they're on the screen size
     elements_handler = ElementsHandler.from_panel_list(screen_panels) # get the elements from those panels
-    print('elements handler elements: %s'%elements_handler.get_elements())
+    #print('elements handler elements: %s'%elements_handler.get_elements())
     layout_manager.addLayout(layout, elements_handler, name=pn, set_current=True)
 gui = GUI(layout_manager)
-gui.change_layout('game_screen')
-print(gui.get_elements_handler().get_elements())
-gui.change_layout('start_screen')
-print(gui.get_elements_handler().get_elements())
 
 SCALE = 50
 TowerImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Tower.png'%CONFIG_DIR), (SCALE,) * 2)
@@ -46,11 +45,13 @@ daGame = GameState(towerImage=TowerImage, enemyImage=EnemyImage, scale=SCALE) # 
 
 ###SETTING ONCLICKS
 tower_column = gui.get_element('tower_column')
+money_element:TextView = gui.get_element('money')
+health_element:TextView = gui.get_element('health')
 all_towers = list(YAMLInstancer.get_multiple(GET_YAML('entities/towers'), Tower).values())
 index = -1
 for e in tower_column.get_elements():
     index += 1
-    print('button element is %s'%e)
+    #print('button element is %s'%e)
     e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
     e.set_click_args({
         'gamestate': daGame,
@@ -67,8 +68,8 @@ gtime = 0
 difficulty = 1
 def difficulty_to_enemy (diff=0):
     e = enemies[constrain(int(diff), 0, len(enemies) - 1)]
-    print('enemy:')
-    print(e)
+    #print('enemy:')
+    #print(e)
     return e
 while True:
     clock = pygame.time.Clock()
@@ -90,7 +91,7 @@ while True:
     daGame.update(mouse_position, mouse_down, mouse_pressed)
     if gtime%100 == 0: # start a wave
         difficulty += 1
-        print('starting wave %d'%difficulty)
+        #print('starting wave %d'%difficulty)
         for a in range(0, difficulty):
             daGame.enemyAdd(difficulty_to_enemy(difficulty))
     DISPLAY.fill((100, 100, 255))
@@ -100,4 +101,6 @@ while True:
         DISPLAY.blit(*each)
     gui.update(mouse_position, mouse_down, mouse_pressed)
     gui.draw_to_surface(DISPLAY, draw_panel_borders=True)
+    money_element.text = "$%s"%daGame.shop.bank
+    health_element.text = "%shp"%daGame.player.health
     pygame.display.update()

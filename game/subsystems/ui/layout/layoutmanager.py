@@ -28,7 +28,7 @@ class LayoutManager:
         try:
             return self.element_handlers[name]
         except:
-            print('tried to get layout %s from %s'%(name, self.element_handlers))
+            #print('tried to get layout %s from %s'%(name, self.element_handlers))
             raise Exception('LayoutManager could not get element handler %s'%name)
 
     def setCurrentLayout (self, name):
@@ -39,6 +39,6 @@ class LayoutManager:
             name = layout.name
         self.layouts[name] = layout
         self.element_handlers[name] = element_handler
-        print('adding layout and element handler %s'%name)
+        #print('adding layout and element handler %s'%name)
         if set_current:
             self.setCurrentLayout(name)

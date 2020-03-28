@@ -86,14 +86,14 @@ class Panel:
             ]
         else:
             p = [None, None]
-            print('you suck')
+            #print('you suck')
 
         if order == Order.REVERSED:
             return [p[1], p[0]]
         elif order == Order.STANDARD:
             return p
         else:
-            print('you suck')
+            #print('you suck')
             return p
     def split_multiple (self, orientation, number, names=None): # for programmatic layout only
         vertical = orientation == Orientation.VERTICAL

@@ -1,3 +1,28 @@
+#start_screen:
+#  x: 0
+#  y: 0
+#  width: 1
+#  height: 1
+#  inner_panels:
+#    - center_column:
+#        x: 0.4
+#        y: 0
+#        width: 0.2
+#        height: 1.0
+#        inner_panels:
+#          - play:
+#              x: 0
+#              y: 0.3
+#              width: 1.0
+#              height: 0.1
+#              ui_button:
+#                  text: play
+#                  tint: {r: 0, g: 255, b: 0}
+#          - help:
+#              x: 0
+#              y: 0.6
+#              width: 1.0
+#              height: 0.1
 game_screen:
   x: 0
   y: 0
@@ -8,7 +33,7 @@ game_screen:
         x: 0.8
         y: 0
         width: 0.2
-        height: 1.0
+        height: 0.9
         ui_linear:
           name: tower_column
           orientation: vertical
@@ -25,28 +50,27 @@ game_screen:
             - tower4:
                 text: basicTower3
                 onclick: ""
-start_screen:
-  x: 0
-  y: 0
-  width: 1
-  height: 1
-  inner_panels:
-    - center_column:
-        x: 0.4
-        y: 0
+    - other_bar:
+        x: 0.8
+        y: 0.9
         width: 0.2
-        height: 1.0
+        height: 0.1
         inner_panels:
-          - play:
+          - money:
               x: 0
-              y: 0.3
+              y: 0
               width: 1.0
-              height: 0.1
-              ui_button:
-                  text: play
-                  tint: {r: 0, g: 255, b: 0}
-          - help:
+              height: 0.5
+              ui_text:
+                  name: 'money'
+                  text: "money: "
+                  onclick: ""
+          - health:
               x: 0
-              y: 0.6
+              y: 0.5
               width: 1.0
-              height: 0.1
+              height: 0.5
+              ui_text:
+                  name: 'health'
+                  text: "health: "
+                  onclick: ""

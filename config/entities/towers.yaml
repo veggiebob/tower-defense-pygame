@@ -9,7 +9,7 @@ BasicTower:
   lastfire: 0
   price: 100
 BasicTower1:
-  range: 60
+  range: 80
   fireSpeed: 1
   xpos: 0
   ypos: 0
@@ -19,7 +19,7 @@ BasicTower1:
   lastfire: 0
   price: 100
 BasicTower2:
-  range: 60
+  range: 100
   fireSpeed: 1
   xpos: 0
   ypos: 0
@@ -29,7 +29,7 @@ BasicTower2:
   lastfire: 0
   price: 100
 BasicTower3:
-  range: 60
+  range: 120
   fireSpeed: 1
   xpos: 0
   ypos: 0
