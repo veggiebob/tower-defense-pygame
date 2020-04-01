@@ -49,10 +49,12 @@ money_element:TextView = gui.get_element('money')
 health_element:TextView = gui.get_element('health')
 all_towers = list(YAMLInstancer.get_multiple(GET_YAML('entities/towers'), Tower).values())
 index = -1
+def try_grab_tower (self, **kwargs):
+    if not kwargs['gamestate'].grabTower(kwargs['tower']): warning("not enough money!")
 for e in tower_column.get_elements():
     index += 1
     #print('button element is %s'%e)
-    e.set_on_click_listener(lambda self, **kwargs: kwargs['gamestate'].grabTower(kwargs['tower']))
+    e.set_on_click_listener(try_grab_tower)
     e.set_click_args({
         'gamestate': daGame,
         'tower': all_towers[index]
@@ -66,11 +68,20 @@ mouse_pressed = False
 fps = 30
 gtime = 0
 difficulty = 1
+game_over = False
+
+warning_message = ''
+warning_timer = [100, 10, 0, 45] # timeout, frames to blink, current time
 def difficulty_to_enemy (diff=0):
     e = enemies[constrain(int(diff), 0, len(enemies) - 1)]
     #print('enemy:')
     #print(e)
     return e
+def warning (message: str, error_size=warning_timer[3]):
+    global warning_message, warning_timer
+    warning_message = message
+    warning_timer[2] = warning_timer[0]
+    warning_timer[3] = error_size
 while True:
     clock = pygame.time.Clock()
     mouse_pressed = False
@@ -87,20 +98,36 @@ while True:
             sys.exit()
     gtime += 1
     clock.tick(30)
-    daGame.tick(30)
-    daGame.update(mouse_position, mouse_down, mouse_pressed)
-    if gtime%100 == 0: # start a wave
-        difficulty += 1
-        #print('starting wave %d'%difficulty)
-        for a in range(0, difficulty):
-            daGame.enemyAdd(difficulty_to_enemy(difficulty))
-    DISPLAY.fill((100, 100, 255))
-    DISPLAY.blit(daGame.bgSurf, (0,0))
-    surfaces = daGame.getEntitiesSurface()
-    for each in surfaces:
-        DISPLAY.blit(*each)
-    gui.update(mouse_position, mouse_down, mouse_pressed)
-    gui.draw_to_surface(DISPLAY, draw_panel_borders=True)
-    money_element.text = "$%s"%daGame.shop.bank
-    health_element.text = "%shp"%daGame.player.health
-    pygame.display.update()
+
+    if not game_over:
+        daGame.tick(30)
+        daGame.update(mouse_position, mouse_down, mouse_pressed)
+        if gtime%100 == 0: # start a wave
+            difficulty += 1
+            #print('starting wave %d'%difficulty)
+            for a in range(0, difficulty):
+                daGame.enemyAdd(difficulty_to_enemy(difficulty))
+
+        if daGame.checkGameOver():
+            warning('GAME OVER', 80)
+            game_over = True
+
+        DISPLAY.fill((100, 100, 255))
+        DISPLAY.blit(daGame.bgSurf, (0,0))
+        surfaces = daGame.getEntitiesSurface()
+        for each in surfaces:
+            DISPLAY.blit(*each)
+        gui.update(mouse_position, mouse_down, mouse_pressed)
+        gui.draw_to_surface(DISPLAY, draw_panel_borders=True)
+        # if game_over:
+        #     DISPLAY = DISPLAY.convert_alpha()
+        #     pygame.draw.rect(DISPLAY, (0, 0, 0, 200), (0, 0, WIDTH, HEIGHT), 0)
+        if warning_timer[2] > 0:
+            warning_timer[2] -= 1
+            if warning_timer[2]%warning_timer[1] > warning_timer[1] / 2:
+                Text.DEFAULT_TEXT.draw_to_surface(DISPLAY, (WIDTH/2-2, HEIGHT/2+2), warning_message.upper(), warning_timer[3], (255, 255, 255))
+                Text.DEFAULT_TEXT.draw_to_surface(DISPLAY, (WIDTH/2, HEIGHT/2), warning_message.upper(), warning_timer[3], (255, 0, 0))
+
+        money_element.text = "$%s"%daGame.shop.bank
+        health_element.text = "%shp"%daGame.player.health
+        pygame.display.update()

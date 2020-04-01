@@ -145,6 +145,7 @@ class GameState():
                     self.holdingTower.xpos = self.towerHoverX
                     self.holdingTower.ypos = self.towerHoverY
                     self.towerAdd(copy.deepcopy(self.holdingTower))
+                    self.shop.buy(self.holdingTower)
                 except: pass
                 self.drawBG()
             self.holdingTower = None
@@ -185,6 +186,7 @@ class GameState():
             if badGuy.health <= 0:
                 self.gameEnv.board[badGuy.xpos][badGuy.ypos].hasEnemy = False
                 # print('enemy %s died with a health of %d'%(badGuy, badGuy.health))
+                self.enemyDied(badGuy)
                 self.baddies.remove(badGuy)
 
 
@@ -210,6 +212,9 @@ class GameState():
     def enemyEscaped(self, enemy: Enemy) -> None:
         self.player.hit(enemy)
 
+    def enemyDied(self, enemy: Enemy) -> None:
+        self.shop.makeMoney(enemy)
+
     def projMove(self, proj1):
         v = Vector(proj1.enemy.xpos * self.draw_dim, proj1.enemy.ypos * self.draw_dim) - Vector(proj1.realX, proj1.realY)
         v = v.normalize() * proj1.speed
@@ -231,10 +236,15 @@ class GameState():
         self.towerHoverImage = newTowerImage
 
 
-    def grabTower(self, tower:Tower):
-        self.hovering = True
-        self.holdingTower = tower
-        self.isHoldingTower = True
+    def grabTower(self, tower:Tower) -> bool: # returns if it was successful
+        if self.shop.canBuy(tower):
+            self.hovering = True
+            self.holdingTower = tower
+            self.isHoldingTower = True
+            return True
+        else:
+            print('@GameState: not enough money!')
+            return False
 
     def checkGameOver(self) -> bool:
         return self.player.dead

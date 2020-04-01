@@ -57,6 +57,9 @@ class Projectile():
         self.start_x, self.start_y = rX, rY
 
 class Enemy:
+    health: int
+    moveInterval: int
+    money: int
     # position is a tuple in the format (x,y)
     REQ_ATTRS = [
         'health',

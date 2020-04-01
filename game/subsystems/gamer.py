@@ -6,6 +6,8 @@ class Shop:
     def __init__ (self, inital_money=300):
         self.bank = inital_money
 
+    def canBuy (self, tower: Tower):
+        return self.bank >= tower.price
     def buy(self, tower: Tower):
         self.bank -= tower.price
 
