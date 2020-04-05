@@ -2,13 +2,19 @@ BasicEnemy:
   health: 100
   moveInterval: 250
   money: 30
+  damage: 5
+  image: sharknado
 
 MediumEnemy:
   health: 150
   moveInterval: 200
   money: 30
+  damage: 15
+  image: shark1
 
 HardEnemy:
   health: 200
   moveInterval: 100
   money: 30
+  damage: 50
+  image: Enemy

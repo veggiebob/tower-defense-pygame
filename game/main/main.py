@@ -1,3 +1,5 @@
+import os
+
 from game.common.math import Vector, constrain
 from game.common.yaml_parsing import YAMLInstancer
 from game.subsystems.ui.elements.buttons import Button, TextView
@@ -39,9 +41,16 @@ for pn, p in panel_layouts.items():
 gui = GUI(layout_manager)
 
 SCALE = 50
-TowerImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Tower.png'%CONFIG_DIR), (SCALE,) * 2)
-EnemyImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Enemy.png'%CONFIG_DIR), (SCALE,) * 2)
-daGame = GameState(towerImage=TowerImage, enemyImage=EnemyImage, scale=SCALE) # todo: from yaml things?
+# TowerImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Tower.png'%CONFIG_DIR), (SCALE,) * 2)
+# EnemyImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Enemy.png'%CONFIG_DIR), (SCALE,) * 2)
+Tower.load_assets('%s/entities/temp_assets/towers'%CONFIG_DIR, (SCALE, SCALE))
+Enemy.load_assets('%s/entities/temp_assets/enemies'%CONFIG_DIR, (SCALE, SCALE))
+
+daGame = GameState(
+    scale=SCALE,
+    initial_health=500,
+    initial_money=500
+) # todo: from yaml things?
 
 ###SETTING ONCLICKS
 tower_column = gui.get_element('tower_column')
@@ -73,7 +82,7 @@ game_over = False
 warning_message = ''
 warning_timer = [100, 10, 0, 45] # timeout, frames to blink, current time
 def difficulty_to_enemy (diff=0):
-    e = enemies[constrain(int(diff), 0, len(enemies) - 1)]
+    e = enemies[constrain(int(diff/5), 0, len(enemies) - 1)]
     #print('enemy:')
     #print(e)
     return e

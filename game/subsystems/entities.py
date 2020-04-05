@@ -1,8 +1,12 @@
 import math
+import os
+
+import pygame
+
 from game.common.math import Vector
 
 
-class Tower():
+class Tower:
     # __init__ takes position as towerPos, a tuple in the format (x, y)
 
     REQ_ATTRS = ['range', 'fireSpeed', 'xpos', 'ypos', 'reloadSpeed', 'projDamage', 'projSpeed', 'lastfire', 'price']
@@ -16,10 +20,12 @@ class Tower():
         'projDamage': int,
         'projSpeed': int,
         'lastfire': int,
-        'price': int
-        #'image': pygame.Surface,
+        'price': int,
+        'image': str,
         #'rect': pygame.Rect
     }
+
+    TOWER_IMAGES = {}
 
     def fire(self, enemiesList):
         targetDistance = self.range ** 2
@@ -36,6 +42,37 @@ class Tower():
             return None
 
         return Projectile(self.xpos, self.ypos, targetToUse, self.projDamage, self.projSpeed, self.range)
+
+    @staticmethod
+    def get_default_image () -> pygame.Surface:
+        return list(Tower.TOWER_IMAGES.values())[0]
+
+    def get_image (self) -> pygame.Surface:
+        if not hasattr(self, 'image'):
+            self.image = ""
+
+        if self.image in Tower.TOWER_IMAGES.keys():
+            return Tower.TOWER_IMAGES[self.image]
+
+        return Tower.get_default_image()
+
+    @staticmethod
+    def add_image (image: pygame.Surface, name: str):
+        Tower.TOWER_IMAGES[name] = image
+
+    @staticmethod
+    def load_assets (path: str, preferred_size=(50,50)):
+        for asset in os.listdir(path):
+            ext = asset[asset.index('.')+1:]
+            name = asset[0:asset.index('.')]
+            if ext in ['png', 'jpg']:  # probably more?
+                Tower.add_image(
+                    pygame.transform.scale(
+                        pygame.image.load('%s/%s'%(path, asset)),
+                        preferred_size
+                    ),
+                    name
+                )
 
 
 class Projectile():
@@ -69,7 +106,8 @@ class Enemy:
         # 'xpast',
         # 'ypast',
         # 'lastmove',
-        'money'
+        'money',
+        'damage'
     ]
     #Not sure what to call the next line
     TYPE_ATTRS = {
@@ -80,10 +118,14 @@ class Enemy:
         'xpast': int,
         'ypast': int,
         'lastmove': int,
-        'money': int
-        #'image': pygame.Surface,
+        'money': int,
+        'image': str,
+        'damage': int
         #'rect' : pygame.rect
     }
+
+    ENEMY_IMAGES = {}
+
     def yaml_init (self):
         self.xpos = 0
         self.ypos = 0
@@ -99,6 +141,37 @@ class Enemy:
 
     def getFloatPosition(self, current_time) -> Vector:
         return Vector(self.xpast, self.ypast) + Vector(self.xpos-self.xpast, self.ypos-self.ypast) * self.getLoopTime(current_time)
+
+    @staticmethod
+    def get_default_image () -> pygame.Surface:
+        return list(Enemy.ENEMY_IMAGES.values())[0]
+
+    def get_image(self) -> pygame.Surface:
+        if not hasattr(self, 'image'):
+            self.image = ""
+
+        if self.image in Enemy.ENEMY_IMAGES.keys():
+            return Enemy.ENEMY_IMAGES[self.image]
+
+        return Enemy.get_default_image()
+
+    @staticmethod
+    def add_image (image: pygame.Surface, name: str) -> None:
+        Enemy.ENEMY_IMAGES[name] = image
+
+    @staticmethod
+    def load_assets(path: str, preferred_size=(50, 50)):
+        for asset in os.listdir(path):
+            ext = asset[asset.index('.') + 1:]
+            name = asset[0:asset.index('.')]
+            if ext in ['png', 'jpg']:  # probably more?
+                Enemy.add_image(
+                    pygame.transform.scale(
+                        pygame.image.load('%s/%s' % (path, asset)),
+                        preferred_size
+                    ),
+                    name
+                )
 
     def __str__(self):
         return "Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.moveInterval)

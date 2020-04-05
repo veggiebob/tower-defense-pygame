@@ -20,9 +20,11 @@ class Player:
         self.dead = False
 
     def hit(self, enemy:Enemy):
-        self.health -= enemy.originalHealth
+        self.health -= enemy.damage
+        print('took %s damage'%enemy.damage)
         if self.health <= 0:
             self.game_over()
 
     def game_over(self):
+        print('game over. health is %s'%self.health)
         self.dead = True

@@ -19,10 +19,7 @@ BROWN = (150, 75, 0)
 LIGHTBROWN = (181, 101, 29)
 
 class GameState():
-    def __init__(self, towerImage, enemyImage, scale=50, initial_money=300, initial_health=50):
-        
-        self.towerImage = towerImage
-        self.enemyImage = enemyImage
+    def __init__(self, scale=50, initial_money=300, initial_health=50):
         self.draw_dim = scale
 
         #Arrays for Entities
@@ -52,7 +49,7 @@ class GameState():
 
 
         self.towerHoverX, self.towerHoverY = 0, 0
-        self.holdingTower = None
+        self.holdingTower:Tower = None
         self.isHoldingTower = False
         self.mouse_position = Vector()
 
@@ -85,13 +82,13 @@ class GameState():
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(self.enemyImage, (0, 0))
+            temp.blit(enemy1.get_image(), (0, 0))
             surfaces.append((temp, (enemy1.getFloatPosition(self.now) * self.draw_dim).to_int().to_tuple()))
         for tower1 in self.towers:
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(self.towerImage, (0, 0))
+            temp.blit(tower1.get_image(), (0, 0))
             pos = (tower1.xpos * self.draw_dim, tower1.ypos * self.draw_dim)
             surfaces.append((temp, pos))
 
@@ -108,7 +105,7 @@ class GameState():
             temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
             temp = temp.convert_alpha()
             temp.fill((0, 0, 0, 0))
-            temp.blit(self.towerImage, (0, 0))
+            temp.blit(self.holdingTower.get_image(), (0, 0))
             surfaces.append((temp, (self.mouse_position.x - self.draw_dim/2, self.mouse_position.y - self.draw_dim/2)))
 
         projSurf = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
@@ -137,11 +134,11 @@ class GameState():
             if self.isHoldingTower: # you just released a tower
                 try:
                     successful = self.gameEnv.placeTower(self.towerHoverX, self.towerHoverY) # todo: actually make this work
-                    print('tried to place a tower')
-                    if successful:
-                        print('operation successful %s, %s'%(self.towerHoverX, self.towerHoverY))
-                    else:
-                        print('did not place tower %s, %s'%(self.towerHoverX, self.towerHoverY))
+                    # print('tried to place a tower')
+                    # if successful:
+                    #     print('operation successful %s, %s'%(self.towerHoverX, self.towerHoverY))
+                    # else:
+                    #     print('did not place tower %s, %s'%(self.towerHoverX, self.towerHoverY))
                     self.holdingTower.xpos = self.towerHoverX
                     self.holdingTower.ypos = self.towerHoverY
                     self.towerAdd(copy.deepcopy(self.holdingTower))
@@ -239,7 +236,7 @@ class GameState():
     def grabTower(self, tower:Tower) -> bool: # returns if it was successful
         if self.shop.canBuy(tower):
             self.hovering = True
-            self.holdingTower = tower
+            self.holdingTower = copy.deepcopy(tower)
             self.isHoldingTower = True
             return True
         else:
