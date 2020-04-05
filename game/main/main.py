@@ -111,14 +111,17 @@ while True:
     if not game_over:
         daGame.tick(30)
         daGame.update(mouse_position, mouse_down, mouse_pressed)
-        if gtime%100 == 0: # start a wave
-            difficulty += 1
+        if gtime%100 == 0 and daGame.is_ready_for_new_wave(): # start a wave
             #print('starting wave %d'%difficulty)
+            warning('WAVE %d'%difficulty)
+            print('WAVE %d'%difficulty)
             for a in range(0, difficulty):
-                daGame.enemyAdd(difficulty_to_enemy(difficulty))
+                daGame.queue_enemy(difficulty_to_enemy(difficulty-1))
+            difficulty += 1
 
         if daGame.checkGameOver():
             warning('GAME OVER', 80)
+            print('you got to wave %d'%difficulty)
             game_over = True
 
         DISPLAY.fill((100, 100, 255))

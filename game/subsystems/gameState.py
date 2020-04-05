@@ -5,6 +5,7 @@ import pygame, sys
 
 from game.common.math import Vector
 from game.common.yaml_parsing import YAMLInstancer
+from game.subsystems.spawner import Spawner
 from game.subsystems.gamer import Shop, Player
 from game.subsystems.environment import *
 from game.subsystems.entities import *
@@ -53,6 +54,8 @@ class GameState():
         self.isHoldingTower = False
         self.mouse_position = Vector()
 
+        self.enemy_spawner:Spawner = Spawner(self.enemyAdd, spawn_ticks=10)
+
 
     def drawBG(self):
         for x in range(len(self.gameEnv.board)):
@@ -68,6 +71,9 @@ class GameState():
                 self.bgSurf.blit(temp, (self.draw_dim * x, self.draw_dim * y))
         if self.hovering:
             self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
+
+    def queue_enemy (self, enemy: Enemy):
+        self.enemy_spawner.add_item(enemy)
 
     def enemyAdd(self, enemy1):
         new_enemy = copy.deepcopy(enemy1)
@@ -150,7 +156,7 @@ class GameState():
 
     def tick(self, dT):
         self.now += dT
-
+        self.enemy_spawner.tick()
         for tower1 in self.towers:
             self.towerChecks(tower1)
 
@@ -245,6 +251,9 @@ class GameState():
 
     def checkGameOver(self) -> bool:
         return self.player.dead
+
+    def is_ready_for_new_wave(self) -> bool:
+        return len(self.baddies) == 0 and self.enemy_spawner.empty()
 
 
 
