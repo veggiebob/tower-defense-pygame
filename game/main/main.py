@@ -109,7 +109,7 @@ while True:
     clock.tick(30)
 
     if not game_over:
-        daGame.tick(30)
+        daGame.tick(60)
         daGame.update(mouse_position, mouse_down, mouse_pressed)
         if gtime%100 == 0 and daGame.is_ready_for_new_wave(): # start a wave
             #print('starting wave %d'%difficulty)

@@ -42,7 +42,9 @@ class GameState():
         self.bgSurf = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
 
         #Drawing the background surface
+        self.cached_background:pygame.Surface = None
         self.drawBG()
+        self.cached_tower_background:pygame.Surface = None
 
         self.towerHoverImage = pygame.Surface((self.draw_dim, self.draw_dim))
         self.towerHoverImage = self.towerHoverImage.convert_alpha()
@@ -56,21 +58,29 @@ class GameState():
 
         self.enemy_spawner:Spawner = Spawner(self.enemyAdd, spawn_ticks=10)
 
+    def invalidate_cache (self):
+        self.cached_background = None
 
     def drawBG(self):
-        for x in range(len(self.gameEnv.board)):
-            for y in range(len(self.gameEnv.board[0])):
-                temp = pygame.Surface((self.draw_dim, self.draw_dim))
-                boardSpace = self.gameEnv.board[x][y]
-                if boardSpace.hasEnd:
-                    temp.fill(RED)
-                elif boardSpace.getPath():
-                    temp.fill(LIGHTBROWN)
-                else:
-                    temp.fill(BROWN)
-                self.bgSurf.blit(temp, (self.draw_dim * x, self.draw_dim * y))
+        if self.cached_background is None:
+            for x in range(len(self.gameEnv.board)):
+                for y in range(len(self.gameEnv.board[0])):
+                    temp = pygame.Surface((self.draw_dim, self.draw_dim))
+                    boardSpace = self.gameEnv.board[x][y]
+                    if boardSpace.hasEnd:
+                        temp.fill(RED)
+                    elif boardSpace.getPath():
+                        temp.fill(LIGHTBROWN)
+                    else:
+                        temp.fill(BROWN)
+                    self.bgSurf.blit(temp, (self.draw_dim * x, self.draw_dim * y))
+        else:
+            self.bgSurf.blit(self.cached_background, (0, 0))
         if self.hovering:
             self.bgSurf.blit(self.towerHoverImage, (self.towerHoverX, self.towerHoverY))
+        elif self.cached_background is None:
+            self.cached_background = pygame.Surface((self.bgSurf.get_width(), self.bgSurf.get_height()))
+            self.cached_background.blit(self.bgSurf, (0, 0))
 
     def queue_enemy (self, enemy: Enemy):
         self.enemy_spawner.add_item(enemy)
@@ -85,18 +95,18 @@ class GameState():
     def getEntitiesSurface(self):
         surfaces = [] # [surface, tupleposition]
         for enemy1 in self.baddies:
-            temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
-            temp = temp.convert_alpha()
-            temp.fill((0, 0, 0, 0))
-            temp.blit(enemy1.get_image(), (0, 0))
-            surfaces.append((temp, (enemy1.getFloatPosition(self.now) * self.draw_dim).to_int().to_tuple()))
+            # temp = pygame.Surface((self.draw_dim, self.draw_dim))
+            # temp = temp.convert_alpha()
+            # temp.fill((0, 0, 0, 0))
+            # temp.blit(enemy1.get_image(), (0, 0))
+            surfaces.append((enemy1.get_image(), (enemy1.getFloatPosition(self.now) * self.draw_dim).to_int().to_tuple()))
         for tower1 in self.towers:
-            temp = pygame.Surface((self.draw_dim * len(self.gameEnv.board), self.draw_dim * len(self.gameEnv.board[0])))
-            temp = temp.convert_alpha()
-            temp.fill((0, 0, 0, 0))
-            temp.blit(tower1.get_image(), (0, 0))
+            # temp = pygame.Surface((self.draw_dim, self.draw_dim))
+            # temp = temp.convert_alpha()
+            # temp.fill((0, 0, 0, 0))
+            # temp.blit(tower1.get_image(), (0, 0))
             pos = (tower1.xpos * self.draw_dim, tower1.ypos * self.draw_dim)
-            surfaces.append((temp, pos))
+            surfaces.append((tower1.get_image(), pos))
 
             #range circle
             cs:int = tower1.range * 2

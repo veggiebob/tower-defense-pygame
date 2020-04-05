@@ -66,13 +66,15 @@ class Tower:
             ext = asset[asset.index('.')+1:]
             name = asset[0:asset.index('.')]
             if ext in ['png', 'jpg']:  # probably more?
-                Tower.add_image(
-                    pygame.transform.scale(
-                        pygame.image.load('%s/%s'%(path, asset)),
-                        preferred_size
-                    ),
-                    name
+                img = pygame.transform.scale(
+                    pygame.image.load('%s/%s' % (path, asset)),
+                    preferred_size
                 )
+                temp = pygame.Surface(preferred_size)
+                temp = temp.convert_alpha(temp)
+                temp.fill((0, 0, 0, 0))
+                temp.blit(img, (0, 0))
+                Tower.add_image(temp, name)
 
 
 class Projectile():
@@ -165,13 +167,15 @@ class Enemy:
             ext = asset[asset.index('.') + 1:]
             name = asset[0:asset.index('.')]
             if ext in ['png', 'jpg']:  # probably more?
-                Enemy.add_image(
-                    pygame.transform.scale(
+                img = pygame.transform.scale(
                         pygame.image.load('%s/%s' % (path, asset)),
                         preferred_size
-                    ),
-                    name
-                )
+                    )
+                temp = pygame.Surface(preferred_size)
+                temp = temp.convert_alpha(temp)
+                temp.fill((0, 0, 0, 0))
+                temp.blit(img, (0, 0))
+                Enemy.add_image(temp, name)
 
     def __str__(self):
         return "Health: " + str(self.health) + "\n" + "X, Y: " + str(self.xpos) + ", " + str(self.ypos) + "\n" + "speed: " + str(self.moveInterval)
