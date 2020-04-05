@@ -41,14 +41,12 @@ for pn, p in panel_layouts.items():
 gui = GUI(layout_manager)
 
 SCALE = 50
-# TowerImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Tower.png'%CONFIG_DIR), (SCALE,) * 2)
-# EnemyImage = pygame.transform.scale(pygame.image.load('%s/entities/temp_assets/Enemy.png'%CONFIG_DIR), (SCALE,) * 2)
 Tower.load_assets('%s/entities/temp_assets/towers'%CONFIG_DIR, (SCALE, SCALE))
 Enemy.load_assets('%s/entities/temp_assets/enemies'%CONFIG_DIR, (SCALE, SCALE))
 
 daGame = GameState(
     scale=SCALE,
-    initial_health=500,
+    initial_health=100000000,
     initial_money=500
 ) # todo: from yaml things?
 
